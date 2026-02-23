@@ -3,70 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PHOENIX MAGMA CORE</title>
+    <title>PHOENIX SUPREME COMMAND</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;900&display=swap');
-        
-        /* 마그마 배경 애니메이션 */
         body { 
             font-family: 'Orbitron', sans-serif; 
-            background: linear-gradient(-45deg, #1a0505, #4a0e0e, #7f1d1d, #3f0d0d);
-            background-size: 400% 400%;
-            animation: magma-flow 15s ease infinite;
-            color: #fff; 
-            min-height: 100vh;
+            background: #020617; 
+            background-image: radial-gradient(#1e1b4b 0.5px, transparent 0.5px);
+            background-size: 24px 24px;
+            color: #fff; min-height: 100vh;
         }
-        @keyframes magma-flow { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-
-        /* 불타는 텍스트 효과 */
-        .fire-text {
-            color: #ffdd00;
-            text-shadow: 0 0 10px #ff4500, 0 0 20px #ff0000, 0 0 40px #ff8c00;
+        .fire-glow { text-shadow: 0 0 20px #f97316, 0 0 40px #ef4444; }
+        .magma-card { 
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(249, 115, 22, 0.3);
+            transition: 0.3s;
         }
-        .sub-fire { color: #ff8c00; text-shadow: 0 0 5px #ff0000; }
-
-        /* 마그마 카드 디자인 */
-        .magma-card {
-            background: rgba(20, 5, 5, 0.85);
-            backdrop-filter: blur(10px);
-            box-shadow: inset 0 0 30px rgba(255, 69, 0, 0.2);
-            transition: all 0.3s ease;
-        }
-        /* 상승: 황금 폭발 */
-        .glow-up { 
-            border: 2px solid #10b981; 
-            box-shadow: 0 0 20px #10b981, inset 0 0 20px rgba(16, 185, 129, 0.3); 
-        }
-        /* 하락: 핏빛 경고 */
-        .glow-down { 
-            border: 2px solid #ef4444; 
-            box-shadow: 0 0 25px #ef4444, inset 0 0 30px rgba(239, 68, 68, 0.4); 
-            animation: pulse-red 1.5s infinite;
-        }
-        @keyframes pulse-red { 0%, 100% { box-shadow: 0 0 25px #ef4444; } 50% { box-shadow: 0 0 40px #ef4444; } }
-
-        /* 상태 표시줄 */
-        .status-bar { 
-            background: linear-gradient(90deg, #ff0000, #ff8c00); 
-            height: 4px; width: 100%; 
-            box-shadow: 0 0 20px #ff4500;
-        }
+        .magma-card:hover { border-color: #f97316; box-shadow: 0 0 30px rgba(249, 115, 22, 0.2); }
+        .search-bar { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .search-bar:focus-within { border-color: #f97316; box-shadow: 0 0 15px rgba(249, 115, 22, 0.3); }
     </style>
 </head>
-<body class="p-4 md:p-6 overflow-x-hidden">
-    <div class="status-bar fixed top-0 left-0 z-50 animate-pulse"></div>
-    
-    <header class="max-w-lg mx-auto text-center mt-8 mb-10">
-        <h1 class="text-4xl md:text-5xl font-black fire-text tracking-tighter italic">PHOENIX CORE</h1>
-        <div class="flex items-center justify-center gap-2 mt-2">
-            <span class="relative flex h-3 w-3">
-              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-500 opacity-75"></span>
-              <span class="relative inline-flex rounded-full h-3 w-3 bg-orange-600"></span>
-            </span>
-            <p id="last-update" class="text-[10px] sub-fire tracking-[0.3em] uppercase">ENGINE IGNITION...</p>
+<body class="p-4 md:p-8">
+    <header class="max-w-2xl mx-auto text-center mb-10">
+        <h1 class="text-5xl font-black fire-glow italic tracking-tighter mb-6">PHOENIX SUPREME</h1>
+        
+        <form action="https://www.google.com/search" method="GET" class="relative max-w-md mx-auto mb-8">
+            <div class="search-bar flex items-center px-5 py-3 rounded-full">
+                <span class="mr-3 opacity-50">🔥</span>
+                <input type="text" name="q" placeholder="구글 광고 없이 검색 명령 하달..." class="bg-transparent border-none outline-none w-full text-sm text-white placeholder-slate-500">
+                <button type="submit" class="text-orange-500 font-bold text-xs ml-2 uppercase">Command</button>
+            </div>
+        </form>
+
+        <div class="flex items-center justify-center gap-3">
+            <div class="h-[1px] w-12 bg-gradient-to-r from-transparent to-orange-500"></div>
+            <p id="last-update" class="text-[10px] text-orange-400 tracking-[0.3em] uppercase">Reactor Synchronizing...</p>
+            <div class="h-[1px] w-12 bg-gradient-to-l from-transparent to-orange-500"></div>
         </div>
     </header>
 
-    <main id="dashboard" class="grid grid-cols-1 gap-5 max-w-lg mx-auto pb-10">
-        <div class="text-center sub
+    <main id="dashboard" class="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-2xl mx-auto">
+        </main>
+
+    <script>
+        async function loadPhoenix() {
+            try {
+                const res = await fetch('data.json?t=' + Date.now());
+                const data = await res.json();
+                document.getElementById('last-update').innerText = "Last Scout: " + data.last_update;
+                const container = document.getElementById('dashboard');
+                container.innerHTML = '';
+                
+                data.coins.forEach(c => {
+                    const isUp = c.rate > 0;
+                    const color = isUp ? 'text-emerald-400' : 'text-rose-500';
+                    const sign = isUp ? '+' : '';
+                    container.innerHTML += `
+                        <div class="magma-card p-6 rounded-3xl flex justify-between items-center">
+                            <div>
+                                <div class="text-[10px] text-slate-500 mb-1">${c.name} / KRW</div>
+                                <div class="text-2xl font-bold tracking-tight">${c.price.toLocaleString()}</div>
+                            </div>
+                            <div class="${color} text-right">
+                                <div class="text-lg font-bold">${sign}${c.rate.toFixed(2)}%</div>
+                                <div class="text-[8px] opacity-40">STABLE FEED</div>
+                            </div>
+                        </div>`;
+                });
+            } catch (e) { document.getElementById('last-update').innerText = "OFFLINE"; }
+        }
+        loadPhoenix();
+        setInterval(loadPhoenix, 30000);
+    </script>
+</body>
+</html>
