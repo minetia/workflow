@@ -9,6 +9,7 @@ TELEGRAM_CHAT_ID = "1107103330"
 MY_COINS = ["BTC", "XRP", "ETH", "DOGE", "SOL", "ZRX", "ONDO", "SUI"]
 
 def send_telegram_report(message):
+    """텔레그램으로 정밀 보고서를 전송합니다."""
     url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
     payload = {"chat_id": TELEGRAM_CHAT_ID, "text": message, "parse_mode": "Markdown"}
     try:
@@ -17,6 +18,7 @@ def send_telegram_report(message):
         print(f"출력 오류: {e}")
 
 def run_phoenix_engine():
+    """웹 동기화 및 텔레그램 정밀 보고 엔진"""
     now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     scout_results = []
     
@@ -31,6 +33,8 @@ def run_phoenix_engine():
         try:
             ticker = f"KRW-{coin}"
             price = pyupbit.get_current_price(ticker)
+            
+            # 전일 대비 등락률 계산: (현재가 - 전일종가) / 전일종가 * 100
             df = pyupbit.get_ohlcv(ticker, interval="day", count=2)
             prev_close = df.iloc[-2]['close']
             rate = ((price - prev_close) / prev_close) * 100
@@ -51,7 +55,7 @@ def run_phoenix_engine():
     with open("data.json", "w", encoding="utf-8") as f:
         json.dump({"last_update": now, "coins": scout_results}, f, ensure_ascii=False, indent=4)
     
-    # 텔레그램 정밀 보고 전송
+    # 텔레그램 전송
     send_telegram_report(report)
 
 if __name__ == "__main__":
