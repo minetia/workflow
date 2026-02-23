@@ -1,1 +1,27 @@
 
+name: Phoenix_Auto_Trade
+
+on:
+  schedule:
+    - cron: '0 * * * *'  # 매시간 정시에 자동 가동
+  workflow_dispatch:      # 주군이 원하실 때 수동 가동 버튼 활성화
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: 파이썬 설정
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: 필수 도구 설치
+        run: pip install -r requirements.txt
+      - name: 엔진 가동 및 이메일 보고
+        env:
+          UPBIT_ACCESS_KEY: ${{ secrets.UPBIT_ACCESS_KEY }}
+          UPBIT_SECRET_KEY: ${{ secrets.UPBIT_SECRET_KEY }}
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          EMAIL_USER: ${{ secrets.EMAIL_USER }}
+          EMAIL_PASS: ${{ secrets.EMAIL_PASS }}
+        run: python main.py
