@@ -3,7 +3,7 @@ import requests
 import pyupbit
 from datetime import datetime
 
-# 1. 주군의 전령(송봇) 설정 - 알려주신 정보를 그대로 심었습니다.
+# 1. 주군의 전령(송봇) 설정 - 주군이 알려주신 정보를 그대로 이식했습니다.
 TELEGRAM_TOKEN = "8555519110:AAFr6gKhN-t-dIfsU9_4f1zeaV-35bELkYM"
 TELEGRAM_CHAT_ID = "1107103330"
 
@@ -24,7 +24,6 @@ def run_phoenix_engine():
     """피닉스 V2 엔진 메인 가동 로직"""
     now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     
-    # 보고서 작성
     report = f"🦅 **Project Phoenix V2 가동 보고**\n"
     report += f"------------------------------------\n"
     report += f"📅 **일시**: {now}\n"
@@ -42,8 +41,6 @@ def run_phoenix_engine():
         report += f"ℹ️ **안내**: 업비트 키가 아직 미등록 상태입니다.\n"
 
     report += f"------------------------------------\n주군, 전선에 이상 없습니다!"
-    
-    # 송봇으로 전송
     send_telegram_report(report)
 
 if __name__ == "__main__":
