@@ -1,7 +1,4 @@
-fastapi
-uvicorn
-jinja2
-python-dotenv
 pyupbit
 pandas
-websockets
+requests
+python-dotenv
