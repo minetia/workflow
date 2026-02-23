@@ -6,13 +6,22 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write # 파일 쓰기 권한 부여
     steps:
       - uses: actions/checkout@v4
-      - name: setup python
+      - name: 파이썬 설정
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: install dependencies
+      - name: 라이브러리 설치
         run: pip install -r requirements.txt
-      - name: run engine
+      - name: 엔진 가동 및 데이터 생성
         run: python Project_Phoenix_V2/master_engine/main.py
+      - name: 데이터 업데이트 및 푸시
+        run: |
+          git config --global user.name "GitHub Action"
+          git config --global user.email "action@github.com"
+          git add data.json
+          git commit -m "Update Market Data" || echo "No changes to commit"
+          git push
