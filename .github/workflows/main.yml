@@ -1,18 +1,18 @@
 name: Phoenix_Auto_Trade_v2
 on:
   schedule:
-    - cron: '0 * * * *' # 매시간 정시 실행
-  workflow_dispatch:    # [워크플로 실행] 버튼을 활성화하는 스위치
+    - cron: '0 * * * *'
+  workflow_dispatch:
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: 파이썬 설정
+      - name: setup python
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: 라이브러리 설치
+      - name: install dependencies
         run: pip install -r requirements.txt
-      - name: 엔진 가동
+      - name: run engine
         run: python Project_Phoenix_V2/master_engine/main.py
