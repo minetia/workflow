@@ -3,64 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PHOENIX V2 COMMAND CENTER</title>
+    <title>PHOENIX MAGMA CORE</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
-        body { background: radial-gradient(circle at center, #0f172a 0%, #020617 100%); color: #f8fafc; font-family: 'Orbitron', sans-serif; min-height: 100vh; overflow-x: hidden; }
-        .glass { background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(15px); border: 1px solid rgba(249, 115, 22, 0.2); box-shadow: 0 0 20px rgba(0,0,0,0.5); }
-        .phoenix-glow { color: #f97316; text-shadow: 0 0 20px rgba(249, 115, 22, 0.6); }
-        .card-glow-up { border-left: 4px solid #10b981; }
-        .card-glow-down { border-left: 4px solid #f43f5e; }
-        @keyframes pulse-slow { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
-        .status-pulse { animation: pulse-slow 2s infinite; }
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;900&display=swap');
+        
+        /* 마그마 배경 애니메이션 */
+        body { 
+            font-family: 'Orbitron', sans-serif; 
+            background: linear-gradient(-45deg, #1a0505, #4a0e0e, #7f1d1d, #3f0d0d);
+            background-size: 400% 400%;
+            animation: magma-flow 15s ease infinite;
+            color: #fff; 
+            min-height: 100vh;
+        }
+        @keyframes magma-flow { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+
+        /* 불타는 텍스트 효과 */
+        .fire-text {
+            color: #ffdd00;
+            text-shadow: 0 0 10px #ff4500, 0 0 20px #ff0000, 0 0 40px #ff8c00;
+        }
+        .sub-fire { color: #ff8c00; text-shadow: 0 0 5px #ff0000; }
+
+        /* 마그마 카드 디자인 */
+        .magma-card {
+            background: rgba(20, 5, 5, 0.85);
+            backdrop-filter: blur(10px);
+            box-shadow: inset 0 0 30px rgba(255, 69, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+        /* 상승: 황금 폭발 */
+        .glow-up { 
+            border: 2px solid #10b981; 
+            box-shadow: 0 0 20px #10b981, inset 0 0 20px rgba(16, 185, 129, 0.3); 
+        }
+        /* 하락: 핏빛 경고 */
+        .glow-down { 
+            border: 2px solid #ef4444; 
+            box-shadow: 0 0 25px #ef4444, inset 0 0 30px rgba(239, 68, 68, 0.4); 
+            animation: pulse-red 1.5s infinite;
+        }
+        @keyframes pulse-red { 0%, 100% { box-shadow: 0 0 25px #ef4444; } 50% { box-shadow: 0 0 40px #ef4444; } }
+
+        /* 상태 표시줄 */
+        .status-bar { 
+            background: linear-gradient(90deg, #ff0000, #ff8c00); 
+            height: 4px; width: 100%; 
+            box-shadow: 0 0 20px #ff4500;
+        }
     </style>
 </head>
-<body class="p-6">
-    <header class="max-w-md mx-auto text-center mb-8">
-        <div class="text-[10px] tracking-[0.4em] text-orange-500 mb-2 status-pulse">SYSTEM OPERATIONAL</div>
-        <h1 class="text-3xl font-black phoenix-glow tracking-tighter mb-1">PHOENIX MAIN</h1>
-        <div id="last-update" class="text-[9px] text-slate-500 tracking-widest">CONNECTING TO ENGINE...</div>
+<body class="p-4 md:p-6 overflow-x-hidden">
+    <div class="status-bar fixed top-0 left-0 z-50 animate-pulse"></div>
+    
+    <header class="max-w-lg mx-auto text-center mt-8 mb-10">
+        <h1 class="text-4xl md:text-5xl font-black fire-text tracking-tighter italic">PHOENIX CORE</h1>
+        <div class="flex items-center justify-center gap-2 mt-2">
+            <span class="relative flex h-3 w-3">
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-500 opacity-75"></span>
+              <span class="relative inline-flex rounded-full h-3 w-3 bg-orange-600"></span>
+            </span>
+            <p id="last-update" class="text-[10px] sub-fire tracking-[0.3em] uppercase">ENGINE IGNITION...</p>
+        </div>
     </header>
 
-    <div id="dashboard" class="grid grid-cols-1 gap-4 max-w-md mx-auto">
-        </div>
-
-    <footer class="mt-10 text-center text-[9px] text-slate-700 tracking-widest uppercase">
-        &copy; 2026 Auto Dev & Trading Architect
-    </footer>
-
-    <script>
-        async function fetchCommand() {
-            try {
-                const r = await fetch('data.json?t=' + Date.now());
-                const d = await r.json();
-                document.getElementById('last-update').innerText = "LAST SCOUT: " + d.last_update;
-                const container = document.getElementById('dashboard');
-                container.innerHTML = '';
-                
-                d.coins.forEach(c => {
-                    const isUp = c.rate > 0;
-                    const glowClass = isUp ? 'card-glow-up' : 'card-glow-down';
-                    const rateColor = isUp ? 'text-emerald-400' : 'text-rose-400';
-                    const sign = isUp ? '+' : '';
-                    
-                    container.innerHTML += `
-                        <div class="glass ${glowClass} p-5 rounded-2xl flex justify-between items-center transition-transform active:scale-95">
-                            <div>
-                                <div class="text-[10px] text-slate-500 mb-1">${c.name} / KRW</div>
-                                <div class="text-xl font-bold tracking-tight">${c.price.toLocaleString()}</div>
-                            </div>
-                            <div class="text-right">
-                                <div class="${rateColor} text-lg font-bold">${sign}${c.rate.toFixed(2)}%</div>
-                                <div class="text-[8px] text-slate-600">LIVE FEED</div>
-                            </div>
-                        </div>`;
-                });
-            } catch (e) { document.getElementById('last-update').innerText = "ENGINE STANDBY..."; }
-        }
-        fetchCommand();
-        setInterval(fetchCommand, 30000); // 30초마다 자동 갱신
-    </script>
-</body>
-</html>
+    <main id="dashboard" class="grid grid-cols-1 gap-5 max-w-lg mx-auto pb-10">
+        <div class="text-center sub
