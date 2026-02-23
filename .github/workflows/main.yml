@@ -2,7 +2,7 @@ name: Phoenix_Auto_Trade_v2
 on:
   schedule:
     - cron: '0 * * * *' # 매시간 정시 실행
-  workflow_dispatch:    # 주군이 원할 때 즉시 실행 버튼
+  workflow_dispatch:    # 수동 실행 버튼
 jobs:
   build:
     runs-on: ubuntu-latest
