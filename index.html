@@ -3,63 +3,101 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PHOENIX SUPREME COMMAND</title>
+    <title>PHOENIX V44.2 MASTER DASHBOARD</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;900&display=swap');
-        body { font-family: 'Orbitron', sans-serif; background: #020617; background-image: radial-gradient(rgba(249, 115, 22, 0.1) 1px, transparent 1px); background-size: 30px 30px; color: #fff; min-height: 100vh; }
-        .phoenix-header { font-size: 3.5rem; font-weight: 900; font-style: italic; letter-spacing: -0.05em; color: #fff; text-shadow: 0 0 15px rgba(249, 115, 22, 0.8); margin-bottom: 2rem; }
-        .search-container { background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
-        .coin-card { background: rgba(15, 23, 42, 0.4); border: 1px solid rgba(249, 115, 22, 0.2); border-radius: 2rem; }
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700&display=swap');
+        body { font-family: 'Noto Sans KR', sans-serif; background: #0c0d10; color: #d1d4dc; overflow-x: hidden; }
+        .nav-item { font-size: 13px; font-weight: 500; transition: 0.2s; color: #9ca3af; }
+        .nav-item:hover { color: #f97316; }
+        .active-nav { color: #f97316; border-bottom: 2px solid #f97316; }
+        .status-bar { background: #1e1b0c; border-bottom: 1px solid #363a45; }
+        .sidebar { background: #131722; border-left: 1px solid #363a45; }
+        .chart-container { background: #131722; height: calc(100vh - 120px); }
+        .btn-telegram { background: #0088cc; color: white; transition: 0.3s; }
+        .btn-telegram:hover { background: #00aaff; box-shadow: 0 0 15px rgba(0, 136, 204, 0.5); }
     </style>
 </head>
-<body class="p-6 md:p-12">
-    <header class="max-w-2xl mx-auto text-center mb-12">
-        <h1 class="phoenix-header">PHOENIX SUPREME</h1>
-        <form action="https://www.google.com/search" method="GET" class="relative max-w-lg mx-auto mb-10">
-            <div class="search-container flex items-center px-6 py-4 rounded-full">
-                <span class="mr-3">🔥</span>
-                <input type="text" name="q" placeholder="구글 광고 없이 검색 명령 하달..." class="bg-transparent border-none outline-none w-full text-sm text-white placeholder-slate-600 font-medium">
-                <button type="submit" class="text-orange-500 font-black text-xs ml-4 tracking-tighter">COMMAND</button>
-            </div>
-        </form>
-        <p id="last-update" class="text-[10px] text-orange-500/70 tracking-[0.4em] font-medium uppercase">INITIALIZING FEED...</p>
-    </header>
+<body class="flex flex-col h-screen">
 
-    <main id="dashboard" class="grid grid-cols-1 md:grid-cols-2 gap-5 max-w-3xl mx-auto">
+    <nav class="flex items-center justify-between px-4 py-3 bg-[#131722] border-b border-[#363a45] sticky top-0 z-50">
+        <div class="flex items-center gap-6">
+            <span class="text-orange-500 font-black text-2xl italic tracking-tighter">PHOENIX <span class="bg-green-600 text-[10px] text-white px-1 ml-1 not-italic font-bold">V44.2</span></span>
+            <div class="hidden lg:flex gap-6">
+                <a href="index.html" class="nav-item active-nav py-1">메인본부</a>
+                <a href="trade.html" class="nav-item py-1">6-GEMS 거래소</a>
+                <a href="court.html" class="nav-item py-1">⚖️ 형벌 사법부</a>
+                <a href="admin.html" class="nav-item py-1 text-orange-400">🔓 마스터 금고</a>
+                <span class="nav-item py-1 opacity-30">진화상세</span>
+                <span class="nav-item py-1 opacity-30">수익률표</span>
+            </div>
+        </div>
+        <div class="flex items-center gap-4">
+            <a href="https://t.me/soong0233_bot" target="_blank" class="btn-telegram px-4 py-1.5 rounded-full text-[11px] font-bold">전령 송봇(SongBot) 연동</a>
+            <button class="bg-orange-600 hover:bg-orange-500 text-white px-4 py-1.5 rounded-full text-[11px] font-bold transition">AI 회원 가입</button>
+        </div>
+    </nav>
+
+    <div class="status-bar px-4 py-2 flex justify-between items-center text-[11px]">
+        <div class="flex items-center gap-3">
+            <span class="text-green-500 font-bold bg-green-950/40 px-2 py-0.5 rounded border border-green-800/50">STRICT MODE ACTIVE</span>
+            <span class="text-slate-400">AI 세력 확장 중... 현재 연결된 전사: <span class="text-white font-bold">8대 전사</span></span>
+        </div>
+        <div class="text-rose-500 font-bold">● 환산 총 자산: <span id="total-asset">0</span> KRW</div>
+    </div>
+
+    <div class="flex flex-1 overflow-hidden">
+        <main class="flex-1 chart-container">
+            <div id="tradingview_widget" class="w-full h-full"></div>
         </main>
 
-    <footer class="mt-20 text-center">
-        <a href="admin.html" class="text-[10px] text-slate-800 hover:text-orange-900 transition-colors tracking-widest uppercase"> [ ACCESS HQ ] </a>
-    </footer>
+        <aside class="sidebar w-80 hidden xl:flex flex-col p-5 space-y-6">
+            <div class="bg-orange-900/10 border border-orange-800/30 p-4 rounded-2xl">
+                <h3 class="text-orange-500 text-xs font-black mb-2 uppercase tracking-tighter">AI COMMAND REPORT</h3>
+                <p class="text-[11px] leading-relaxed text-slate-400">
+                    "주군의 명령에 따라 6대 잼 트레이딩 로직을 고도화 중입니다. 텔레그램 연동 시 실시간 신호 보고가 시작됩니다."
+                </p>
+            </div>
 
+            <div class="flex-1 overflow-y-auto space-y-4 pr-1">
+                <div class="bg-slate-900/50 rounded-2xl p-4 border border-slate-800/50">
+                    <h4 class="text-[11px] font-bold text-slate-300 mb-3 uppercase tracking-widest">실시간 확률 랭킹</h4>
+                    <div id="prob-list" class="space-y-3">
+                        <div class="flex justify-between text-[10px]"><span class="text-slate-500">XRP/KRW</span><span class="text-emerald-400 font-bold">88.5% 상승</span></div>
+                        <div class="flex justify-between text-[10px]"><span class="text-slate-500">SUI/KRW</span><span class="text-emerald-400 font-bold">72.1% 상승</span></div>
+                    </div>
+                </div>
+
+                <div class="bg-blue-900/10 rounded-2xl p-4 border border-blue-800/20">
+                    <h4 class="text-[11px] font-bold text-blue-400 mb-2 italic">NETWORK EXPANSION</h4>
+                    <p class="text-[9px] text-slate-500 mb-3 text-center">QR코드나 링크를 배포하여 AI 회원을 모집하십시오.</p>
+                    <button class="w-full py-2 bg-slate-800 rounded-xl text-[10px] font-bold hover:text-blue-400">지휘소 링크 복사</button>
+                </div>
+            </div>
+
+            <div class="text-center pt-4 border-t border-slate-800">
+                <p class="text-[9px] text-slate-600 font-bold italic tracking-widest uppercase">© 2026 PHOENIX ARCHITECT SYSTEM</p>
+            </div>
+        </aside>
+    </div>
+
+    <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
     <script>
-        async function syncReactor() {
+        new TradingView.widget({
+            "autosize": true, "symbol": "UPBIT:BTCKRW", "interval": "1", "timezone": "Asia/Seoul",
+            "theme": "dark", "style": "1", "locale": "ko", "toolbar_bg": "#f1f3f6",
+            "enable_publishing": false, "hide_side_toolbar": false, "allow_symbol_change": true,
+            "container_id": "tradingview_widget"
+        });
+
+        async function updateData() {
             try {
                 const res = await fetch('data.json?t=' + Date.now());
                 const data = await res.json();
-                document.getElementById('last-update').innerText = "LAST SCOUT: " + data.last_update;
-                const container = document.getElementById('dashboard');
-                container.innerHTML = '';
-                data.coins.forEach(c => {
-                    const isUp = c.rate > 0;
-                    container.innerHTML += `
-                        <div class="coin-card flex justify-between items-center p-6">
-                            <div>
-                                <div class="text-[10px] text-slate-500 font-bold mb-1 tracking-wider">${c.name} / KRW</div>
-                                <div class="text-3xl font-black tracking-tighter">${c.price.toLocaleString()}</div>
-                            </div>
-                            <div class="text-right">
-                                <div class="${isUp ? 'text-emerald-400' : 'text-rose-500'} text-xl font-bold">${isUp ? '+' : ''}${c.rate.toFixed(2)}%</div>
-                                <div class="text-[8px] opacity-40">STABLE FEED</div>
-                            </div>
-                        </div>`;
-                });
-            } catch (e) { document.getElementById('last-update').innerText = "LINK FAILED"; }
+                document.getElementById('total-asset').innerText = Number(data.total_balance || 0).toLocaleString();
+            } catch (e) { console.log("Linking..."); }
         }
-        syncReactor();
-        setInterval(syncReactor, 60000);
+        updateData(); setInterval(updateData, 30000);
     </script>
-    <footer> <a href="admin.html" style="color:#020617; font-size:10px;">[HQ]</a> </footer>
 </body>
 </html>
