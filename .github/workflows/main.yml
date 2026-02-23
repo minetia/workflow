@@ -1,13 +1,11 @@
 name: Phoenix_Auto_Trade_v2
 on:
-  schedule:
-    - cron: '0 * * * *'
-  workflow_dispatch:
+  workflow_dispatch: # 수동 시동 버튼
 jobs:
   build:
     runs-on: ubuntu-latest
     permissions:
-      contents: write # 이 줄이 있어야 파일을 저장소에 써넣을 수 있습니다!
+      contents: write # 파일 저장 권한 (핵심)
     steps:
       - uses: actions/checkout@v4
       - name: 파이썬 설정
@@ -16,12 +14,12 @@ jobs:
           python-version: '3.12'
       - name: 라이브러리 설치
         run: pip install -r requirements.txt
-      - name: 엔진 가동 및 데이터 생성
+      - name: 엔진 가동
         run: python Project_Phoenix_V2/master_engine/main.py
-      - name: 데이터 업로드
+      - name: 데이터 자동 저장
         run: |
           git config --global user.name "GitHub Action"
           git config --global user.email "action@github.com"
           git add data.json
-          git commit -m "Update Market Data" || echo "No changes to commit"
+          git commit -m "Update Market Data" || echo "No changes"
           git push
