@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PHOENIX TRADING ROOM</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;900&display=swap');
+        body { font-family: 'Orbitron', sans-serif; background: #020617; color: #fff; min-height: 100vh; }
+        .gem-card { background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(249, 115, 22, 0.3); transition: 0.3s; }
+        .gem-card:hover { border-color: #f97316; box-shadow: 0 0 20px rgba(249, 115, 22, 0.3); }
+        .trading-btn { background: linear-gradient(90deg, #f97316, #ef4444); color: #000; font-weight: 900; }
+    </style>
+</head>
+<body class="p-4">
+    <header class="max-w-4xl mx-auto text-center mb-8 border-b border-orange-500/30 pb-6">
+        <h1 class="text-3xl font-black text-orange-500 italic tracking-tighter">PHOENIX 6-GEMS</h1>
+        <p class="text-[10px] text-slate-500 mt-2 tracking-[0.4em] uppercase">Real-time Trading Reactor</p>
+    </header>
+
+    <main id="trading-grid" class="grid grid-cols-2 md:grid-cols-3 gap-4 max-w-4xl mx-auto mb-10">
+        </main>
+
+    <section class="max-w-4xl mx-auto grid grid-cols-1 gap-4">
+        <div class="gem-card p-6 rounded-3xl flex justify-between items-center">
+            <div>
+                <h3 class="text-xs text-orange-500 font-bold uppercase mb-1">Exchange Master</h3>
+                <p class="text-sm text-slate-400">업비트 거래소로 즉시 이동합니다</p>
+            </div>
+            <a href="https://upbit.com" target="_blank" class="trading-btn px-6 py-3 rounded-2xl text-xs uppercase">Open Upbit</a>
+        </div>
+        
+        <div class="flex justify-between px-4">
+            <a href="index.html" class="text-[10px] text-slate-600 underline uppercase">Main Board</a>
+            <a href="admin.html" class="text-[10px] text-slate-600 underline uppercase italic">Secret Admin</a>
+        </div>
+    </section>
+
+    <script>
+        const gems = ["BTC", "XRP", "ETH", "SOL", "DOGE", "SUI"];
+        async function syncGems() {
+            try {
+                const r = await fetch('data.json?t=' + Date.now());
+                const d = await r.json();
+                const container = document.getElementById('trading-grid');
+                container.innerHTML = '';
+                
+                d.coins.filter(c => gems.includes(c.name)).forEach(c => {
+                    const up = c.rate > 0;
+                    container.innerHTML += `
+                        <div class="gem-card p-5 rounded-3xl text-center">
+                            <div class="text-[9px] text-slate-500 font-bold mb-2 uppercase">${c.name}</div>
+                            <div class="text-xl font-black mb-1">${c.price.toLocaleString()}</div>
+                            <div class="${up?'text-emerald-400':'text-rose-500'} text-xs font-bold mb-3">${up?'+':''}${c.rate.toFixed(2)}%</div>
+                            <a href="https://upbit.com/exchange?code=CRIX.UPBIT.KRW-${c.name}" target="_blank" class="block w-full py-2 bg-slate-800 rounded-xl text-[9px] font-bold text-slate-400 hover:text-white transition">TRADE</a>
+                        </div>`;
+                });
+            } catch (e) { console.log("Gems linking..."); }
+        }
+        syncGems(); setInterval(syncGems, 30000);
+    </script>
+</body>
+</html>
