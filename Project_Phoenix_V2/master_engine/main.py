@@ -6,7 +6,7 @@ from datetime import datetime
 TELEGRAM_TOKEN = "8555519110:AAFr6gKhN-t-dIfsU9_4f1zeaV-35bELkYM"
 TELEGRAM_CHAT_ID = "1107103330"
 
-# 2. 주군의 8가지 정찰 종목 (BTC, XRP, ETH, DOGE, SOL, ZRX, ONDO, SUI)
+# 2. 주군의 8대 정찰 종목
 MY_COINS = ["BTC", "XRP", "ETH", "DOGE", "SOL", "ZRX", "ONDO", "SUI"]
 
 def send_telegram_report(message):
@@ -22,36 +22,52 @@ def send_telegram_report(message):
     except Exception as e:
         print(f"출력 오류: {e}")
 
-def run_scout_engine():
-    """지정된 8개 종목의 실시간 시세를 수집 및 보고합니다."""
+def get_coin_data(ticker):
+    """현재가와 전일 대비 변동률을 가져옵니다."""
+    try:
+        # 현재가 가져오기
+        current_price = pyupbit.get_current_price(ticker)
+        
+        # 전일 종가(오늘 시가) 가져와서 변동률 계산
+        df = pyupbit.get_ohlcv(ticker, interval="day", count=2)
+        prev_close = df.iloc[-2]['close']
+        change_rate = ((current_price - prev_close) / prev_close) * 100
+        
+        return current_price, change_rate
+    except:
+        return None, None
+
+def run_advanced_scout():
+    """변동률이 포함된 정밀 정찰 보고서를 작성합니다."""
     now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     
-    report = f"🦅 **Project Phoenix V2 실시간 전황 보고**\n"
+    report = f"🦅 **Project Phoenix V2 정밀 정찰 보고**\n"
     report += f"------------------------------------\n"
     report += f"📅 **일시**: {now}\n"
-    report += f"🛡️ **상태**: 8대 종목 정찰 중\n"
+    report += f"🛡️ **상태**: 8대 종목 변동률 감시 중\n"
     report += f"------------------------------------\n"
-    report += f"💰 **주군 지정 종목 현재가**\n"
+    report += f"💰 **실시간 시세 및 등락 (전일대비)**\n"
 
     for coin in MY_COINS:
-        try:
-            ticker = f"KRW-{coin}"
-            price = pyupbit.get_current_price(ticker)
-            if price:
-                # 100원 이하는 소수점 2자리, 이상은 정수로 표시
-                if price < 100:
-                    report += f"• **{coin:<5}**: {price:,.2f} KRW\n"
-                else:
-                    report += f"• **{coin:<5}**: {price:,.0f} KRW\n"
-            else:
-                report += f"• **{coin:<5}**: 시세 확인 불가\n"
-        except:
-            report += f"• **{coin:<5}**: 연결 지연\n"
+        ticker = f"KRW-{coin}"
+        price, rate = get_coin_data(ticker)
+        
+        if price is not None and rate is not None:
+            # 이모지 결정
+            emoji = "🚀" if rate > 0 else "📉" if rate < 0 else "➡️"
+            plus_minus = "+" if rate > 0 else ""
+            
+            # 가격 포맷팅 (100원 미만은 소수점 유지)
+            price_fmt = f"{price:,.2f}" if price < 100 else f"{price:,.0f}"
+            
+            report += f"• **{coin:<5}**: {price_fmt} KRW ({emoji} {plus_minus}{rate:.2f}%)\n"
+        else:
+            report += f"• **{coin:<5}**: 데이터 수집 실패\n"
 
     report += f"------------------------------------\n"
-    report += f"주군, 8명의 전사들이 전선에서 대기 중입니다! 🫡"
+    report += f"주군, 전선에서 전사들이 승전보를 기다립니다! 🫡"
     
     send_telegram_report(report)
 
 if __name__ == "__main__":
-    run_scout_engine()
+    run_advanced_scout()
