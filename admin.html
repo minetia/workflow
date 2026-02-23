@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PHOENIX V2 ADMIN</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&display=swap');
+        body { font-family: 'Orbitron', sans-serif; background: #020617; color: #fff; min-height: 100vh; }
+        .admin-box { background: rgba(15, 23, 42, 0.8); border: 1px solid #f97316; box-shadow: 0 0 15px rgba(249, 115, 22, 0.2); }
+        .btn-orange { background: #f97316; color: #000; font-weight: 900; transition: 0.3s; }
+        .btn-orange:hover { background: #fff; box-shadow: 0 0 20px #f97316; }
+    </style>
+</head>
+<body class="p-6">
+    <div class="max-w-md mx-auto text-center mb-10">
+        <h1 class="text-3xl font-black text-orange-500 italic tracking-tighter">ADMIN COMMAND v2</h1>
+        <p class="text-[10px] text-slate-500 mt-2 uppercase tracking-[0.3em]">Security Level: Architect Only</p>
+    </div>
+
+    <div class="max-w-md mx-auto space-y-4">
+        <div class="admin-box p-6 rounded-3xl">
+            <h2 class="text-xs font-bold text-slate-400 mb-4 uppercase">Engine Ignition</h2>
+            <a href="https://github.com/minetia/workflow/actions/workflows/main.yml" target="_blank" class="btn-orange block w-full py-4 rounded-2xl text-center mb-3">
+                🚀 엔진 강제 시동 (ACTIONS)
+            </a>
+            <p class="text-[10px] text-slate-500 text-center">※ 시동 후 초록불이 들어오면 웹 시세가 갱신됩니다.</p>
+        </div>
+
+        <div class="admin-box p-6 rounded-3xl">
+            <h2 class="text-xs font-bold text-slate-400 mb-4 uppercase">Security Vault</h2>
+            <a href="https://github.com/minetia/workflow/settings/secrets/actions" target="_blank" class="bg-slate-800 hover:bg-slate-700 block w-full py-3 rounded-2xl text-center text-sm font-bold">
+                🔑 API 키 관리 (SECRETS)
+            </a>
+        </div>
+
+        <div class="text-center pt-6">
+            <a href="index.html" class="text-xs text-slate-600 underline">RETURN TO PHOENIX MAIN</a>
+        </div>
+    </div>
+</body>
+</html>
