@@ -1,25 +1,38 @@
-name: Phoenix_Auto_Trade_v2
+name: Phoenix Auto Engine
+
 on:
-  workflow_dispatch: # 수동 시동 버튼
+  schedule:
+    - cron: '*/5 * * * *' # 5분마다 자동 실행
+  workflow_dispatch: # 수동 시동 버튼 활성화
+
 jobs:
-  build:
+  run-engine:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write # 파일 저장 권한 (핵심)
     steps:
-      - uses: actions/checkout@v4
-      - name: 파이썬 설정
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-      - name: 라이브러리 설치
-        run: pip install -r requirements.txt
-      - name: 엔진 가동
-        run: python Project_Phoenix_V2/master_engine/main.py
-      - name: 데이터 자동 저장
-        run: |
-          git config --global user.name "GitHub Action"
-          git config --global user.email "action@github.com"
-          git add data.json
-          git commit -m "Update Market Data" || echo "No changes"
-          git push
+    - name: 저장소 가져오기
+      uses: actions/checkout@v3
+
+    - name: 파이썬 환경 설정
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+
+    - name: 필수 라이브러리 설치
+      run: |
+        pip install pyupbit requests
+
+    - name: 피닉스 엔진 가동 (main.py 실행)
+      env:
+        UPBIT_ACCESS: ${{ secrets.UPBIT_ACCESS }}
+        UPBIT_SECRET: ${{ secrets.UPBIT_SECRET }}
+        TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+        TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+      run: python Project_Phoenix_V2/master_engine/main.py
+
+    - name: 결과물(data.json) 저장 및 배포
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add data.json
+        git commit -m "🔥 피닉스 엔진: 전황 데이터 갱신" || echo "No changes to commit"
+        git push
