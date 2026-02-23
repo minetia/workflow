@@ -2,7 +2,7 @@ name: Phoenix_Auto_Trade_v2
 on:
   schedule:
     - cron: '0 * * * *' # 매시간 정시 실행
-  workflow_dispatch:    # 수동 실행 버튼
+  workflow_dispatch:    # 수동 실행 버튼 활성화
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -20,4 +20,5 @@ jobs:
           UPBIT_SECRET_KEY: ${{ secrets.UPBIT_SECRET_KEY }}
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-        run: python Project_
+        # 주군, 아래 경로를 끝까지 정확히 적었습니다.
+        run: python Project_Phoenix_V2/master_engine/main.py
