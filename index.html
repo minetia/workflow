@@ -3,57 +3,101 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Phoenix V2 Dashboard</title>
+    <title>PHOENIX V2 MAIN COMMAND</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
-        body { font-family: 'Orbitron', sans-serif; background-color: #0f172a; color: #f8fafc; }
-        .glass { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Noto+Sans+KR:wght@300;500;700&display=swap');
+        body { 
+            font-family: 'Noto Sans KR', sans-serif; 
+            background: radial-gradient(circle at top, #1e1b4b 0%, #020617 100%);
+            color: #f8fafc;
+            min-height: 100vh;
+        }
+        .tech-font { font-family: 'Orbitron', sans-serif; }
+        .glass-card { 
+            background: rgba(30, 41, 59, 0.4); 
+            backdrop-filter: blur(12px); 
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+        .phoenix-glow { text-shadow: 0 0 15px #f97316; }
+        .pulse { animation: pulse 2s infinite; }
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
     </style>
 </head>
-<body class="p-4">
-    <header class="mb-8 text-center">
-        <h1 class="text-3xl font-bold text-orange-500 tracking-tighter">PROJECT PHOENIX V2</h1>
-        <p id="last-update" class="text-xs text-slate-400 mt-2">Connecting to fortress...</p>
+<body class="p-4 md:p-8">
+    <header class="max-w-4xl mx-auto mb-10 text-center">
+        <div class="inline-block p-1 px-3 mb-4 text-xs font-bold tracking-widest text-orange-500 border border-orange-500/30 rounded-full tech-font pulse">
+            SYSTEM ACTIVE
+        </div>
+        <h1 class="text-4xl font-extrabold tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-red-600 tech-font phoenix-glow">
+            PHOENIX MAIN
+        </h1>
+        <div class="flex justify-center items-center gap-2 mt-3">
+            <span class="w-2 h-2 bg-emerald-500 rounded-full"></span>
+            <p id="last-update" class="text-xs text-slate-400 tech-font uppercase tracking-widest">Awaiting Signal...</p>
+        </div>
     </header>
 
-    <div id="dashboard" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        </div>
+    <main id="dashboard" class="grid max-w-4xl grid-cols-1 gap-4 mx-auto md:grid-cols-2 lg:grid-cols-2">
+        </main>
+
+    <footer class="max-w-4xl mx-auto mt-12 pt-6 border-t border-white/5 text-center">
+        <p class="text-[10px] text-slate-500 tech-font tracking-[0.3em]">AUTO DEV & TRADING ARCHITECT SYTEM</p>
+    </footer>
 
     <script>
-        async function loadData() {
+        async function loadMarketData() {
             try {
-                const res = await fetch('data.json?t=' + Date.now());
-                const data = await res.json();
+                // 캐시 방지를 위해 타임스탬프 추가
+                const response = await fetch('data.json?t=' + Date.now());
+                const data = await response.json();
                 
-                document.getElementById('last-update').innerText = "LAST SCOUT: " + data.last_update;
+                document.getElementById('last-update').innerText = "Last Scout: " + data.last_update;
                 
                 const container = document.getElementById('dashboard');
                 container.innerHTML = '';
 
                 data.coins.forEach(coin => {
-                    const card = document.createElement('div');
-                    card.className = 'glass p-5 rounded-2xl flex justify-between items-center';
-                    const color = coin.rate > 0 ? 'text-emerald-400' : 'text-rose-400';
-                    const emoji = coin.rate > 0 ? '▲' : '▼';
+                    const isPlus = coin.rate > 0;
+                    const colorClass = isPlus ? 'text-emerald-400' : (coin.rate < 0 ? 'text-rose-400' : 'text-slate-400');
+                    const bgGlow = isPlus ? 'hover:shadow-emerald-500/10' : 'hover:shadow-rose-500/10';
+                    const emoji = isPlus ? '▲' : (coin.rate < 0 ? '▼' : '-');
 
+                    const card = document.createElement('div');
+                    card.className = `glass-card p-6 rounded-3xl flex justify-between items-center transition-all duration-300 ${bgGlow} hover:scale-[1.02]`;
+                    
                     card.innerHTML = `
                         <div>
-                            <div class="text-sm text-slate-400">${coin.name}</div>
-                            <div class="text-xl font-bold">${coin.price.toLocaleString()} <span class="text-xs font-normal">KRW</span></div>
+                            <div class="flex items-center gap-2 mb-1">
+                                <span class="text-xs font-bold text-slate-500 tech-font">${coin.name}</span>
+                                <span class="px-1.5 py-0.5 text-[8px] bg-slate-800 rounded text-slate-400 tech-font">KRW</span>
+                            </div>
+                            <div class="text-2xl font-bold tracking-tight tech-font">
+                                ${coin.price.toLocaleString()}
+                            </div>
                         </div>
                         <div class="text-right">
-                            <div class="${color} font-bold text-lg">${emoji} ${Math.abs(coin.rate).toFixed(2)}%</div>
+                            <div class="${colorClass} text-lg font-bold tech-font">
+                                ${emoji} ${Math.abs(coin.rate).toFixed(2)}%
+                            </div>
+                            <div class="text-[10px] text-slate-600 mt-1 uppercase tracking-tighter">Market Trend</div>
                         </div>
                     `;
                     container.appendChild(card);
                 });
-            } catch (e) {
-                document.getElementById('last-update').innerText = "Waiting for initial data...";
+            } catch (error) {
+                console.error("Data load failed:", error);
             }
         }
-        loadData();
-        setInterval(loadData, 60000); // 1분마다 자동 갱신
+
+        // 초기 로드 및 1분마다 자동 갱신
+        loadMarketData();
+        setInterval(loadMarketData, 60000);
     </script>
 </body>
 </html>
