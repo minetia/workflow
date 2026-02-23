@@ -1,4 +1,3 @@
-# Project_Phoenix_V2/master_engine/main.py
 import requests
 import pyupbit
 from datetime import datetime
@@ -7,12 +6,15 @@ from datetime import datetime
 TELEGRAM_TOKEN = "8555519110:AAFr6gKhN-t-dIfsU9_4f1zeaV-35bELkYM"
 TELEGRAM_CHAT_ID = "1107103330"
 
+# 2. 주군의 8가지 정찰 종목 (BTC, XRP, ETH, DOGE, SOL, ZRX, ONDO, SUI)
+MY_COINS = ["BTC", "XRP", "ETH", "DOGE", "SOL", "ZRX", "ONDO", "SUI"]
+
 def send_telegram_report(message):
-    """주군의 텔레그램으로 최종 결과물을 출력합니다."""
+    """주군의 텔레그램으로 전황 보고서를 출력합니다."""
     url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
     payload = {
-        "chat_id": TELEGRAM_CHAT_ID, 
-        "text": message, 
+        "chat_id": TELEGRAM_CHAT_ID,
+        "text": message,
         "parse_mode": "Markdown"
     }
     try:
@@ -20,46 +22,36 @@ def send_telegram_report(message):
     except Exception as e:
         print(f"출력 오류: {e}")
 
-def get_market_snapshot():
-    """공용 데이터를 활용한 현재 시장 시세 정찰"""
-    try:
-        btc_price = pyupbit.get_current_price("KRW-BTC")
-        eth_price = pyupbit.get_current_price("KRW-ETH")
-        sol_price = pyupbit.get_current_price("KRW-SOL")
-        return {
-            "BTC": btc_price,
-            "ETH": eth_price,
-            "SOL": sol_price
-        }
-    except:
-        return None
-
-def run_output_engine():
-    """최종 보고서 생성 및 출력 엔진"""
+def run_scout_engine():
+    """지정된 8개 종목의 실시간 시세를 수집 및 보고합니다."""
     now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    prices = get_market_snapshot()
     
-    # 보고서 마크다운 양식 구성
-    report = f"🦅 **Project Phoenix V2 시장 정찰 보고**\n"
+    report = f"🦅 **Project Phoenix V2 실시간 전황 보고**\n"
     report += f"------------------------------------\n"
     report += f"📅 **일시**: {now}\n"
-    report += f"🛡️ **상태**: 시스템 정상 가동 중\n"
+    report += f"🛡️ **상태**: 8대 종목 정찰 중\n"
     report += f"------------------------------------\n"
-    report += f"📊 **실시간 주요 종목 시세**\n"
-    
-    if prices:
-        report += f"• **BTC**: {prices['BTC']:,.0f} KRW\n"
-        report += f"• **ETH**: {prices['ETH']:,.0f} KRW\n"
-        report += f"• **SOL**: {prices['SOL']:,.0f} KRW\n"
-    else:
-        report += f"⚠️ 데이터 수집 일시적 지연 중\n"
-        
+    report += f"💰 **주군 지정 종목 현재가**\n"
+
+    for coin in MY_COINS:
+        try:
+            ticker = f"KRW-{coin}"
+            price = pyupbit.get_current_price(ticker)
+            if price:
+                # 100원 이하는 소수점 2자리, 이상은 정수로 표시
+                if price < 100:
+                    report += f"• **{coin:<5}**: {price:,.2f} KRW\n"
+                else:
+                    report += f"• **{coin:<5}**: {price:,.0f} KRW\n"
+            else:
+                report += f"• **{coin:<5}**: 시세 확인 불가\n"
+        except:
+            report += f"• **{coin:<5}**: 연결 지연\n"
+
     report += f"------------------------------------\n"
-    report += f"주군, 현재 전선은 이상 없습니다!\n"
-    report += f"다음 명령을 대기하겠습니다. 🫡"
+    report += f"주군, 8명의 전사들이 전선에서 대기 중입니다! 🫡"
     
-    # 텔레그램 출력 실행
     send_telegram_report(report)
 
 if __name__ == "__main__":
-    run_output_engine()
+    run_scout_engine()
