@@ -3,101 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PHOENIX V2 MAIN COMMAND</title>
+    <title>PHOENIX V2 COMMAND CENTER</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Noto+Sans+KR:wght@300;500;700&display=swap');
-        body { 
-            font-family: 'Noto Sans KR', sans-serif; 
-            background: radial-gradient(circle at top, #1e1b4b 0%, #020617 100%);
-            color: #f8fafc;
-            min-height: 100vh;
-        }
-        .tech-font { font-family: 'Orbitron', sans-serif; }
-        .glass-card { 
-            background: rgba(30, 41, 59, 0.4); 
-            backdrop-filter: blur(12px); 
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-        }
-        .phoenix-glow { text-shadow: 0 0 15px #f97316; }
-        .pulse { animation: pulse 2s infinite; }
-        @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.5; }
-            100% { opacity: 1; }
-        }
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+        body { background: radial-gradient(circle at center, #0f172a 0%, #020617 100%); color: #f8fafc; font-family: 'Orbitron', sans-serif; min-height: 100vh; overflow-x: hidden; }
+        .glass { background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(15px); border: 1px solid rgba(249, 115, 22, 0.2); box-shadow: 0 0 20px rgba(0,0,0,0.5); }
+        .phoenix-glow { color: #f97316; text-shadow: 0 0 20px rgba(249, 115, 22, 0.6); }
+        .card-glow-up { border-left: 4px solid #10b981; }
+        .card-glow-down { border-left: 4px solid #f43f5e; }
+        @keyframes pulse-slow { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+        .status-pulse { animation: pulse-slow 2s infinite; }
     </style>
 </head>
-<body class="p-4 md:p-8">
-    <header class="max-w-4xl mx-auto mb-10 text-center">
-        <div class="inline-block p-1 px-3 mb-4 text-xs font-bold tracking-widest text-orange-500 border border-orange-500/30 rounded-full tech-font pulse">
-            SYSTEM ACTIVE
-        </div>
-        <h1 class="text-4xl font-extrabold tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-red-600 tech-font phoenix-glow">
-            PHOENIX MAIN
-        </h1>
-        <div class="flex justify-center items-center gap-2 mt-3">
-            <span class="w-2 h-2 bg-emerald-500 rounded-full"></span>
-            <p id="last-update" class="text-xs text-slate-400 tech-font uppercase tracking-widest">Awaiting Signal...</p>
-        </div>
+<body class="p-6">
+    <header class="max-w-md mx-auto text-center mb-8">
+        <div class="text-[10px] tracking-[0.4em] text-orange-500 mb-2 status-pulse">SYSTEM OPERATIONAL</div>
+        <h1 class="text-3xl font-black phoenix-glow tracking-tighter mb-1">PHOENIX MAIN</h1>
+        <div id="last-update" class="text-[9px] text-slate-500 tracking-widest">CONNECTING TO ENGINE...</div>
     </header>
 
-    <main id="dashboard" class="grid max-w-4xl grid-cols-1 gap-4 mx-auto md:grid-cols-2 lg:grid-cols-2">
-        </main>
+    <div id="dashboard" class="grid grid-cols-1 gap-4 max-w-md mx-auto">
+        </div>
 
-    <footer class="max-w-4xl mx-auto mt-12 pt-6 border-t border-white/5 text-center">
-        <p class="text-[10px] text-slate-500 tech-font tracking-[0.3em]">AUTO DEV & TRADING ARCHITECT SYTEM</p>
+    <footer class="mt-10 text-center text-[9px] text-slate-700 tracking-widest uppercase">
+        &copy; 2026 Auto Dev & Trading Architect
     </footer>
 
     <script>
-        async function loadMarketData() {
+        async function fetchCommand() {
             try {
-                // 캐시 방지를 위해 타임스탬프 추가
-                const response = await fetch('data.json?t=' + Date.now());
-                const data = await response.json();
-                
-                document.getElementById('last-update').innerText = "Last Scout: " + data.last_update;
-                
+                const r = await fetch('data.json?t=' + Date.now());
+                const d = await r.json();
+                document.getElementById('last-update').innerText = "LAST SCOUT: " + d.last_update;
                 const container = document.getElementById('dashboard');
                 container.innerHTML = '';
-
-                data.coins.forEach(coin => {
-                    const isPlus = coin.rate > 0;
-                    const colorClass = isPlus ? 'text-emerald-400' : (coin.rate < 0 ? 'text-rose-400' : 'text-slate-400');
-                    const bgGlow = isPlus ? 'hover:shadow-emerald-500/10' : 'hover:shadow-rose-500/10';
-                    const emoji = isPlus ? '▲' : (coin.rate < 0 ? '▼' : '-');
-
-                    const card = document.createElement('div');
-                    card.className = `glass-card p-6 rounded-3xl flex justify-between items-center transition-all duration-300 ${bgGlow} hover:scale-[1.02]`;
+                
+                d.coins.forEach(c => {
+                    const isUp = c.rate > 0;
+                    const glowClass = isUp ? 'card-glow-up' : 'card-glow-down';
+                    const rateColor = isUp ? 'text-emerald-400' : 'text-rose-400';
+                    const sign = isUp ? '+' : '';
                     
-                    card.innerHTML = `
-                        <div>
-                            <div class="flex items-center gap-2 mb-1">
-                                <span class="text-xs font-bold text-slate-500 tech-font">${coin.name}</span>
-                                <span class="px-1.5 py-0.5 text-[8px] bg-slate-800 rounded text-slate-400 tech-font">KRW</span>
+                    container.innerHTML += `
+                        <div class="glass ${glowClass} p-5 rounded-2xl flex justify-between items-center transition-transform active:scale-95">
+                            <div>
+                                <div class="text-[10px] text-slate-500 mb-1">${c.name} / KRW</div>
+                                <div class="text-xl font-bold tracking-tight">${c.price.toLocaleString()}</div>
                             </div>
-                            <div class="text-2xl font-bold tracking-tight tech-font">
-                                ${coin.price.toLocaleString()}
+                            <div class="text-right">
+                                <div class="${rateColor} text-lg font-bold">${sign}${c.rate.toFixed(2)}%</div>
+                                <div class="text-[8px] text-slate-600">LIVE FEED</div>
                             </div>
-                        </div>
-                        <div class="text-right">
-                            <div class="${colorClass} text-lg font-bold tech-font">
-                                ${emoji} ${Math.abs(coin.rate).toFixed(2)}%
-                            </div>
-                            <div class="text-[10px] text-slate-600 mt-1 uppercase tracking-tighter">Market Trend</div>
-                        </div>
-                    `;
-                    container.appendChild(card);
+                        </div>`;
                 });
-            } catch (error) {
-                console.error("Data load failed:", error);
-            }
+            } catch (e) { document.getElementById('last-update').innerText = "ENGINE STANDBY..."; }
         }
-
-        // 초기 로드 및 1분마다 자동 갱신
-        loadMarketData();
-        setInterval(loadMarketData, 60000);
+        fetchCommand();
+        setInterval(fetchCommand, 30000); // 30초마다 자동 갱신
     </script>
 </body>
 </html>
