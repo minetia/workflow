@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>피닉스 실시간 대시보드</title>
+    <style>
+        body { background: #000; color: #0f0; font-family: monospace; }
+        #log-container { border: 1px solid #0f0; padding: 20px; height: 300px; overflow-y: scroll; }
+    </style>
+</head>
+<body>
+    <h1>[PHOENIX MASTER ENGINE LIVE FEED]</h1>
+    <div id="log-container">로그를 불러오는 중...</div>
+
+    <script>
+        function updateLogs() {
+            fetch('/api/logs')
+                .then(res => res.json())
+                .then(data => {
+                    const container = document.getElementById('log-container');
+                    container.innerHTML = data.map(log => `<div>> ${JSON.stringify(log)}</div>`).join('');
+                });
+        }
+        setInterval(updateLogs, 1000); // 1초마다 갱신
+    </script>
+</body>
+</html>
