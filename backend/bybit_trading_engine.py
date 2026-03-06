@@ -21,7 +21,12 @@ class BybitRealEngine:
         self._load_keys()
 
     def _load_keys(self):
-        if os.path.exists(self.config_file):
+        # 1. Try Environment Variables first
+        self.api_key = os.getenv("BYBIT_API_KEY", "")
+        self.api_secret = os.getenv("BYBIT_API_SECRET", "")
+        
+        # 2. Fallback to config file if env is empty
+        if not self.api_key and os.path.exists(self.config_file):
             try:
                 with open(self.config_file, "r", encoding="utf-8") as f:
                     config = json.load(f)

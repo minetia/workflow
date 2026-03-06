@@ -12,14 +12,18 @@ from trading_system.modules.executor_jam import ExecutorJam
 from backend.quantum_coin_engine import pqc_engine
 
 def phoenix_quantum_loop():
+    # 🕵️ Check for real trading flag from environment
+    is_real = os.getenv("PHOENIX_REAL_TRADING", "false").lower() == "true"
+    
     collector = CollectorJam()
     strategist = StrategistJam()
     sniper = SniperJam()
     guardian = RiskGuardianJam()
     allocator = CapitalAllocatorJam()
-    executor = ExecutorJam()
+    executor = ExecutorJam(real_trading=is_real)
 
-    print("\n🦅 [System] PHOENIX V10 기동 부대(The 6 Jams) 가동 준비 완료. 시장 감시를 시작합니다.\n")
+    status_msg = "실전 매매(REAL TRADE) 모드로 배정되었습니다. [CAUTION]" if is_real else "전략 검증(SIMULATION) 모드로 운용됩니다."
+    print(f"\n🦅 [System] PHOENIX V10 기동 부대(The 6 Jams) 가동 준비 완료. {status_msg}\n")
 
     while True:
         try:
