@@ -1,0 +1,1502 @@
+[
+    {
+        "id": "BYT-001",
+        "name": "WOLVE_13_1",
+        "strategy": "Grid Bot",
+        "equity": 50000.00000827141,
+        "pnl_24h": 1.6542820958420635e-08,
+        "win_count": 17,
+        "loss_count": 36,
+        "is_active": true,
+        "position": {
+            "side": "BUY",
+            "size": 0.1212,
+            "entry": 0.003481
+        }
+    },
+    {
+        "id": "BYT-002",
+        "name": "WOLVE_96_2",
+        "strategy": "Momentum Whale",
+        "equity": 50000.000032724805,
+        "pnl_24h": 6.544961070176215e-08,
+        "win_count": 24,
+        "loss_count": 57,
+        "is_active": true,
+        "position": {
+            "side": "SELL",
+            "size": 1.392,
+            "entry": 0.003481
+        }
+    },
+    {
+        "id": "BYT-003",
+        "name": "WOLVE_43_3",
+        "strategy": "HFT Arbitrage",
+        "equity": 49999.999940375106,
+        "pnl_24h": -1.192497875308618e-07,
+        "win_count": 18,
+        "loss_count": 49,
+        "is_active": true,
+        "position": {
+            "side": "BUY",
+            "size": 0.6946,
+            "entry": 0.003482
+        }
+    },
+    {
+        "id": "BYT-004",
+        "name": "WOLVE_96_4",
+        "strategy": "HFT Arbitrage",
+        "equity": 49999.9999643871,
+        "pnl_24h": -7.122580427676438e-08,
+        "win_count": 18,
+        "loss_count": 49,
+        "is_active": true,
+        "position": {
+            "side": "SELL",
+            "size": 0.8469,
+            "entry": 0.003482
+        }
+    },
+    {
+        "id": "BYT-005",
+        "name": "WOLVE_92_5",
+        "strategy": "Momentum Whale",
+        "equity": 49999.99993759912,
+        "pnl_24h": -1.2480176519602537e-07,
+        "win_count": 17,
+        "loss_count": 50,
+        "is_active": true,
+        "position": {
+            "side": "BUY",
+            "size": 0.7884,
+            "entry": 0.003482
+        }
+    },
+    {
+        "id": "BYT-006",
+        "name": "WOLVE_41_6",
+        "strategy": "Grid Bot",
+        "equity": 50000.000060630024,
+        "pnl_24h": 1.212600473081693e-07,
+        "win_count": 18,
+        "loss_count": 40,
+        "is_active": true,
+        "position": {
+            "side": "BUY",
+            "size": 0.5181,
+            "entry": 0.003478
+        }
+    },
+    {
+        "id": "BYT-007",
+        "name": "WOLVE_93_7",
+        "strategy": "Aggressive Scalper",
+        "equity": 50000.000054901735,
+        "pnl_24h": 1.0980346996802838e-07,
+        "win_count": 15,
+        "loss_count": 41,
+        "is_active": true,
+        "position": {
+            "side": "SELL",
+            "size": 0.4749,
+            "entry": 0.003482
+        }
+    },
+    {
+        "id": "BYT-008",
+        "name": "WOLVE_65_8",
+        "strategy": "Momentum Whale",
+        "equity": 49999.99997113987,
+        "pnl_24h": -5.7720259064808486e-08,
+        "win_count": 17,
+        "loss_count": 36,
+        "is_active": true,
+        "position": {
+            "side": "SELL",
+            "size": 0.7691,
+            "entry": 0.003482
+        }
+    },
+    {
+        "id": "BYT-009",
+        "name": "WOLVE_15_9",
+        "strategy": "Momentum Whale",
+        "equity": 50000.000040819185,
+        "pnl_24h": 8.163836901076139e-08,
+        "win_count": 19,
+        "loss_count": 48,
+        "is_active": true,
+        "position": {
+            "side": "BUY",
+            "size": 1.7957,
+            "entry": 0.003482
+        }
+    },
+    {
+        "id": "BYT-010",
+        "name": "WOLVE_25_10",
+        "strategy": "Aggressive Scalper",
+        "equity": 50000.00003592801,
+        "pnl_24h": 7.185601862147451e-08,
+        "win_count": 19,
+        "loss_count": 35,
+        "is_active": true,
+        "position": {
+            "side": "SELL",
+            "size": 1.6488,
+            "entry": 0.003482
+        }
+    },
+    {
+        "id": "BYT-011",
+        "name": "WOLVE_15_11",
+        "strategy": "News Sniper",
+        "equity": 49999.999986584895,
+        "pnl_24h": -2.683021011762321e-08,
+        "win_count": 31,
+        "loss_count": 46,
+        "is_active": true,
+        "position": {
+            "side": "BUY",
+            "size": 1.9448,
+            "entry": 0.003482
+        }
+    },
+    {
+        "id": "BYT-012",
+        "name": "WOLVE_69_12",
+        "strategy": "News Sniper",
+        "equity": 50000.0000337631,
+        "pnl_24h": 6.752619810868054e-08,
+        "win_count": 14,
+        "loss_count": 47,
+        "is_active": true,
+        "position": {
+            "side": "BUY",
+            "size": 0.4245,
+            "entry": 0.003482
+        }
+    },
+    {
+        "id": "BYT-013",
+        "name": "WOLVE_58_13",
+        "strategy": "Momentum Whale",
+        "equity": 50000.00004901729,
+        "pnl_24h": 9.803457942325621e-08,
+        "win_count": 28,
+        "loss_count": 57,
+        "is_active": true,
+        "position": {
+            "side": "BUY",
+            "size": 1.6885,
+            "entry": 0.003482
+        }
+    },
+    {
+        "id": "BYT-014",
+        "name": "WOLVE_72_14",
+        "strategy": "Momentum Whale",
+        "equity": 49999.99998339343,
+        "pnl_24h": -3.321314579807222e-08,
+        "win_count": 20,
+        "loss_count": 44,
+        "is_active": true,
+        "position": {
+            "side": "SELL",
+            "size": 1.9796,
+            "entry": 0.003482
+        }
+    },
+    {
+        "id": "BYT-015",
+        "name": "WOLVE_52_15",
+        "strategy": "HFT Arbitrage",
+        "equity": 49999.999988778494,
+        "pnl_24h": -2.24430114030838e-08,
+        "win_count": 20,
+        "loss_count": 51,
+        "is_active": true,
+        "position": {
+            "side": "SELL",
+            "size": 0.2659,
+            "entry": 0.003482
+        }
+    },
+    {
+        "id": "BYT-016",
+        "name": "WOLVE_21_16",
+        "strategy": "News Sniper",
+        "equity": 49999.99993028151,
+        "pnl_24h": -1.394369755871594e-07,
+        "win_count": 23,
+        "loss_count": 43,
+        "is_active": true,
+        "position": {
+            "side": "BUY",
+            "size": 0.1636,
+            "entry": 0.003482
+        }
+    },
+    {
+        "id": "BYT-017",
+        "name": "WOLVE_18_17",
+        "strategy": "Aggressive Scalper",
+        "equity": 50000.00003812205,
+        "pnl_24h": 7.624410500284284e-08,
+        "win_count": 22,
+        "loss_count": 46,
+        "is_active": true,
+        "position": {
+            "side": "SELL",
+            "size": 1.2363,
+            "entry": 0.003481
+        }
+    },
+    {
+        "id": "BYT-018",
+        "name": "WOLVE_72_18",
+        "strategy": "HFT Arbitrage",
+        "equity": 49999.99999295467,
+        "pnl_24h": -1.4090663171373308e-08,
+        "win_count": 23,
+        "loss_count": 53,
+        "is_active": true,
+        "position": {
+            "side": "SELL",
+            "size": 1.6183,
+            "entry": 0.003482
+        }
+    },
+    {
+        "id": "BYT-019",
+        "name": "WOLVE_77_19",
+        "strategy": "Momentum Whale",
+        "equity": 49999.99996447229,
+        "pnl_24h": -7.105541590135544e-08,
+        "win_count": 15,
+        "loss_count": 38,
+        "is_active": true,
+        "position": {
+            "side": "BUY",
+            "size": 1.9032,
+            "entry": 0.003482
+        }
+    },
+    {
+        "id": "BYT-020",
+        "name": "WOLVE_59_20",
+        "strategy": "Aggressive Scalper",
+        "equity": 49999.99993037942,
+        "pnl_24h": -1.392411650158465e-07,
+        "win_count": 16,
+        "loss_count": 45,
+        "is_active": true,
+        "position": {
+            "side": "SELL",
+            "size": 0.9321,
+            "entry": 0.00348
+        }
+    },
+    {
+        "id": "BYT-021",
+        "name": "WOLVE_54_21",
+        "strategy": "Momentum Whale",
+        "equity": 50000.00004530301,
+        "pnl_24h": 9.06060158740729e-08,
+        "win_count": 25,
+        "loss_count": 56,
+        "is_active": true,
+        "position": {
+            "side": "BUY",
+            "size": 1.5189,
+            "entry": 0.003478
+        }
+    },
+    {
+        "id": "BYT-022",
+        "name": "WOLVE_97_22",
+        "strategy": "Grid Bot",
+        "equity": 50000.000009093914,
+        "pnl_24h": 1.8187827663496136e-08,
+        "win_count": 25,
+        "loss_count": 47,
+        "is_active": true,
+        "position": {
+            "side": "SELL",
+            "size": 0.8861,
+            "entry": 0.003482
+        }
+    },
+    {
+        "id": "BYT-023",
+        "name": "WOLVE_49_23",
+        "strategy": "Momentum Whale",
+        "equity": 50000.00002636332,
+        "pnl_24h": 5.2726638386957344e-08,
+        "win_count": 19,
+        "loss_count": 56,
+        "is_active": true,
+        "position": {
+            "side": "SELL",
+            "size": 0.5326,
+            "entry": 0.003482
+        }
+    },
+    {
+        "id": "BYT-024",
+        "name": "WOLVE_50_24",
+        "strategy": "HFT Arbitrage",
+        "equity": 49999.9999966875,
+        "pnl_24h": -6.6250067902728915e-09,
+        "win_count": 21,
+        "loss_count": 43,
+        "is_active": true,
+        "position": {
+            "side": "SELL",
+            "size": 0.5666,
+            "entry": 0.003481
+        }
+    },
+    {
+        "id": "BYT-025",
+        "name": "WOLVE_34_25",
+        "strategy": "News Sniper",
+        "equity": 49999.999979593296,
+        "pnl_24h": -4.081340739503503e-08,
+        "win_count": 20,
+        "loss_count": 46,
+        "is_active": true,
+        "position": {
+            "side": "SELL",
+            "size": 0.0732,
+            "entry": 0.003482
+        }
+    },
+    {
+        "id": "BYT-026",
+        "name": "WOLVE_73_26",
+        "strategy": "Aggressive Scalper",
+        "equity": 50000.0000432138,
+        "pnl_24h": 8.642759348731488e-08,
+        "win_count": 20,
+        "loss_count": 43,
+        "is_active": true,
+        "position": {
+            "side": "BUY",
+            "size": 1.2388,
+            "entry": 0.003481
+        }
+    },
+    {
+        "id": "BYT-027",
+        "name": "WOLVE_22_27",
+        "strategy": "Grid Bot",
+        "equity": 49999.999979914304,
+        "pnl_24h": -4.017139144707471e-08,
+        "win_count": 19,
+        "loss_count": 47,
+        "is_active": true,
+        "position": {
+            "side": "SELL",
+            "size": 0.5481,
+            "entry": 0.003482
+        }
+    },
+    {
+        "id": "BYT-028",
+        "name": "WOLVE_32_28",
+        "strategy": "Momentum Whale",
+        "equity": 49999.999955495885,
+        "pnl_24h": -8.900823013391346e-08,
+        "win_count": 26,
+        "loss_count": 44,
+        "is_active": true,
+        "position": {
+            "side": "BUY",
+            "size": 0.5989,
+            "entry": 0.003482
+        }
+    },
+    {
+        "id": "BYT-029",
+        "name": "WOLVE_46_29",
+        "strategy": "Grid Bot",
+        "equity": 50000.000049397866,
+        "pnl_24h": 9.879573190119117e-08,
+        "win_count": 22,
+        "loss_count": 54,
+        "is_active": true,
+        "position": {
+            "side": "BUY",
+            "size": 1.9054,
+            "entry": 0.003481
+        }
+    },
+    {
+        "id": "BYT-030",
+        "name": "WOLVE_60_30",
+        "strategy": "HFT Arbitrage",
+        "equity": 49999.999970910416,
+        "pnl_24h": -5.817916826345027e-08,
+        "win_count": 18,
+        "loss_count": 48,
+        "is_active": true,
+        "position": {
+            "side": "SELL",
+            "size": 1.6189,
+            "entry": 0.003482
+        }
+    },
+    {
+        "id": "BYT-031",
+        "name": "WOLVE_37_31",
+        "strategy": "News Sniper",
+        "equity": 49999.9999223077,
+        "pnl_24h": -1.5538459410890937e-07,
+        "win_count": 18,
+        "loss_count": 56,
+        "is_active": true,
+        "position": {
+            "side": "SELL",
+            "size": 1.3874,
+            "entry": 0.003482
+        }
+    },
+    {
+        "id": "BYT-032",
+        "name": "WOLVE_26_32",
+        "strategy": "News Sniper",
+        "equity": 49999.999977789295,
+        "pnl_24h": -4.4421409256756305e-08,
+        "win_count": 18,
+        "loss_count": 35,
+        "is_active": true,
+        "position": {
+            "side": "BUY",
+            "size": 1.4885,
+            "entry": 0.003481
+        }
+    },
+    {
+        "id": "BYT-033",
+        "name": "WOLVE_12_33",
+        "strategy": "Grid Bot",
+        "equity": 49999.99995939631,
+        "pnl_24h": -8.120738493744283e-08,
+        "win_count": 16,
+        "loss_count": 47,
+        "is_active": true,
+        "position": {
+            "side": "SELL",
+            "size": 1.6372,
+            "entry": 0.003482
+        }
+    },
+    {
+        "id": "BYT-034",
+        "name": "WOLVE_12_34",
+        "strategy": "News Sniper",
+        "equity": 49999.9999932364,
+        "pnl_24h": -1.3527198461815716e-08,
+        "win_count": 16,
+        "loss_count": 49,
+        "is_active": true,
+        "position": {
+            "side": "BUY",
+            "size": 1.459,
+            "entry": 0.003482
+        }
+    },
+    {
+        "id": "BYT-035",
+        "name": "WOLVE_41_35",
+        "strategy": "Grid Bot",
+        "equity": 50000.00002422941,
+        "pnl_24h": 4.8458823584951455e-08,
+        "win_count": 19,
+        "loss_count": 40,
+        "is_active": true,
+        "position": {
+            "side": "SELL",
+            "size": 0.7448,
+            "entry": 0.003485
+        }
+    },
+    {
+        "id": "BYT-036",
+        "name": "WOLVE_32_36",
+        "strategy": "Grid Bot",
+        "equity": 50000.00004787012,
+        "pnl_24h": 9.574023715686054e-08,
+        "win_count": 17,
+        "loss_count": 43,
+        "is_active": true,
+        "position": {
+            "side": "SELL",
+            "size": 0.4889,
+            "entry": 0.003482
+        }
+    },
+    {
+        "id": "BYT-037",
+        "name": "WOLVE_82_37",
+        "strategy": "HFT Arbitrage",
+        "equity": 49999.99998684451,
+        "pnl_24h": -2.6310983230359856e-08,
+        "win_count": 23,
+        "loss_count": 45,
+        "is_active": true,
+        "position": {
+            "side": "SELL",
+            "size": 1.0558,
+            "entry": 0.003482
+        }
+    },
+    {
+        "id": "BYT-038",
+        "name": "WOLVE_86_38",
+        "strategy": "Aggressive Scalper",
+        "equity": 49999.9999602131,
+        "pnl_24h": -7.95738014858216e-08,
+        "win_count": 17,
+        "loss_count": 43,
+        "is_active": true,
+        "position": {
+            "side": "SELL",
+            "size": 0.8978,
+            "entry": 0.003482
+        }
+    },
+    {
+        "id": "BYT-039",
+        "name": "WOLVE_23_39",
+        "strategy": "Momentum Whale",
+        "equity": 50000.00000550863,
+        "pnl_24h": 1.1017255019396544e-08,
+        "win_count": 25,
+        "loss_count": 33,
+        "is_active": true,
+        "position": {
+            "side": "BUY",
+            "size": 0.3819,
+            "entry": 0.003482
+        }
+    },
+    {
+        "id": "BYT-040",
+        "name": "WOLVE_90_40",
+        "strategy": "News Sniper",
+        "equity": 49999.9999206434,
+        "pnl_24h": -1.58713199198246e-07,
+        "win_count": 17,
+        "loss_count": 37,
+        "is_active": true,
+        "position": {
+            "side": "BUY",
+            "size": 1.6422,
+            "entry": 0.003482
+        }
+    },
+    {
+        "id": "BYT-041",
+        "name": "WOLVE_83_41",
+        "strategy": "Grid Bot",
+        "equity": 50000.000021046006,
+        "pnl_24h": 4.2092011426575484e-08,
+        "win_count": 24,
+        "loss_count": 51,
+        "is_active": true,
+        "position": {
+            "side": "SELL",
+            "size": 1.6042,
+            "entry": 0.003482
+        }
+    },
+    {
+        "id": "BYT-042",
+        "name": "WOLVE_48_42",
+        "strategy": "Aggressive Scalper",
+        "equity": 50000.000040052495,
+        "pnl_24h": 8.010499004740268e-08,
+        "win_count": 21,
+        "loss_count": 51,
+        "is_active": true,
+        "position": {
+            "side": "BUY",
+            "size": 0.1731,
+            "entry": 0.003482
+        }
+    },
+    {
+        "id": "BYT-043",
+        "name": "WOLVE_72_43",
+        "strategy": "Aggressive Scalper",
+        "equity": 49999.99992968481,
+        "pnl_24h": -1.4063037815503776e-07,
+        "win_count": 17,
+        "loss_count": 46,
+        "is_active": true,
+        "position": {
+            "side": "SELL",
+            "size": 1.5048,
+            "entry": 0.003482
+        }
+    },
+    {
+        "id": "BYT-044",
+        "name": "WOLVE_65_44",
+        "strategy": "Aggressive Scalper",
+        "equity": 49999.999988101525,
+        "pnl_24h": -2.379695069976151e-08,
+        "win_count": 16,
+        "loss_count": 52,
+        "is_active": true,
+        "position": {
+            "side": "SELL",
+            "size": 0.1489,
+            "entry": 0.003482
+        }
+    },
+    {
+        "id": "BYT-045",
+        "name": "WOLVE_91_45",
+        "strategy": "Grid Bot",
+        "equity": 49999.99990214092,
+        "pnl_24h": -1.9571816665120422e-07,
+        "win_count": 14,
+        "loss_count": 47,
+        "is_active": true,
+        "position": {
+            "side": "BUY",
+            "size": 1.6707,
+            "entry": 0.003482
+        }
+    },
+    {
+        "id": "BYT-046",
+        "name": "WOLVE_36_46",
+        "strategy": "Momentum Whale",
+        "equity": 49999.999933718886,
+        "pnl_24h": -1.3256222882773727e-07,
+        "win_count": 19,
+        "loss_count": 55,
+        "is_active": true,
+        "position": {
+            "side": "SELL",
+            "size": 1.7441,
+            "entry": 0.003481
+        }
+    },
+    {
+        "id": "BYT-047",
+        "name": "WOLVE_73_47",
+        "strategy": "HFT Arbitrage",
+        "equity": 50000.000060932485,
+        "pnl_24h": 1.218649704242125e-07,
+        "win_count": 16,
+        "loss_count": 49,
+        "is_active": true,
+        "position": {
+            "side": "SELL",
+            "size": 1.2554,
+            "entry": 0.003481
+        }
+    },
+    {
+        "id": "BYT-048",
+        "name": "WOLVE_39_48",
+        "strategy": "HFT Arbitrage",
+        "equity": 50000.000055468496,
+        "pnl_24h": 1.10936991404742e-07,
+        "win_count": 21,
+        "loss_count": 41,
+        "is_active": true,
+        "position": {
+            "side": "BUY",
+            "size": 0.3805,
+            "entry": 0.003482
+        }
+    },
+    {
+        "id": "BYT-049",
+        "name": "WOLVE_37_49",
+        "strategy": "Grid Bot",
+        "equity": 50000.00004923471,
+        "pnl_24h": 9.846941975411027e-08,
+        "win_count": 23,
+        "loss_count": 44,
+        "is_active": true,
+        "position": {
+            "side": "SELL",
+            "size": 0.6922,
+            "entry": 0.003482
+        }
+    },
+    {
+        "id": "BYT-050",
+        "name": "WOLVE_93_50",
+        "strategy": "HFT Arbitrage",
+        "equity": 49999.99991038859,
+        "pnl_24h": -1.7922281404025853e-07,
+        "win_count": 16,
+        "loss_count": 48,
+        "is_active": true,
+        "position": {
+            "side": "SELL",
+            "size": 0.2977,
+            "entry": 0.00348
+        }
+    },
+    {
+        "id": "BYT-051",
+        "name": "WOLVE_26_51",
+        "strategy": "Grid Bot",
+        "equity": 49999.99993838729,
+        "pnl_24h": -1.2322541442699732e-07,
+        "win_count": 12,
+        "loss_count": 38,
+        "is_active": true,
+        "position": {
+            "side": "SELL",
+            "size": 1.6158,
+            "entry": 0.003478
+        }
+    },
+    {
+        "id": "BYT-052",
+        "name": "WOLVE_54_52",
+        "strategy": "Momentum Whale",
+        "equity": 49999.99998631801,
+        "pnl_24h": -2.7363974368199704e-08,
+        "win_count": 12,
+        "loss_count": 51,
+        "is_active": true,
+        "position": {
+            "side": "SELL",
+            "size": 0.1642,
+            "entry": 0.003482
+        }
+    },
+    {
+        "id": "BYT-053",
+        "name": "WOLVE_53_53",
+        "strategy": "News Sniper",
+        "equity": 50000.00000709581,
+        "pnl_24h": 1.4191624359227717e-08,
+        "win_count": 26,
+        "loss_count": 51,
+        "is_active": true,
+        "position": {
+            "side": "BUY",
+            "size": 0.0968,
+            "entry": 0.003482
+        }
+    },
+    {
+        "id": "BYT-054",
+        "name": "WOLVE_51_54",
+        "strategy": "Grid Bot",
+        "equity": 50000.00006374481,
+        "pnl_24h": 1.2748962035402656e-07,
+        "win_count": 26,
+        "loss_count": 40,
+        "is_active": true,
+        "position": {
+            "side": "SELL",
+            "size": 1.9879,
+            "entry": 0.003482
+        }
+    },
+    {
+        "id": "BYT-055",
+        "name": "WOLVE_80_55",
+        "strategy": "News Sniper",
+        "equity": 49999.999986294686,
+        "pnl_24h": -2.741062780842185e-08,
+        "win_count": 21,
+        "loss_count": 45,
+        "is_active": true,
+        "position": {
+            "side": "BUY",
+            "size": 0.484,
+            "entry": 0.003482
+        }
+    },
+    {
+        "id": "BYT-056",
+        "name": "WOLVE_23_56",
+        "strategy": "Grid Bot",
+        "equity": 50000.00000225412,
+        "pnl_24h": 4.508241545408965e-09,
+        "win_count": 16,
+        "loss_count": 55,
+        "is_active": true,
+        "position": {
+            "side": "BUY",
+            "size": 1.9147,
+            "entry": 0.003482
+        }
+    },
+    {
+        "id": "BYT-057",
+        "name": "WOLVE_57_57",
+        "strategy": "News Sniper",
+        "equity": 50000.000007240524,
+        "pnl_24h": 1.4481047401204705e-08,
+        "win_count": 19,
+        "loss_count": 46,
+        "is_active": true,
+        "position": {
+            "side": "SELL",
+            "size": 0.2402,
+            "entry": 0.003482
+        }
+    },
+    {
+        "id": "BYT-058",
+        "name": "WOLVE_33_58",
+        "strategy": "HFT Arbitrage",
+        "equity": 50000.0000010751,
+        "pnl_24h": 2.1502055460587143e-09,
+        "win_count": 22,
+        "loss_count": 43,
+        "is_active": true,
+        "position": {
+            "side": "BUY",
+            "size": 1.1124,
+            "entry": 0.003482
+        }
+    },
+    {
+        "id": "BYT-059",
+        "name": "WOLVE_86_59",
+        "strategy": "Aggressive Scalper",
+        "equity": 49999.9999387183,
+        "pnl_24h": -1.2256340414751322e-07,
+        "win_count": 16,
+        "loss_count": 42,
+        "is_active": true,
+        "position": {
+            "side": "SELL",
+            "size": 1.8417,
+            "entry": 0.003482
+        }
+    },
+    {
+        "id": "BYT-060",
+        "name": "WOLVE_97_60",
+        "strategy": "Aggressive Scalper",
+        "equity": 49999.99996088901,
+        "pnl_24h": -7.822198676876723e-08,
+        "win_count": 15,
+        "loss_count": 48,
+        "is_active": true,
+        "position": {
+            "side": "SELL",
+            "size": 0.3607,
+            "entry": 0.003482
+        }
+    },
+    {
+        "id": "BYT-061",
+        "name": "WOLVE_77_61",
+        "strategy": "HFT Arbitrage",
+        "equity": 50000.000010712305,
+        "pnl_24h": 2.1424610167741776e-08,
+        "win_count": 24,
+        "loss_count": 53,
+        "is_active": true,
+        "position": {
+            "side": "SELL",
+            "size": 0.7148,
+            "entry": 0.003482
+        }
+    },
+    {
+        "id": "BYT-062",
+        "name": "WOLVE_22_62",
+        "strategy": "Momentum Whale",
+        "equity": 49999.99997514618,
+        "pnl_24h": -4.970763984601945e-08,
+        "win_count": 19,
+        "loss_count": 39,
+        "is_active": true,
+        "position": {
+            "side": "BUY",
+            "size": 1.0919,
+            "entry": 0.00348
+        }
+    },
+    {
+        "id": "BYT-063",
+        "name": "WOLVE_79_63",
+        "strategy": "HFT Arbitrage",
+        "equity": 49999.99993953408,
+        "pnl_24h": -1.2093184341210871e-07,
+        "win_count": 18,
+        "loss_count": 67,
+        "is_active": true,
+        "position": {
+            "side": "BUY",
+            "size": 0.5283,
+            "entry": 0.003482
+        }
+    },
+    {
+        "id": "BYT-064",
+        "name": "WOLVE_51_64",
+        "strategy": "Momentum Whale",
+        "equity": 49999.99994343031,
+        "pnl_24h": -1.1313938011880964e-07,
+        "win_count": 25,
+        "loss_count": 43,
+        "is_active": true,
+        "position": {
+            "side": "BUY",
+            "size": 1.1749,
+            "entry": 0.003482
+        }
+    },
+    {
+        "id": "BYT-065",
+        "name": "WOLVE_64_65",
+        "strategy": "Momentum Whale",
+        "equity": 50000.000059911705,
+        "pnl_24h": 1.198234094772488e-07,
+        "win_count": 28,
+        "loss_count": 36,
+        "is_active": true,
+        "position": {
+            "side": "SELL",
+            "size": 1.0881,
+            "entry": 0.003481
+        }
+    },
+    {
+        "id": "BYT-066",
+        "name": "WOLVE_83_66",
+        "strategy": "News Sniper",
+        "equity": 50000.00001930759,
+        "pnl_24h": 3.86151805287227e-08,
+        "win_count": 21,
+        "loss_count": 38,
+        "is_active": true,
+        "position": {
+            "side": "BUY",
+            "size": 0.1014,
+            "entry": 0.003482
+        }
+    },
+    {
+        "id": "BYT-067",
+        "name": "WOLVE_31_67",
+        "strategy": "Grid Bot",
+        "equity": 49999.9999731513,
+        "pnl_24h": -5.3697396651841704e-08,
+        "win_count": 16,
+        "loss_count": 65,
+        "is_active": true,
+        "position": {
+            "side": "SELL",
+            "size": 0.469,
+            "entry": 0.003481
+        }
+    },
+    {
+        "id": "BYT-068",
+        "name": "WOLVE_87_68",
+        "strategy": "Aggressive Scalper",
+        "equity": 49999.999992950194,
+        "pnl_24h": -1.4099612599238753e-08,
+        "win_count": 25,
+        "loss_count": 49,
+        "is_active": true,
+        "position": {
+            "side": "BUY",
+            "size": 1.0105,
+            "entry": 0.003482
+        }
+    },
+    {
+        "id": "BYT-069",
+        "name": "WOLVE_80_69",
+        "strategy": "News Sniper",
+        "equity": 50000.00003261041,
+        "pnl_24h": 6.522082549054175e-08,
+        "win_count": 19,
+        "loss_count": 45,
+        "is_active": true,
+        "position": {
+            "side": "BUY",
+            "size": 0.6659,
+            "entry": 0.003482
+        }
+    },
+    {
+        "id": "BYT-070",
+        "name": "WOLVE_83_70",
+        "strategy": "News Sniper",
+        "equity": 50000.00003975079,
+        "pnl_24h": 7.950158033054322e-08,
+        "win_count": 18,
+        "loss_count": 45,
+        "is_active": true,
+        "position": {
+            "side": "BUY",
+            "size": 1.1304,
+            "entry": 0.003482
+        }
+    },
+    {
+        "id": "BYT-071",
+        "name": "WOLVE_96_71",
+        "strategy": "News Sniper",
+        "equity": 50000.0000336569,
+        "pnl_24h": 6.73137983540073e-08,
+        "win_count": 15,
+        "loss_count": 48,
+        "is_active": true,
+        "position": {
+            "side": "BUY",
+            "size": 1.5111,
+            "entry": 0.003482
+        }
+    },
+    {
+        "id": "BYT-072",
+        "name": "WOLVE_35_72",
+        "strategy": "Momentum Whale",
+        "equity": 50000.000029927796,
+        "pnl_24h": 5.985559255350381e-08,
+        "win_count": 16,
+        "loss_count": 48,
+        "is_active": true,
+        "position": {
+            "side": "SELL",
+            "size": 0.9488,
+            "entry": 0.003482
+        }
+    },
+    {
+        "id": "BYT-073",
+        "name": "WOLVE_47_73",
+        "strategy": "Aggressive Scalper",
+        "equity": 49999.99997377441,
+        "pnl_24h": -5.2451185183599586e-08,
+        "win_count": 23,
+        "loss_count": 47,
+        "is_active": true,
+        "position": {
+            "side": "SELL",
+            "size": 1.2981,
+            "entry": 0.00348
+        }
+    },
+    {
+        "id": "BYT-074",
+        "name": "WOLVE_21_74",
+        "strategy": "Grid Bot",
+        "equity": 50000.0000321786,
+        "pnl_24h": 6.435719842556864e-08,
+        "win_count": 23,
+        "loss_count": 42,
+        "is_active": true,
+        "position": {
+            "side": "SELL",
+            "size": 0.6483,
+            "entry": 0.003482
+        }
+    },
+    {
+        "id": "BYT-075",
+        "name": "WOLVE_93_75",
+        "strategy": "Grid Bot",
+        "equity": 50000.00001127311,
+        "pnl_24h": 2.254621358588338e-08,
+        "win_count": 24,
+        "loss_count": 35,
+        "is_active": true,
+        "position": {
+            "side": "BUY",
+            "size": 1.902,
+            "entry": 0.003482
+        }
+    },
+    {
+        "id": "BYT-076",
+        "name": "WOLVE_43_76",
+        "strategy": "News Sniper",
+        "equity": 49999.99993269391,
+        "pnl_24h": -1.3461218622978776e-07,
+        "win_count": 17,
+        "loss_count": 58,
+        "is_active": true,
+        "position": {
+            "side": "BUY",
+            "size": 1.7724,
+            "entry": 0.003482
+        }
+    },
+    {
+        "id": "BYT-077",
+        "name": "WOLVE_17_77",
+        "strategy": "News Sniper",
+        "equity": 49999.9999664358,
+        "pnl_24h": -6.712840695399792e-08,
+        "win_count": 14,
+        "loss_count": 46,
+        "is_active": true,
+        "position": {
+            "side": "BUY",
+            "size": 1.6569,
+            "entry": 0.003485
+        }
+    },
+    {
+        "id": "BYT-078",
+        "name": "WOLVE_91_78",
+        "strategy": "Aggressive Scalper",
+        "equity": 50000.00002889011,
+        "pnl_24h": 5.778021295554936e-08,
+        "win_count": 16,
+        "loss_count": 52,
+        "is_active": true,
+        "position": {
+            "side": "SELL",
+            "size": 0.2993,
+            "entry": 0.003482
+        }
+    },
+    {
+        "id": "BYT-079",
+        "name": "WOLVE_76_79",
+        "strategy": "HFT Arbitrage",
+        "equity": 49999.99998353753,
+        "pnl_24h": -3.2924945116974414e-08,
+        "win_count": 22,
+        "loss_count": 48,
+        "is_active": true,
+        "position": {
+            "side": "BUY",
+            "size": 0.5092,
+            "entry": 0.003482
+        }
+    },
+    {
+        "id": "BYT-080",
+        "name": "WOLVE_13_80",
+        "strategy": "News Sniper",
+        "equity": 50000.000056375815,
+        "pnl_24h": 1.1275162978563458e-07,
+        "win_count": 25,
+        "loss_count": 56,
+        "is_active": true,
+        "position": {
+            "side": "SELL",
+            "size": 1.8057,
+            "entry": 0.003482
+        }
+    },
+    {
+        "id": "BYT-081",
+        "name": "WOLVE_56_81",
+        "strategy": "Aggressive Scalper",
+        "equity": 49999.999980137,
+        "pnl_24h": -3.9726000977680084e-08,
+        "win_count": 14,
+        "loss_count": 49,
+        "is_active": true,
+        "position": {
+            "side": "SELL",
+            "size": 1.4716,
+            "entry": 0.003482
+        }
+    },
+    {
+        "id": "BYT-082",
+        "name": "WOLVE_31_82",
+        "strategy": "Aggressive Scalper",
+        "equity": 50000.00007309392,
+        "pnl_24h": 1.4618784189224242e-07,
+        "win_count": 17,
+        "loss_count": 44,
+        "is_active": true,
+        "position": {
+            "side": "BUY",
+            "size": 0.382,
+            "entry": 0.003482
+        }
+    },
+    {
+        "id": "BYT-083",
+        "name": "WOLVE_27_83",
+        "strategy": "HFT Arbitrage",
+        "equity": 50000.00003870964,
+        "pnl_24h": 7.741927402094007e-08,
+        "win_count": 18,
+        "loss_count": 44,
+        "is_active": true,
+        "position": {
+            "side": "BUY",
+            "size": 1.0592,
+            "entry": 0.003481
+        }
+    },
+    {
+        "id": "BYT-084",
+        "name": "WOLVE_48_84",
+        "strategy": "Grid Bot",
+        "equity": 49999.999975770195,
+        "pnl_24h": -4.845960938837379e-08,
+        "win_count": 20,
+        "loss_count": 32,
+        "is_active": true,
+        "position": {
+            "side": "BUY",
+            "size": 1.1681,
+            "entry": 0.00348
+        }
+    },
+    {
+        "id": "BYT-085",
+        "name": "WOLVE_43_85",
+        "strategy": "Grid Bot",
+        "equity": 49999.99996933939,
+        "pnl_24h": -6.132121779955924e-08,
+        "win_count": 22,
+        "loss_count": 34,
+        "is_active": true,
+        "position": {
+            "side": "BUY",
+            "size": 1.9067,
+            "entry": 0.00348
+        }
+    },
+    {
+        "id": "BYT-086",
+        "name": "WOLVE_26_86",
+        "strategy": "HFT Arbitrage",
+        "equity": 50000.0000006047,
+        "pnl_24h": 1.2093951227143406e-09,
+        "win_count": 28,
+        "loss_count": 41,
+        "is_active": true,
+        "position": {
+            "side": "SELL",
+            "size": 1.8114,
+            "entry": 0.003482
+        }
+    },
+    {
+        "id": "BYT-087",
+        "name": "WOLVE_65_87",
+        "strategy": "HFT Arbitrage",
+        "equity": 49999.999994429796,
+        "pnl_24h": -1.1140407877974212e-08,
+        "win_count": 21,
+        "loss_count": 34,
+        "is_active": true,
+        "position": {
+            "side": "SELL",
+            "size": 0.3847,
+            "entry": 0.003482
+        }
+    },
+    {
+        "id": "BYT-088",
+        "name": "WOLVE_62_88",
+        "strategy": "News Sniper",
+        "equity": 50000.000086154796,
+        "pnl_24h": 1.723095920169726e-07,
+        "win_count": 21,
+        "loss_count": 45,
+        "is_active": true,
+        "position": {
+            "side": "SELL",
+            "size": 0.9199,
+            "entry": 0.003482
+        }
+    },
+    {
+        "id": "BYT-089",
+        "name": "WOLVE_11_89",
+        "strategy": "Aggressive Scalper",
+        "equity": 50000.00004200809,
+        "pnl_24h": 8.401618106290699e-08,
+        "win_count": 18,
+        "loss_count": 37,
+        "is_active": true,
+        "position": {
+            "side": "SELL",
+            "size": 0.6935,
+            "entry": 0.003482
+        }
+    },
+    {
+        "id": "BYT-090",
+        "name": "WOLVE_47_90",
+        "strategy": "Momentum Whale",
+        "equity": 49999.999976135,
+        "pnl_24h": -4.773000546265394e-08,
+        "win_count": 18,
+        "loss_count": 49,
+        "is_active": true,
+        "position": {
+            "side": "SELL",
+            "size": 0.9266,
+            "entry": 0.003481
+        }
+    },
+    {
+        "id": "BYT-091",
+        "name": "WOLVE_78_91",
+        "strategy": "News Sniper",
+        "equity": 49999.99997889911,
+        "pnl_24h": -4.220177652314305e-08,
+        "win_count": 19,
+        "loss_count": 50,
+        "is_active": true,
+        "position": {
+            "side": "SELL",
+            "size": 1.3248,
+            "entry": 0.00348
+        }
+    },
+    {
+        "id": "BYT-092",
+        "name": "WOLVE_30_92",
+        "strategy": "Momentum Whale",
+        "equity": 50000.00001128537,
+        "pnl_24h": 2.2570733563043177e-08,
+        "win_count": 19,
+        "loss_count": 53,
+        "is_active": true,
+        "position": {
+            "side": "SELL",
+            "size": 1.6328,
+            "entry": 0.003482
+        }
+    },
+    {
+        "id": "BYT-093",
+        "name": "WOLVE_44_93",
+        "strategy": "Momentum Whale",
+        "equity": 49999.999975188795,
+        "pnl_24h": -4.96224092785269e-08,
+        "win_count": 21,
+        "loss_count": 48,
+        "is_active": true,
+        "position": {
+            "side": "BUY",
+            "size": 0.0415,
+            "entry": 0.003482
+        }
+    },
+    {
+        "id": "BYT-094",
+        "name": "WOLVE_44_94",
+        "strategy": "Momentum Whale",
+        "equity": 49999.999993320496,
+        "pnl_24h": -1.335900742560625e-08,
+        "win_count": 18,
+        "loss_count": 49,
+        "is_active": true,
+        "position": {
+            "side": "SELL",
+            "size": 0.022,
+            "entry": 0.003481
+        }
+    },
+    {
+        "id": "BYT-095",
+        "name": "WOLVE_12_95",
+        "strategy": "Momentum Whale",
+        "equity": 49999.99997837321,
+        "pnl_24h": -4.325357440393418e-08,
+        "win_count": 18,
+        "loss_count": 51,
+        "is_active": true,
+        "position": {
+            "side": "SELL",
+            "size": 0.9602,
+            "entry": 0.003482
+        }
+    },
+    {
+        "id": "BYT-096",
+        "name": "WOLVE_11_96",
+        "strategy": "Aggressive Scalper",
+        "equity": 50000.00002881139,
+        "pnl_24h": 5.7622775784693655e-08,
+        "win_count": 24,
+        "loss_count": 50,
+        "is_active": true,
+        "position": {
+            "side": "BUY",
+            "size": 1.1507,
+            "entry": 0.003481
+        }
+    },
+    {
+        "id": "BYT-097",
+        "name": "WOLVE_30_97",
+        "strategy": "News Sniper",
+        "equity": 49999.999962946495,
+        "pnl_24h": -7.410701073240489e-08,
+        "win_count": 21,
+        "loss_count": 48,
+        "is_active": true,
+        "position": {
+            "side": "SELL",
+            "size": 1.5704,
+            "entry": 0.003479
+        }
+    },
+    {
+        "id": "BYT-098",
+        "name": "WOLVE_72_98",
+        "strategy": "Momentum Whale",
+        "equity": 50000.000001012435,
+        "pnl_24h": 2.0248699001967906e-09,
+        "win_count": 26,
+        "loss_count": 43,
+        "is_active": true,
+        "position": {
+            "side": "SELL",
+            "size": 1.8549,
+            "entry": 0.003485
+        }
+    },
+    {
+        "id": "BYT-099",
+        "name": "WOLVE_79_99",
+        "strategy": "News Sniper",
+        "equity": 49999.99999130291,
+        "pnl_24h": -1.7394180758856236e-08,
+        "win_count": 21,
+        "loss_count": 52,
+        "is_active": true,
+        "position": {
+            "side": "SELL",
+            "size": 1.5109,
+            "entry": 0.003482
+        }
+    },
+    {
+        "id": "BYT-100",
+        "name": "WOLVE_82_100",
+        "strategy": "HFT Arbitrage",
+        "equity": 49999.999956340704,
+        "pnl_24h": -8.731859270483256e-08,
+        "win_count": 17,
+        "loss_count": 51,
+        "is_active": true,
+        "position": {
+            "side": "SELL",
+            "size": 0.3439,
+            "entry": 0.003481
+        }
+    }
+]

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <title>MAESTRO PHOENIX NAV</title>
+    <link rel="stylesheet" href="../MAESTRO_DESIGN/design_canvas.css">
+    <style>
+        body {
+            margin: 0;
+        }
+
+        .nav-container {
+            background: linear-gradient(135deg, var(--panel-bg), var(--empire-dark));
+            border-bottom: 2px solid var(--empire-gold);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 15px var(--empire-gold-dim);
+        }
+
+        .nav-brand {
+            color: var(--empire-gold);
+            font-size: 24px;
+            font-weight: 900;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px var(--empire-gold-glow);
+        }
+
+        .nav-links a {
+            color: var(--text-primary);
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--empire-gold);
+        }
+
+        .master-badge {
+            background-color: var(--empire-gold);
+            color: #000;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body class="maestro-theme">
+    <div class="nav-container">
+        <div class="nav-brand">PHOENIX EMPIRE</div>
+        <div class="nav-links">
+            <a href="/hq">사령부 (HQ)</a>
+            <a href="/quantum">퀀텀 연산 (QUANTUM)</a>
+            <a href="/vault">이중 금고 (DUAL VAULT)</a>
+            <a href="/shield">위험 통제 (SHIELD)</a>
+            <a href="/community">커뮤니티 (SOCIAL)</a>
+            <a href="/executor">집행부 (EXECUTOR)</a>
+            <a href="http://127.0.0.1:8005/" style="color: #ff3b30; font-weight: bold;">[마스터 통제판]</a>
+        </div>
+        <div class="master-badge">👑 주군(MASTER) 접속 통제 중</div>
+    </div>
+</body>
+
+</html>

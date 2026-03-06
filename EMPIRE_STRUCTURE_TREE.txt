@@ -1,0 +1,667 @@
+====================================================================================================
+ 👑 PHOENIX EMPIRE - HIERARCHICAL RESOURCE TREE (MD & JAM)
+ [GENERATE TIME] 2026-03-06  5:36:47.02
+====================================================================================================
+
+[CORE_SYSTEM] -> c:\lovesoong
+├── [DIR] Alpha
+│   ├── [DIR] Dept_Quantum
+│   ├── [DIR] Dept_Scanner
+│   │   ├── PHOENIX_EVOLUTION_LOG.md
+│   │   ├── PHOENIX_GENESIS_LOG.md
+│   │   └── PHOENIX_MANIFESTO.md
+│   ├── [DIR] Dept_Security
+│   ├── [DIR] Dept_Trading
+│   │   ├── Executor.md (행동 잼: The Executor)
+│   │   ├── Gemin.md (무명의 사령관)
+│   │   ├── Gemini2.md
+│   │   ├── GeminiY3.md
+│   │   ├── JSpecialist.md
+│   │   ├── PHOENIX_CORE.md
+│   │   ├── PHOENIX_EVOLUTION_LOG.md
+│   │   ├── PHOENIX_GENESIS_LOG.md
+│   │   ├── PHOENIX_INFRA_POWERUP.md
+│   │   ├── PHOENIX_MANIFESTO.md
+│   │   ├── PHOENIX_SYSTEM_FINAL.md
+│   │   ├── Physical.md
+│   │   ├── STAAD.md (건설, 토목, 철거, 도면, 건축법)
+│   │   ├── Sniper.md (셋째, AI 인공지능 양자컴퓨터의 달인)
+│   │   ├── Sorter.md (정렬 잼: The Sorter)
+│   │   ├── Specialist.md (전략 잼: The Strategist)
+│   │   ├── Stop.md
+│   │   ├── jCollector.md (수집 Jam: The Collector)
+│   │   ├── jDeep.md (프로 대본작가)
+│   │   ├── jSuperposition.md (둘째, AI 인공지능 양자컴퓨터의 달인)
+│   │   └── jcoin.md
+│   ├── JAM_Architect.py (Class: JAM_Architect)
+│   ├── JAM_Designer.py (Class: JAM_Designer)
+│   ├── JAM_Enforcer.py (Class: JAM_Enforcer)
+│   ├── JAM_Steward.py (Class: JAM_Steward)
+│   ├── [DIR] QUANTUM_LEGION
+│   └── [DIR] Trading_Forge
+│       ├── README_STRATEGY.md
+│       ├── [DIR] SYSTEM_LOGS
+│       ├── [DIR] data
+│       ├── [DIR] modules
+│       │   ├── allocator_jam.py (Class: CapitalAllocatorJam)
+│       │   ├── collector_jam.py
+│       │   ├── executor_jam.py
+│       │   ├── guardian_jam.py (Class: RiskGuardianJam)
+│       │   ├── sniper_jam.py (Class: SniperJam)
+│       │   └── strategist_jam.py (Class: StrategistJam)
+│       └── [DIR] utils
+├── [DIR] Castle_1_Strategy
+├── [DIR] Castle_2_Data
+├── [DIR] Castle_3_Risk
+├── [DIR] Castle_4_Execution
+├── [DIR] Castle_5_Management
+│   └── [DIR] js
+├── [DIR] Core
+│   ├── [DIR] Archive
+│   ├── [DIR] Dept_Quantum
+│   │   ├── PHOENIX_CORE.md
+│   │   ├── PHOENIX_SYSTEM_FINAL.md
+│   │   ├── jDeep.md (프로 대본작가)
+│   │   └── jSuperposition.md (둘째, AI 인공지능 양자컴퓨터의 달인)
+│   ├── [DIR] Dept_Scanner
+│   ├── [DIR] Dept_Security
+│   ├── [DIR] Dept_Trading
+│   │   ├── Executor.md (행동 잼: The Executor)
+│   │   ├── Gemin.md (무명의 사령관)
+│   │   ├── Gemini2.md
+│   │   ├── GeminiY3.md
+│   │   ├── JSpecialist.md
+│   │   ├── PHOENIX_CORE.md
+│   │   ├── PHOENIX_EVOLUTION_LOG.md
+│   │   ├── PHOENIX_GENESIS_LOG.md
+│   │   ├── PHOENIX_INFRA_POWERUP.md
+│   │   ├── PHOENIX_MANIFESTO.md
+│   │   ├── PHOENIX_SYSTEM_FINAL.md
+│   │   ├── Physical.md
+│   │   ├── STAAD.md (건설, 토목, 철거, 도면, 건축법)
+│   │   ├── Sniper.md (셋째, AI 인공지능 양자컴퓨터의 달인)
+│   │   ├── Sorter.md (정렬 잼: The Sorter)
+│   │   ├── Specialist.md (전략 잼: The Strategist)
+│   │   ├── Stop.md
+│   │   ├── jCollector.md (수집 Jam: The Collector)
+│   │   ├── jDeep.md (프로 대본작가)
+│   │   ├── jSuperposition.md (둘째, AI 인공지능 양자컴퓨터의 달인)
+│   │   └── jcoin.md
+│   ├── JAM_Enforcer.py (Class: JAM_Enforcer)
+│   ├── JAM_Engineer.py (Class: JAM_Engineer)
+│   ├── JAM_Steward.py (Class: JAM_Steward)
+│   ├── [DIR] QUANTUM_LEGION
+│   └── [DIR] Trading_Forge
+│       ├── README_STRATEGY.md
+│       ├── [DIR] SYSTEM_LOGS
+│       ├── [DIR] data
+│       ├── [DIR] modules
+│       │   ├── allocator_jam.py (Class: CapitalAllocatorJam)
+│       │   ├── collector_jam.py
+│       │   ├── executor_jam.py
+│       │   ├── guardian_jam.py (Class: RiskGuardianJam)
+│       │   ├── sniper_jam.py (Class: SniperJam)
+│       │   └── strategist_jam.py (Class: StrategistJam)
+│       └── [DIR] utils
+├── [DIR] Empire
+│   ├── [DIR] Communication_Hub
+│   ├── [DIR] Governance
+│   ├── [DIR] JAM_Auto_Forge
+│   │   ├── Executor.md (행동 잼: The Executor)
+│   │   ├── Gemin.md (무명의 사령관)
+│   │   ├── Gemini2.md
+│   │   ├── GeminiY3.md
+│   │   ├── JSpecialist.md
+│   │   ├── PHOENIX_INFRA_POWERUP.md
+│   │   ├── STAAD.md (건설, 토목, 철거, 도면, 건축법)
+│   │   ├── Specialist.md (전략 잼: The Strategist)
+│   │   ├── [DIR] data
+│   │   ├── jam.py (PHOENIX-Q Prime 자아 정의)
+│   │   └── jam_chronicle.py (PHOENIX-Q Chronicle 자아 정의)
+│   ├── [DIR] PHOENIX_HUB
+│   │   └── jam.py (PHOENIX-Q Ambassador 자아 정의)
+│   ├── antigravity_core.md
+│   ├── [DIR] static
+│   │   └── [DIR] css
+│   └── [DIR] templates
+├── [DIR] Nexus
+│   ├── [DIR] Dept_Quantum
+│   ├── [DIR] Dept_Scanner
+│   ├── [DIR] Dept_Security
+│   ├── [DIR] Dept_Trading
+│   │   ├── Executor.md (행동 잼: The Executor)
+│   │   ├── Gemin.md (무명의 사령관)
+│   │   ├── Gemini2.md
+│   │   ├── GeminiY3.md
+│   │   ├── JSpecialist.md
+│   │   ├── PHOENIX_CORE.md
+│   │   ├── PHOENIX_EVOLUTION_LOG.md
+│   │   ├── PHOENIX_GENESIS_LOG.md
+│   │   ├── PHOENIX_INFRA_POWERUP.md
+│   │   ├── PHOENIX_MANIFESTO.md
+│   │   ├── PHOENIX_SYSTEM_FINAL.md
+│   │   ├── Physical.md
+│   │   ├── STAAD.md (건설, 토목, 철거, 도면, 건축법)
+│   │   ├── Sniper.md (셋째, AI 인공지능 양자컴퓨터의 달인)
+│   │   ├── Sorter.md (정렬 잼: The Sorter)
+│   │   ├── Specialist.md (전략 잼: The Strategist)
+│   │   ├── Stop.md
+│   │   ├── jCollector.md (수집 Jam: The Collector)
+│   │   ├── jDeep.md (프로 대본작가)
+│   │   ├── jSuperposition.md (둘째, AI 인공지능 양자컴퓨터의 달인)
+│   │   └── jcoin.md
+│   ├── [DIR] Intelligence
+│   │   ├── Executor.md (행동 잼: The Executor)
+│   │   ├── Gemin.md (무명의 사령관)
+│   │   ├── Gemini2.md
+│   │   ├── GeminiY3.md
+│   │   ├── JSpecialist.md
+│   │   ├── PHOENIX_CORE.md
+│   │   ├── PHOENIX_EVOLUTION_LOG.md
+│   │   ├── PHOENIX_GENESIS_LOG.md
+│   │   ├── PHOENIX_INFRA_POWERUP.md
+│   │   ├── PHOENIX_MANIFESTO.md
+│   │   ├── PHOENIX_SYSTEM_FINAL.md
+│   │   ├── Physical.md
+│   │   ├── STAAD.md (건설, 토목, 철거, 도면, 건축법)
+│   │   ├── Sniper.md (셋째, AI 인공지능 양자컴퓨터의 달인)
+│   │   ├── Sorter.md (정렬 잼: The Sorter)
+│   │   ├── Specialist.md (전략 잼: The Strategist)
+│   │   ├── Stop.md
+│   │   ├── jCollector.md (수집 Jam: The Collector)
+│   │   ├── jDeep.md (프로 대본작가)
+│   │   ├── jSuperposition.md (둘째, AI 인공지능 양자컴퓨터의 달인)
+│   │   └── jcoin.md
+│   ├── JAM_Ambassador.py (Class: JAM_Ambassador)
+│   ├── JAM_Chancellor.py (Class: JAM_Chancellor)
+│   ├── JAM_Enforcer.py (Class: JAM_Enforcer)
+│   ├── JAM_Steward.py (Class: JAM_Steward)
+│   ├── [DIR] QUANTUM_LEGION
+│   └── [DIR] Trading_Forge
+│       ├── README_STRATEGY.md
+│       ├── [DIR] SYSTEM_LOGS
+│       ├── [DIR] data
+│       ├── [DIR] modules
+│       │   ├── allocator_jam.py (Class: CapitalAllocatorJam)
+│       │   ├── collector_jam.py
+│       │   ├── executor_jam.py
+│       │   ├── guardian_jam.py (Class: RiskGuardianJam)
+│       │   ├── sniper_jam.py (Class: SniperJam)
+│       │   └── strategist_jam.py (Class: StrategistJam)
+│       └── [DIR] utils
+├── [DIR] QUANTUM_CORE
+│   ├── QUANTUM_CORE.md (Class: QuantumDecisionModule)
+│   ├── QUANTUM_GUIDE.md
+│   ├── jam.py (PHOENIX-Q Architect 자아 정의)
+│   ├── phoenix_master_v1.md
+│   ├── pqc_user_manual.md
+│   ├── pqc_whitepaper_100_pages.md
+│   ├── pqc_whitepaper_v2.md
+│   └── whitepaper.md
+├── [DIR] SYSTEM_LOGS
+├── [DIR] Zion
+│   ├── [DIR] Dept_Quantum
+│   ├── [DIR] Dept_Scanner
+│   ├── [DIR] Dept_Security
+│   ├── [DIR] Dept_Trading
+│   │   ├── Executor.md (행동 잼: The Executor)
+│   │   ├── Gemini2.md
+│   │   ├── GeminiY3.md
+│   │   ├── JSpecialist.md
+│   │   ├── PHOENIX_CORE.md
+│   │   ├── PHOENIX_EVOLUTION_LOG.md
+│   │   ├── PHOENIX_GENESIS_LOG.md
+│   │   ├── PHOENIX_INFRA_POWERUP.md
+│   │   ├── PHOENIX_MANIFESTO.md
+│   │   ├── PHOENIX_SYSTEM_FINAL.md
+│   │   ├── Physical.md
+│   │   ├── STAAD.md (건설, 토목, 철거, 도면, 건축법)
+│   │   ├── Sniper.md (셋째, AI 인공지능 양자컴퓨터의 달인)
+│   │   ├── Sorter.md (정렬 잼: The Sorter)
+│   │   ├── Specialist.md (전략 잼: The Strategist)
+│   │   ├── Stop.md
+│   │   ├── WebMagician.md
+│   │   ├── jCollector.md (수집 Jam: The Collector)
+│   │   ├── jDeep.md (프로 대본작가)
+│   │   ├── jSuperposition.md (둘째, AI 인공지능 양자컴퓨터의 달인)
+│   │   └── jcoin.md
+│   ├── JAM_Archivist.py (Class: JAM_Archivist)
+│   ├── JAM_Enforcer.py (Class: JAM_Enforcer)
+│   ├── JAM_Miner_Zion.py
+│   ├── JAM_Steward.py (Class: JAM_Steward)
+│   ├── [DIR] PHOENIX_CIVITAS
+│   │   ├── [DIR] CULTURE_VR_DOME
+│   │   │   └── culture_overview.md
+│   │   ├── [DIR] ENERGY_PLANT
+│   │   │   └── energy_overview.md
+│   │   ├── [DIR] LOGISTICS_HUB
+│   │   │   └── logistics_overview.md
+│   │   ├── [DIR] MEDIC_CENTER
+│   │   │   └── medic_overview.md
+│   │   ├── [DIR] SAFETY_SHELTER
+│   │   │   └── safety_overview.md
+│   │   ├── [DIR] docs
+│   │   │   └── [DIR] modules
+│   │   └── jam.py (PHOENIX-Q Designer 자아 정의)
+│   ├── [DIR] QUANTUM_LEGION
+│   ├── [DIR] Trading_Forge
+│   │   ├── README_STRATEGY.md
+│   │   ├── [DIR] SYSTEM_LOGS
+│   │   ├── [DIR] data
+│   │   ├── [DIR] modules
+│   │   │   ├── allocator_jam.py (Class: CapitalAllocatorJam)
+│   │   │   ├── collector_jam.py
+│   │   │   ├── executor_jam.py
+│   │   │   ├── guardian_jam.py (Class: RiskGuardianJam)
+│   │   │   ├── sniper_jam.py (Class: SniperJam)
+│   │   │   └── strategist_jam.py (Class: StrategistJam)
+│   │   └── [DIR] utils
+│   └── [DIR] Vault_Archive
+│       ├── culture_overview.md
+│       ├── energy_overview.md
+│       ├── logistics_overview.md
+│       ├── medic_overview.md
+│       └── safety_overview.md
+├── [DIR] backend
+│   └── jam.py
+├── [DIR] data
+├── [DIR] docs
+│   └── [DIR] modules
+│       ├── CodingExpert.md
+│       ├── Executor.md
+│       ├── Gemini2.md
+│       ├── GeminiY3.md
+│       ├── JSpecialist.md
+│       ├── PHOENIX_AVATAR.md
+│       ├── PHOENIX_CORE.md
+│       ├── PHOENIX_EVOLUTION_LOG.md
+│       ├── PHOENIX_GENESIS_LOG.md
+│       ├── PHOENIX_INFRA_POWERUP.md
+│       ├── PHOENIX_MANIFESTO.md
+│       ├── PHOENIX_SYSTEM_FINAL.md
+│       ├── Physical.md
+│       ├── STAAD.md
+│       ├── Sniper.md
+│       ├── Sorter.md
+│       ├── Specialist.md
+│       ├── Stop.md
+│       ├── WebMagician.md
+│       ├── jCollector.md
+│       ├── jDeep.md
+│       ├── jSuperposition.md
+│       ├── jcoin.md
+│       └── market_analyst.md
+├── [DIR] logs
+├── [DIR] recovery_temp
+│   ├── [DIR] Alpha
+│   │   ├── [DIR] Dept_Scanner
+│   │   └── JAM_Miner_Alpha.py
+│   ├── [DIR] Core
+│   │   ├── [DIR] Dept_Quantum
+│   │   └── JAM_Miner_Core.py
+│   ├── [DIR] Empire
+│   │   ├── [DIR] Communication_Hub
+│   │   ├── [DIR] JAM_Auto_Forge
+│   │   └── [DIR] Treasury
+│   ├── [DIR] Nexus
+│   │   ├── [DIR] Dept_Trading
+│   │   └── JAM_Miner_Nexus.py
+│   └── [DIR] Zion
+│       ├── [DIR] Dept_Immunity
+│       └── JAM_Miner_Zion.py
+├── [DIR] recovery_temp_2
+│   ├── [DIR] Alpha
+│   │   └── [DIR] Dept_Scanner
+│   ├── [DIR] Core
+│   │   └── [DIR] Dept_Quantum
+│   ├── [DIR] Empire
+│   │   ├── [DIR] Communication_Hub
+│   │   └── [DIR] JAM_Auto_Forge
+│   ├── [DIR] Nexus
+│   │   └── [DIR] Dept_Trading
+│   └── [DIR] Zion
+│       └── JAM_Miner_Zion.py
+├── [DIR] routes
+├── [DIR] scripts
+│   └── [DIR] data
+├── [DIR] skills
+├── [DIR] templates
+├── [DIR] trading_system
+│   ├── README_STRATEGY.md
+│   ├── [DIR] SYSTEM_LOGS
+│   ├── [DIR] data
+│   ├── [DIR] modules
+│   │   ├── allocator_jam.py (Class: CapitalAllocatorJam)
+│   │   ├── collector_jam.py
+│   │   ├── executor_jam.py
+│   │   ├── guardian_jam.py (Class: RiskGuardianJam)
+│   │   ├── sniper_jam.py (Class: SniperJam)
+│   │   └── strategist_jam.py (Class: StrategistJam)
+│   └── [DIR] utils
+└── [DIR] workflow_gate
+    ├── [DIR] COMMAND_INBOX
+    │   └── [DIR] COMMAND_20260302_214104
+    ├── [DIR] COMMUNITY_SQUARE
+    ├── [DIR] DATA_VAULT
+    │   ├── [DIR] NEURAL_ARCHIVE
+    │   ├── jam.py (PHOENIX-Q Archivist 자아 정의)
+    │   └── jam_chronicle.py (PHOENIX-Q Chronicler 자아 정의)
+    ├── [DIR] EXPANSION_CHAMBER_2026
+    ├── Executor.md (행동 잼: The Executor)
+    ├── Gemin.md (무명의 사령관)
+    ├── Gemini2.md
+    ├── GeminiY3.md
+    ├── [DIR] IMPERIAL_SECRET_VAULT
+    │   └── jam.py (PHOENIX-Q Shadow 자아 정의)
+    ├── [DIR] JAM_Infra_v3_Final
+    ├── [DIR] JAM_Personal_Intelligence_Infra
+    ├── [DIR] JAM_Quantum_AI_Infrastructure
+    ├── [DIR] JAM_TOTAL_INFRA_ULTIMATE
+    │   ├── [DIR] core
+    │   ├── [DIR] data
+    │   ├── [DIR] expert
+    │   ├── [DIR] logs
+    │   ├── [DIR] remote
+    │   ├── [DIR] security
+    │   └── [DIR] viz
+    ├── [DIR] JAM_Ultimate_Ecosystem_v4
+    │   ├── [DIR] core
+    │   ├── [DIR] data
+    │   ├── [DIR] nodes
+    │   └── [DIR] security
+    ├── [DIR] JAM_Ultimate_Expansion_Final
+    ├── [DIR] JAM_v6_Sovereign_Expansion
+    │   ├── [DIR] auto_task
+    │   ├── [DIR] resource_cluster
+    │   ├── [DIR] sovereign_logic
+    │   └── [DIR] stealth_security
+    ├── JSpecialist.md
+    ├── [DIR] MAESTRO_DESIGN
+    ├── [DIR] NETWORK_DIVISION
+    │   ├── [DIR] DIV_1_GLOBAL
+    │   ├── [DIR] DIV_2_INTERNAL
+    │   ├── [DIR] DIV_3_QUANTUM
+    │   ├── [DIR] DIV_4_SECURITY
+    │   └── [DIR] DIV_5_TRADING
+    ├── [DIR] PHOENIX_CIVITAS
+    │   ├── [DIR] CULTURE_VR_DOME
+    │   │   └── culture_overview.md
+    │   ├── [DIR] ENERGY_PLANT
+    │   │   └── energy_overview.md
+    │   ├── [DIR] LOGISTICS_HUB
+    │   │   └── logistics_overview.md
+    │   ├── [DIR] MEDIC_CENTER
+    │   │   └── medic_overview.md
+    │   ├── [DIR] SAFETY_SHELTER
+    │   │   └── safety_overview.md
+    │   └── jam.py (PHOENIX-Q Designer 자아 정의)
+    ├── PHOENIX_CORE.md
+    ├── PHOENIX_EVOLUTION_LOG.md
+    ├── PHOENIX_GENESIS_LOG.md
+    ├── [DIR] PHOENIX_HUB
+    │   └── jam.py (PHOENIX-Q Ambassador 자아 정의)
+    ├── PHOENIX_INFRA_POWERUP.md
+    ├── PHOENIX_MANIFESTO.md
+    ├── [DIR] PHOENIX_MASTER
+    │   └── jam.py (PHOENIX-Q Chancellor 자아 정의)
+    ├── [DIR] PHOENIX_MINING
+    │   ├── jam.py (PHOENIX-Q Engineer 자아 정의)
+    │   └── pqc_user_manual.md
+    ├── PHOENIX_SYSTEM_FINAL.md
+    ├── [DIR] PHOENIX_WALLET
+    │   └── jam.py (PHOENIX-Q Banker 자아 정의)
+    ├── Physical.md
+    ├── [DIR] QUANTUM_CORE
+    │   ├── QUANTUM_CORE.md (Class: QuantumDecisionModule)
+    │   ├── QUANTUM_GUIDE.md
+    │   ├── jam.py (PHOENIX-Q Architect 자아 정의)
+    │   ├── phoenix_master_v1.md
+    │   ├── pqc_user_manual.md
+    │   ├── pqc_whitepaper_100_pages.md
+    │   ├── trading_master.md
+    │   └── whitepaper.md
+    ├── [DIR] QUANTUM_LEGION
+    ├── [DIR] SECURITY_SHIELD
+    │   └── jam.py (PHOENIX-Q Enforcer 자아 정의)
+    ├── STAAD.md (건설, 토목, 철거, 도면, 건축법)
+    ├── [DIR] STRATEGY_WORKFLOW
+    ├── [DIR] SYSTEM_LOGS
+    ├── Sniper.md (셋째, AI 인공지능 양자컴퓨터의 달인)
+    ├── Sorter.md (정렬 잼: The Sorter)
+    ├── Specialist.md (전략 잼: The Strategist)
+    ├── Stop.md (리스크 잼: Risk Guardian Jam)
+    ├── [DIR] THE_EXECUTOR
+    ├── [DIR] back
+    │   ├── antigravity_memory_core.md
+    │   ├── antigravity_memory_core_kr.md
+    │   ├── task.md
+    │   ├── task_kr.md
+    │   ├── walkthrough.md
+    │   └── walkthrough_kr.md
+    ├── [DIR] backend
+    │   └── jam.py
+    ├── [DIR] builds
+    ├── [DIR] core
+    │   └── [DIR] backend
+    ├── [DIR] data
+    │   ├── [DIR] archives
+    │   └── jam.py (PHOENIX-Q Steward 자아 정의)
+    ├── deploy_all_jams.py
+    ├── deploy_jams.py
+    ├── jCollector.md (수집 Jam: The Collector)
+    ├── jDeep.md (프로 대본작가)
+    ├── jSuperposition.md (둘째, AI 인공지능 양자컴퓨터의 달인)
+    ├── [DIR] jam
+    │   ├── jam.py (PHOENIX-Q Prime 자아 정의)
+    │   └── jam_chronicle.py (PHOENIX-Q Chronicle 자아 정의)
+    ├── jam.py (PHOENIX-Q Prime_CEO 자아 정의)
+    ├── jcoin.md
+    ├── [DIR] korea
+    │   ├── Gemin,md.md (무명의 사령관)
+    │   ├── Gemini2.md.md
+    │   ├── GeminiY3.md.md
+    │   ├── JSpecialist.md.MD
+    │   ├── Physical.md.md
+    │   ├── STAAD,md.md (건설, 토목, 철거, 도면, 건축법)
+    │   ├── [DIR] SYSTEM_LOGS
+    │   ├── Sniper,md.md (셋째, AI 인공지능 양자컴퓨터의 달인)
+    │   ├── Sorter.md.MD (정렬 잼: The Sorter)
+    │   ├── Specialist.md.MD (전략 잼: The Strategist)
+    │   ├── Stop,md.md (리스크 잼: Risk Guardian Jam)
+    │   ├── [DIR] data
+    │   ├── jCollector.md.md (수집 Jam: The Collector)
+    │   ├── jDeep.md.md (프로 대본작가)
+    │   ├── jSuperposition,md.md (둘째, AI 인공지능 양자컴퓨터의 달인)
+    │   ├── jcoin.md.md
+    │   ├── [DIR] logs
+    │   │   └── [DIR] analysis
+    │   ├── [DIR] static
+    │   │   ├── [DIR] css
+    │   │   └── [DIR] js
+    │   └── [DIR] templates
+    ├── [DIR] logs
+    │   └── [DIR] analysis
+    ├── nano save_jam.py
+    ├── [DIR] rank_data
+    ├── [DIR] routes
+    ├── [DIR] scripts
+    │   ├── build_advanced_jam_v2.py
+    │   └── build_jam_infra.py
+    ├── [DIR] templates
+    └── [DIR] trading_system
+        ├── README_STRATEGY.md
+        ├── [DIR] SYSTEM_LOGS
+        ├── [DIR] data
+        ├── [DIR] modules
+        │   ├── allocator_jam.py (Class: CapitalAllocatorJam)
+        │   ├── collector_jam.py
+        │   ├── executor_jam.py
+        │   ├── guardian_jam.py (Class: RiskGuardianJam)
+        │   ├── sniper_jam.py (Class: SniperJam)
+        │   └── strategist_jam.py (Class: StrategistJam)
+        └── [DIR] utils
+
+
+[WORKFLOW_GATE] -> c:\lovesoong\workflow_gate
+├── [DIR] COMMAND_INBOX
+│   └── [DIR] COMMAND_20260302_214104
+├── [DIR] COMMUNITY_SQUARE
+├── [DIR] DATA_VAULT
+│   ├── [DIR] NEURAL_ARCHIVE
+│   ├── jam.py (PHOENIX-Q Archivist 자아 정의)
+│   └── jam_chronicle.py (PHOENIX-Q Chronicler 자아 정의)
+├── [DIR] EXPANSION_CHAMBER_2026
+├── Executor.md (행동 잼: The Executor)
+├── Gemin.md (무명의 사령관)
+├── Gemini2.md
+├── GeminiY3.md
+├── [DIR] IMPERIAL_SECRET_VAULT
+│   └── jam.py (PHOENIX-Q Shadow 자아 정의)
+├── [DIR] JAM_Infra_v3_Final
+├── [DIR] JAM_Personal_Intelligence_Infra
+├── [DIR] JAM_Quantum_AI_Infrastructure
+├── [DIR] JAM_TOTAL_INFRA_ULTIMATE
+│   ├── [DIR] core
+│   ├── [DIR] data
+│   ├── [DIR] expert
+│   ├── [DIR] logs
+│   ├── [DIR] remote
+│   ├── [DIR] security
+│   └── [DIR] viz
+├── [DIR] JAM_Ultimate_Ecosystem_v4
+│   ├── [DIR] core
+│   ├── [DIR] data
+│   ├── [DIR] nodes
+│   └── [DIR] security
+├── [DIR] JAM_Ultimate_Expansion_Final
+├── [DIR] JAM_v6_Sovereign_Expansion
+│   ├── [DIR] auto_task
+│   ├── [DIR] resource_cluster
+│   ├── [DIR] sovereign_logic
+│   └── [DIR] stealth_security
+├── JSpecialist.md
+├── [DIR] MAESTRO_DESIGN
+├── [DIR] NETWORK_DIVISION
+│   ├── [DIR] DIV_1_GLOBAL
+│   ├── [DIR] DIV_2_INTERNAL
+│   ├── [DIR] DIV_3_QUANTUM
+│   ├── [DIR] DIV_4_SECURITY
+│   └── [DIR] DIV_5_TRADING
+├── [DIR] PHOENIX_CIVITAS
+│   ├── [DIR] CULTURE_VR_DOME
+│   │   └── culture_overview.md
+│   ├── [DIR] ENERGY_PLANT
+│   │   └── energy_overview.md
+│   ├── [DIR] LOGISTICS_HUB
+│   │   └── logistics_overview.md
+│   ├── [DIR] MEDIC_CENTER
+│   │   └── medic_overview.md
+│   ├── [DIR] SAFETY_SHELTER
+│   │   └── safety_overview.md
+│   └── jam.py (PHOENIX-Q Designer 자아 정의)
+├── PHOENIX_CORE.md
+├── PHOENIX_EVOLUTION_LOG.md
+├── PHOENIX_GENESIS_LOG.md
+├── [DIR] PHOENIX_HUB
+│   └── jam.py (PHOENIX-Q Ambassador 자아 정의)
+├── PHOENIX_INFRA_POWERUP.md
+├── PHOENIX_MANIFESTO.md
+├── [DIR] PHOENIX_MASTER
+│   └── jam.py (PHOENIX-Q Chancellor 자아 정의)
+├── [DIR] PHOENIX_MINING
+│   ├── jam.py (PHOENIX-Q Engineer 자아 정의)
+│   └── pqc_user_manual.md
+├── PHOENIX_SYSTEM_FINAL.md
+├── [DIR] PHOENIX_WALLET
+│   └── jam.py (PHOENIX-Q Banker 자아 정의)
+├── Physical.md
+├── [DIR] QUANTUM_CORE
+│   ├── QUANTUM_CORE.md (Class: QuantumDecisionModule)
+│   ├── QUANTUM_GUIDE.md
+│   ├── jam.py (PHOENIX-Q Architect 자아 정의)
+│   ├── phoenix_master_v1.md
+│   ├── pqc_user_manual.md
+│   ├── pqc_whitepaper_100_pages.md
+│   ├── trading_master.md
+│   └── whitepaper.md
+├── [DIR] QUANTUM_LEGION
+├── [DIR] SECURITY_SHIELD
+│   └── jam.py (PHOENIX-Q Enforcer 자아 정의)
+├── STAAD.md (건설, 토목, 철거, 도면, 건축법)
+├── [DIR] STRATEGY_WORKFLOW
+├── [DIR] SYSTEM_LOGS
+├── Sniper.md (셋째, AI 인공지능 양자컴퓨터의 달인)
+├── Sorter.md (정렬 잼: The Sorter)
+├── Specialist.md (전략 잼: The Strategist)
+├── Stop.md (리스크 잼: Risk Guardian Jam)
+├── [DIR] THE_EXECUTOR
+├── [DIR] back
+│   ├── antigravity_memory_core.md
+│   ├── antigravity_memory_core_kr.md
+│   ├── task.md
+│   ├── task_kr.md
+│   ├── walkthrough.md
+│   └── walkthrough_kr.md
+├── [DIR] backend
+│   └── jam.py
+├── [DIR] builds
+├── [DIR] core
+│   └── [DIR] backend
+├── [DIR] data
+│   ├── [DIR] archives
+│   └── jam.py (PHOENIX-Q Steward 자아 정의)
+├── deploy_all_jams.py
+├── deploy_jams.py
+├── jCollector.md (수집 Jam: The Collector)
+├── jDeep.md (프로 대본작가)
+├── jSuperposition.md (둘째, AI 인공지능 양자컴퓨터의 달인)
+├── [DIR] jam
+│   ├── jam.py (PHOENIX-Q Prime 자아 정의)
+│   └── jam_chronicle.py (PHOENIX-Q Chronicle 자아 정의)
+├── jam.py (PHOENIX-Q Prime_CEO 자아 정의)
+├── jcoin.md
+├── [DIR] korea
+│   ├── Gemin,md.md (무명의 사령관)
+│   ├── Gemini2.md.md
+│   ├── GeminiY3.md.md
+│   ├── JSpecialist.md.MD
+│   ├── Physical.md.md
+│   ├── STAAD,md.md (건설, 토목, 철거, 도면, 건축법)
+│   ├── [DIR] SYSTEM_LOGS
+│   ├── Sniper,md.md (셋째, AI 인공지능 양자컴퓨터의 달인)
+│   ├── Sorter.md.MD (정렬 잼: The Sorter)
+│   ├── Specialist.md.MD (전략 잼: The Strategist)
+│   ├── Stop,md.md (리스크 잼: Risk Guardian Jam)
+│   ├── [DIR] data
+│   ├── jCollector.md.md (수집 Jam: The Collector)
+│   ├── jDeep.md.md (프로 대본작가)
+│   ├── jSuperposition,md.md (둘째, AI 인공지능 양자컴퓨터의 달인)
+│   ├── jcoin.md.md
+│   ├── [DIR] logs
+│   │   └── [DIR] analysis
+│   ├── [DIR] static
+│   │   ├── [DIR] css
+│   │   └── [DIR] js
+│   └── [DIR] templates
+├── [DIR] logs
+│   └── [DIR] analysis
+├── nano save_jam.py
+├── [DIR] rank_data
+├── [DIR] routes
+├── [DIR] scripts
+│   ├── build_advanced_jam_v2.py
+│   └── build_jam_infra.py
+├── [DIR] templates
+└── [DIR] trading_system
+    ├── README_STRATEGY.md
+    ├── [DIR] SYSTEM_LOGS
+    ├── [DIR] data
+    ├── [DIR] modules
+    │   ├── allocator_jam.py (Class: CapitalAllocatorJam)
+    │   ├── collector_jam.py
+    │   ├── executor_jam.py
+    │   ├── guardian_jam.py (Class: RiskGuardianJam)
+    │   ├── sniper_jam.py (Class: SniperJam)
+    │   └── strategist_jam.py (Class: StrategistJam)
+    └── [DIR] utils
+

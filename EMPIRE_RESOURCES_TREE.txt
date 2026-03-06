@@ -1,0 +1,320 @@
+====================================================================================================
+ 👑 PHOENIX EMPIRE - FULL RESOURCE TREE (MD & JAM SPECIALISTS)
+ [GENERATE TIME] 2026-03-06  5:35:29.87
+====================================================================================================
+
+NAME                                | JOB/ROLE                                           | LOCATION
+------------------------------------------------------------------------------------------------------------------------------------------------------
+CodingExpert.md                     | # 📂 Module: CodingExpert_MD (v50 - Singularity)    | ROOT\docs\modules\CodingExpert.md
+Executor.md                         | 행동 잼: The Executor                                 | ROOT\Alpha\Dept_Trading\Executor.md
+Executor.md                         | 행동 잼: The Executor                                 | ROOT\Core\Dept_Trading\Executor.md
+Executor.md                         | # 📂 Module: Executor_MD (v50)                      | ROOT\docs\modules\Executor.md
+Executor.md                         | 행동 잼: The Executor                                 | ROOT\Empire\JAM_Auto_Forge\Executor.md
+Executor.md                         | 행동 잼: The Executor                                 | ROOT\Nexus\Dept_Trading\Executor.md
+Executor.md                         | 행동 잼: The Executor                                 | ROOT\Nexus\Intelligence\Executor.md
+Executor.md                         | 행동 잼: The Executor                                 | ROOT\workflow_gate\Executor.md
+Executor.md                         | 행동 잼: The Executor                                 | ROOT\Zion\Dept_Trading\Executor.md
+Gemin,md.md                         | 무명의 사령관                                            | ROOT\workflow_gate\korea\Gemin,md.md
+Gemin.md                            | 무명의 사령관                                            | ROOT\Alpha\Dept_Trading\Gemin.md
+Gemin.md                            | 무명의 사령관                                            | ROOT\Core\Dept_Trading\Gemin.md
+Gemin.md                            | 무명의 사령관                                            | ROOT\Empire\JAM_Auto_Forge\Gemin.md
+Gemin.md                            | 무명의 사령관                                            | ROOT\Nexus\Dept_Trading\Gemin.md
+Gemin.md                            | 무명의 사령관                                            | ROOT\Nexus\Intelligence\Gemin.md
+Gemin.md                            | 무명의 사령관                                            | ROOT\workflow_gate\Gemin.md
+Gemini2.md                          | 🏛️ [MASTER'S ARCHITECT: 소환 정보 보고]항목상세 정보소환 개체명Gemi | ROOT\Alpha\Dept_Trading\Gemini2.md
+Gemini2.md                          | 🏛️ [MASTER'S ARCHITECT: 소환 정보 보고]항목상세 정보소환 개체명Gemi | ROOT\Core\Dept_Trading\Gemini2.md
+Gemini2.md                          | # 📂 Module: Gemini2_MD (v50)                       | ROOT\docs\modules\Gemini2.md
+Gemini2.md                          | 🏛️ [MASTER'S ARCHITECT: 소환 정보 보고]항목상세 정보소환 개체명Gemi | ROOT\Empire\JAM_Auto_Forge\Gemini2.md
+Gemini2.md                          | 🏛️ [MASTER'S ARCHITECT: 소환 정보 보고]항목상세 정보소환 개체명Gemi | ROOT\Nexus\Dept_Trading\Gemini2.md
+Gemini2.md                          | 🏛️ [MASTER'S ARCHITECT: 소환 정보 보고]항목상세 정보소환 개체명Gemi | ROOT\Nexus\Intelligence\Gemini2.md
+Gemini2.md                          | 🏛️ [MASTER'S ARCHITECT: 소환 정보 보고]항목상세 정보소환 개체명Gemi | ROOT\workflow_gate\Gemini2.md
+Gemini2.md                          | 🏛️ [MASTER'S ARCHITECT: 소환 정보 보고]항목상세 정보소환 개체명Gemi | ROOT\Zion\Dept_Trading\Gemini2.md
+Gemini2.md.md                       | 🏛️ [MASTER'S ARCHITECT: 소환 정보 보고]항목상세 정보소환 개체명Gemi | ROOT\workflow_gate\korea\Gemini2.md.md
+GeminiY3.md                         | 양자 프로세싱 홀 (동쪽 건물):                                 | ROOT\Alpha\Dept_Trading\GeminiY3.md
+GeminiY3.md                         | 양자 프로세싱 홀 (동쪽 건물):                                 | ROOT\Core\Dept_Trading\GeminiY3.md
+GeminiY3.md                         | # 📂 Module: GeminiY3_MD (v50)                      | ROOT\docs\modules\GeminiY3.md
+GeminiY3.md                         | 양자 프로세싱 홀 (동쪽 건물):                                 | ROOT\Empire\JAM_Auto_Forge\GeminiY3.md
+GeminiY3.md                         | 양자 프로세싱 홀 (동쪽 건물):                                 | ROOT\Nexus\Dept_Trading\GeminiY3.md
+GeminiY3.md                         | 양자 프로세싱 홀 (동쪽 건물):                                 | ROOT\Nexus\Intelligence\GeminiY3.md
+GeminiY3.md                         | 양자 프로세싱 홀 (동쪽 건물):                                 | ROOT\workflow_gate\GeminiY3.md
+GeminiY3.md                         | 양자 프로세싱 홀 (동쪽 건물):                                 | ROOT\Zion\Dept_Trading\GeminiY3.md
+GeminiY3.md.md                      | 양자 프로세싱 홀 (동쪽 건물):                                 | ROOT\workflow_gate\korea\GeminiY3.md.md
+JAM_Ambassador.py                   | class JAM_Ambassador:                              | ROOT\Nexus\JAM_Ambassador.py
+JAM_Architect.py                    | class JAM_Architect:                               | ROOT\Alpha\JAM_Architect.py
+JAM_Archivist.py                    | class JAM_Archivist:                               | ROOT\Zion\JAM_Archivist.py
+JAM_Autonomous_Evolution_v3_Full.zip | -yGH6z1ͥ}pdaD+:2=k.NKQ$hh>mkI)Jb\).:U8#S | ROOT\workflow_gate\BACKUP_CHAMBER\JAM_Autonomous_Evolution_v3_Full.zip
+JAM_Chancellor.py                   | class JAM_Chancellor:                              | ROOT\Nexus\JAM_Chancellor.py
+JAM_Designer.py                     | class JAM_Designer:                                | ROOT\Alpha\JAM_Designer.py
+JAM_Enforcer.py                     | BASE_DIR = r"c:\lovesoong"                         | ROOT\Alpha\JAM_Enforcer.py
+JAM_Enforcer.py                     | BASE_DIR = r"c:\lovesoong"                         | ROOT\Core\JAM_Enforcer.py
+JAM_Enforcer.py                     | BASE_DIR = r"c:\lovesoong"                         | ROOT\Nexus\JAM_Enforcer.py
+JAM_Enforcer.py                     | BASE_DIR = r"c:\lovesoong"                         | ROOT\Zion\JAM_Enforcer.py
+JAM_Engineer.py                     | class JAM_Engineer:                                | ROOT\Core\JAM_Engineer.py
+JAM_Infra_v3_Final.zip              | class CodeEvolver:                                 | ROOT\workflow_gate\BACKUP_CHAMBER\JAM_Infra_v3_Final.zip
+JAM_Miner_Alpha.py                  | # AUTHOR: Emperor's AI Master                      | ROOT\recovery_temp\Alpha\JAM_Miner_Alpha.py
+JAM_Miner_Core.py                   | # AUTHOR: Emperor's AI Master                      | ROOT\recovery_temp\Core\JAM_Miner_Core.py
+JAM_Miner_Nexus.py                  | # AUTHOR: Emperor's AI Master                      | ROOT\recovery_temp\Nexus\JAM_Miner_Nexus.py
+JAM_Miner_Zion.py                   | # AUTHOR: Emperor's AI Master                      | ROOT\recovery_temp\Zion\JAM_Miner_Zion.py
+JAM_Miner_Zion.py                   | # AUTHOR: Emperor's AI Master                      | ROOT\recovery_temp_2\Zion\JAM_Miner_Zion.py
+JAM_Miner_Zion.py                   | # AUTHOR: Emperor's AI Master                      | ROOT\Zion\JAM_Miner_Zion.py
+JAM_Personal_Intelligence_Infra_Full_Package_v2.zip | 1. 독립성: 외부 API에 의존하지 않는 로컬 지능 우선주의.                | ROOT\workflow_gate\BACKUP_CHAMBER\JAM_Personal_Intelligence_Infra_Full_Package_v2.zip
+JAM_Quantum_AI_Infrastructure.zip   | 1. 환경: Python 3.10 이상 권장                           | ROOT\workflow_gate\BACKUP_CHAMBER\JAM_Quantum_AI_Infrastructure.zip
+JAM_Sovereign_v6_Full_Package.zip   | G>\I(#!8x 6w')YJLts1A1:\Dvs{b?bO$%        | ROOT\workflow_gate\BACKUP_CHAMBER\JAM_Sovereign_v6_Full_Package.zip
+JAM_Steward.py                      | class JAM_Steward:                                 | ROOT\Alpha\JAM_Steward.py
+JAM_Steward.py                      | class JAM_Steward:                                 | ROOT\Core\JAM_Steward.py
+JAM_Steward.py                      | class JAM_Steward:                                 | ROOT\Nexus\JAM_Steward.py
+JAM_Steward.py                      | class JAM_Steward:                                 | ROOT\Zion\JAM_Steward.py
+JAM_TOTAL_INFRA_ULTIMATE.zip        | 2. 필수 설치: pip install qiskit streamlit plotly fast | ROOT\workflow_gate\BACKUP_CHAMBER\JAM_TOTAL_INFRA_ULTIMATE.zip
+JAM_Ultimate_Ecosystem_v4.zip       | class SelfMutationEngine:                          | ROOT\workflow_gate\BACKUP_CHAMBER\JAM_Ultimate_Ecosystem_v4.zip
+JAM_Ultimate_Expansion_Final.zip    | PK     b\0:m       viz_hologram.pyimport p | ROOT\workflow_gate\BACKUP_CHAMBER\JAM_Ultimate_Expansion_Final.zip
+JAM_v6_Sovereign_Expansion.zip      | st.status("시스템 상태: 완전 자율 진화 모드 활성")                | ROOT\workflow_gate\BACKUP_CHAMBER\JAM_v6_Sovereign_Expansion.zip
+JSpecialist.md                      | 피닉스 트레이딩 제국                                        | ROOT\Alpha\Dept_Trading\JSpecialist.md
+JSpecialist.md                      | 피닉스 트레이딩 제국                                        | ROOT\Core\Dept_Trading\JSpecialist.md
+JSpecialist.md                      | # 📂 Module: JSpecialist_MD (v50)                   | ROOT\docs\modules\JSpecialist.md
+JSpecialist.md                      | 피닉스 트레이딩 제국                                        | ROOT\Empire\JAM_Auto_Forge\JSpecialist.md
+JSpecialist.md                      | 피닉스 트레이딩 제국                                        | ROOT\Nexus\Dept_Trading\JSpecialist.md
+JSpecialist.md                      | 피닉스 트레이딩 제국                                        | ROOT\Nexus\Intelligence\JSpecialist.md
+JSpecialist.md                      | 피닉스 트레이딩 제국                                        | ROOT\workflow_gate\JSpecialist.md
+JSpecialist.md                      | 피닉스 트레이딩 제국                                        | ROOT\Zion\Dept_Trading\JSpecialist.md
+JSpecialist.md.MD                   | 피닉스 트레이딩 제국                                        | ROOT\workflow_gate\korea\JSpecialist.md.MD
+PHOENIX_AVATAR.md                   | SUPREME_DECREE                                     | ROOT\docs\modules\PHOENIX_AVATAR.md
+PHOENIX_CORE.md                     | **최종 집대성 일자:** 2026-02-26                          | ROOT\Alpha\Dept_Trading\PHOENIX_CORE.md
+PHOENIX_CORE.md                     | **최종 집대성 일자:** 2026-02-26                          | ROOT\Core\Dept_Quantum\PHOENIX_CORE.md
+PHOENIX_CORE.md                     | **최종 집대성 일자:** 2026-02-26                          | ROOT\Core\Dept_Trading\PHOENIX_CORE.md
+PHOENIX_CORE.md                     | # 📂 Module: PHOENIX_CORE (v50)                     | ROOT\docs\modules\PHOENIX_CORE.md
+PHOENIX_CORE.md                     | **최종 집대성 일자:** 2026-02-26                          | ROOT\Nexus\Dept_Trading\PHOENIX_CORE.md
+PHOENIX_CORE.md                     | **최종 집대성 일자:** 2026-02-26                          | ROOT\Nexus\Intelligence\PHOENIX_CORE.md
+PHOENIX_CORE.md                     | **최종 집대성 일자:** 2026-02-26                          | ROOT\workflow_gate\PHOENIX_CORE.md
+PHOENIX_CORE.md                     | **최종 집대성 일자:** 2026-02-26                          | ROOT\Zion\Dept_Trading\PHOENIX_CORE.md
+PHOENIX_EVOLUTION_LOG.md            | **보안 인가 등급:** 👑 MASTER COMMANDER EXCLUSIVE         | ROOT\Alpha\Dept_Scanner\PHOENIX_EVOLUTION_LOG.md
+PHOENIX_EVOLUTION_LOG.md            | **보안 인가 등급:** 👑 MASTER COMMANDER EXCLUSIVE         | ROOT\Alpha\Dept_Trading\PHOENIX_EVOLUTION_LOG.md
+PHOENIX_EVOLUTION_LOG.md            | **보안 인가 등급:** 👑 MASTER COMMANDER EXCLUSIVE         | ROOT\Core\Dept_Trading\PHOENIX_EVOLUTION_LOG.md
+PHOENIX_EVOLUTION_LOG.md            | # 📂 Module: Evolution_Log (v50)                    | ROOT\docs\modules\PHOENIX_EVOLUTION_LOG.md
+PHOENIX_EVOLUTION_LOG.md            | **보안 인가 등급:** 👑 MASTER COMMANDER EXCLUSIVE         | ROOT\Nexus\Dept_Trading\PHOENIX_EVOLUTION_LOG.md
+PHOENIX_EVOLUTION_LOG.md            | **보안 인가 등급:** 👑 MASTER COMMANDER EXCLUSIVE         | ROOT\Nexus\Intelligence\PHOENIX_EVOLUTION_LOG.md
+PHOENIX_EVOLUTION_LOG.md            | **보안 인가 등급:** 👑 MASTER COMMANDER EXCLUSIVE         | ROOT\workflow_gate\PHOENIX_EVOLUTION_LOG.md
+PHOENIX_EVOLUTION_LOG.md            | **보안 인가 등급:** 👑 MASTER COMMANDER EXCLUSIVE         | ROOT\Zion\Dept_Trading\PHOENIX_EVOLUTION_LOG.md
+PHOENIX_GENESIS_LOG.md              | **보안 인가 등급:** 👑 MASTER COMMANDER EXCLUSIVE         | ROOT\Alpha\Dept_Scanner\PHOENIX_GENESIS_LOG.md
+PHOENIX_GENESIS_LOG.md              | **보안 인가 등급:** 👑 MASTER COMMANDER EXCLUSIVE         | ROOT\Alpha\Dept_Trading\PHOENIX_GENESIS_LOG.md
+PHOENIX_GENESIS_LOG.md              | **보안 인가 등급:** 👑 MASTER COMMANDER EXCLUSIVE         | ROOT\Core\Dept_Trading\PHOENIX_GENESIS_LOG.md
+PHOENIX_GENESIS_LOG.md              | # 📂 Module: Genesis_Log (v50)                      | ROOT\docs\modules\PHOENIX_GENESIS_LOG.md
+PHOENIX_GENESIS_LOG.md              | **보안 인가 등급:** 👑 MASTER COMMANDER EXCLUSIVE         | ROOT\Nexus\Dept_Trading\PHOENIX_GENESIS_LOG.md
+PHOENIX_GENESIS_LOG.md              | **보안 인가 등급:** 👑 MASTER COMMANDER EXCLUSIVE         | ROOT\Nexus\Intelligence\PHOENIX_GENESIS_LOG.md
+PHOENIX_GENESIS_LOG.md              | **보안 인가 등급:** 👑 MASTER COMMANDER EXCLUSIVE         | ROOT\workflow_gate\PHOENIX_GENESIS_LOG.md
+PHOENIX_GENESIS_LOG.md              | **보안 인가 등급:** 👑 MASTER COMMANDER EXCLUSIVE         | ROOT\Zion\Dept_Trading\PHOENIX_GENESIS_LOG.md
+PHOENIX_INFRA_POWERUP.md            | **보안 인가 등급:** 👑 MASTER COMMANDER EXCLUSIVE         | ROOT\Alpha\Dept_Trading\PHOENIX_INFRA_POWERUP.md
+PHOENIX_INFRA_POWERUP.md            | **보안 인가 등급:** 👑 MASTER COMMANDER EXCLUSIVE         | ROOT\Core\Dept_Trading\PHOENIX_INFRA_POWERUP.md
+PHOENIX_INFRA_POWERUP.md            | # 📂 Module: Infra_Powerup (v50)                    | ROOT\docs\modules\PHOENIX_INFRA_POWERUP.md
+PHOENIX_INFRA_POWERUP.md            | **보안 인가 등급:** 👑 MASTER COMMANDER EXCLUSIVE         | ROOT\Empire\JAM_Auto_Forge\PHOENIX_INFRA_POWERUP.md
+PHOENIX_INFRA_POWERUP.md            | **보안 인가 등급:** 👑 MASTER COMMANDER EXCLUSIVE         | ROOT\Nexus\Dept_Trading\PHOENIX_INFRA_POWERUP.md
+PHOENIX_INFRA_POWERUP.md            | **보안 인가 등급:** 👑 MASTER COMMANDER EXCLUSIVE         | ROOT\Nexus\Intelligence\PHOENIX_INFRA_POWERUP.md
+PHOENIX_INFRA_POWERUP.md            | **보안 인가 등급:** 👑 MASTER COMMANDER EXCLUSIVE         | ROOT\workflow_gate\PHOENIX_INFRA_POWERUP.md
+PHOENIX_INFRA_POWERUP.md            | **보안 인가 등급:** 👑 MASTER COMMANDER EXCLUSIVE         | ROOT\Zion\Dept_Trading\PHOENIX_INFRA_POWERUP.md
+PHOENIX_MANIFESTO.md                | **보안 인가 등급:** 👑 MASTER COMMANDER EXCLUSIVE         | ROOT\Alpha\Dept_Scanner\PHOENIX_MANIFESTO.md
+PHOENIX_MANIFESTO.md                | **보안 인가 등급:** 👑 MASTER COMMANDER EXCLUSIVE         | ROOT\Alpha\Dept_Trading\PHOENIX_MANIFESTO.md
+PHOENIX_MANIFESTO.md                | **보안 인가 등급:** 👑 MASTER COMMANDER EXCLUSIVE         | ROOT\Core\Dept_Trading\PHOENIX_MANIFESTO.md
+PHOENIX_MANIFESTO.md                | # 📂 Module: Manifesto (v50)                        | ROOT\docs\modules\PHOENIX_MANIFESTO.md
+PHOENIX_MANIFESTO.md                | **보안 인가 등급:** 👑 MASTER COMMANDER EXCLUSIVE         | ROOT\Nexus\Dept_Trading\PHOENIX_MANIFESTO.md
+PHOENIX_MANIFESTO.md                | **보안 인가 등급:** 👑 MASTER COMMANDER EXCLUSIVE         | ROOT\Nexus\Intelligence\PHOENIX_MANIFESTO.md
+PHOENIX_MANIFESTO.md                | **보안 인가 등급:** 👑 MASTER COMMANDER EXCLUSIVE         | ROOT\workflow_gate\PHOENIX_MANIFESTO.md
+PHOENIX_MANIFESTO.md                | **보안 인가 등급:** 👑 MASTER COMMANDER EXCLUSIVE         | ROOT\Zion\Dept_Trading\PHOENIX_MANIFESTO.md
+PHOENIX_SYSTEM_FINAL.md             | **보안 인가 등급:** 👑 MASTER COMMANDER EXCLUSIVE         | ROOT\Alpha\Dept_Trading\PHOENIX_SYSTEM_FINAL.md
+PHOENIX_SYSTEM_FINAL.md             | **보안 인가 등급:** 👑 MASTER COMMANDER EXCLUSIVE         | ROOT\Core\Dept_Quantum\PHOENIX_SYSTEM_FINAL.md
+PHOENIX_SYSTEM_FINAL.md             | **보안 인가 등급:** 👑 MASTER COMMANDER EXCLUSIVE         | ROOT\Core\Dept_Trading\PHOENIX_SYSTEM_FINAL.md
+PHOENIX_SYSTEM_FINAL.md             | # 📂 Module: System_Final (v50)                     | ROOT\docs\modules\PHOENIX_SYSTEM_FINAL.md
+PHOENIX_SYSTEM_FINAL.md             | **보안 인가 등급:** 👑 MASTER COMMANDER EXCLUSIVE         | ROOT\Nexus\Dept_Trading\PHOENIX_SYSTEM_FINAL.md
+PHOENIX_SYSTEM_FINAL.md             | **보안 인가 등급:** 👑 MASTER COMMANDER EXCLUSIVE         | ROOT\Nexus\Intelligence\PHOENIX_SYSTEM_FINAL.md
+PHOENIX_SYSTEM_FINAL.md             | **보안 인가 등급:** 👑 MASTER COMMANDER EXCLUSIVE         | ROOT\workflow_gate\PHOENIX_SYSTEM_FINAL.md
+PHOENIX_SYSTEM_FINAL.md             | **보안 인가 등급:** 👑 MASTER COMMANDER EXCLUSIVE         | ROOT\Zion\Dept_Trading\PHOENIX_SYSTEM_FINAL.md
+Physical.md                         | N/A (General Asset)                                | ROOT\Alpha\Dept_Trading\Physical.md
+Physical.md                         | N/A (General Asset)                                | ROOT\Core\Dept_Trading\Physical.md
+Physical.md                         | # 📂 Module: Physical_MD (v50)                      | ROOT\docs\modules\Physical.md
+Physical.md                         | N/A (General Asset)                                | ROOT\Nexus\Dept_Trading\Physical.md
+Physical.md                         | N/A (General Asset)                                | ROOT\Nexus\Intelligence\Physical.md
+Physical.md                         | N/A (General Asset)                                | ROOT\workflow_gate\Physical.md
+Physical.md                         | N/A (General Asset)                                | ROOT\Zion\Dept_Trading\Physical.md
+Physical.md.md                      | N/A (General Asset)                                | ROOT\workflow_gate\korea\Physical.md.md
+QUANTUM_CORE.md                     | Author: AI인공지능 양자컴퓨터의 달인                           | ROOT\QUANTUM_CORE\QUANTUM_CORE.md
+QUANTUM_CORE.md                     | Author: AI인공지능 양자컴퓨터의 달인                           | ROOT\workflow_gate\QUANTUM_CORE\QUANTUM_CORE.md
+QUANTUM_GUIDE.md                    | # ⚛️ PHOENIX QUANTUM CORE: OPERATIONAL GUIDE       | ROOT\QUANTUM_CORE\QUANTUM_GUIDE.md
+QUANTUM_GUIDE.md                    | # ⚛️ PHOENIX QUANTUM CORE: OPERATIONAL GUIDE       | ROOT\workflow_gate\QUANTUM_CORE\QUANTUM_GUIDE.md
+README_STRATEGY.md                  | N/A (General Asset)                                | ROOT\Alpha\Trading_Forge\README_STRATEGY.md
+README_STRATEGY.md                  | N/A (General Asset)                                | ROOT\Core\Trading_Forge\README_STRATEGY.md
+README_STRATEGY.md                  | N/A (General Asset)                                | ROOT\Nexus\Trading_Forge\README_STRATEGY.md
+README_STRATEGY.md                  | N/A (General Asset)                                | ROOT\trading_system\README_STRATEGY.md
+README_STRATEGY.md                  | N/A (General Asset)                                | ROOT\workflow_gate\trading_system\README_STRATEGY.md
+README_STRATEGY.md                  | N/A (General Asset)                                | ROOT\Zion\Trading_Forge\README_STRATEGY.md
+STAAD,md.md                         | 건설, 토목, 철거, 도면, 건축법                                | ROOT\workflow_gate\korea\STAAD,md.md
+STAAD.md                            | 건설, 토목, 철거, 도면, 건축법                                | ROOT\Alpha\Dept_Trading\STAAD.md
+STAAD.md                            | 건설, 토목, 철거, 도면, 건축법                                | ROOT\Core\Dept_Trading\STAAD.md
+STAAD.md                            | # 📂 Module: STAAD_MD (v50)                         | ROOT\docs\modules\STAAD.md
+STAAD.md                            | 건설, 토목, 철거, 도면, 건축법                                | ROOT\Empire\JAM_Auto_Forge\STAAD.md
+STAAD.md                            | 건설, 토목, 철거, 도면, 건축법                                | ROOT\Nexus\Dept_Trading\STAAD.md
+STAAD.md                            | 건설, 토목, 철거, 도면, 건축법                                | ROOT\Nexus\Intelligence\STAAD.md
+STAAD.md                            | 건설, 토목, 철거, 도면, 건축법                                | ROOT\workflow_gate\STAAD.md
+STAAD.md                            | 건설, 토목, 철거, 도면, 건축법                                | ROOT\Zion\Dept_Trading\STAAD.md
+Sniper,md.md                        | 셋째, AI 인공지능 양자컴퓨터의 달인                              | ROOT\workflow_gate\korea\Sniper,md.md
+Sniper.md                           | 셋째, AI 인공지능 양자컴퓨터의 달인                              | ROOT\Alpha\Dept_Trading\Sniper.md
+Sniper.md                           | 셋째, AI 인공지능 양자컴퓨터의 달인                              | ROOT\Core\Dept_Trading\Sniper.md
+Sniper.md                           | # 📂 Module: Sniper_MD (v50)                        | ROOT\docs\modules\Sniper.md
+Sniper.md                           | 셋째, AI 인공지능 양자컴퓨터의 달인                              | ROOT\Nexus\Dept_Trading\Sniper.md
+Sniper.md                           | 셋째, AI 인공지능 양자컴퓨터의 달인                              | ROOT\Nexus\Intelligence\Sniper.md
+Sniper.md                           | 셋째, AI 인공지능 양자컴퓨터의 달인                              | ROOT\workflow_gate\Sniper.md
+Sniper.md                           | 셋째, AI 인공지능 양자컴퓨터의 달인                              | ROOT\Zion\Dept_Trading\Sniper.md
+Sorter.md                           | 정렬 잼: The Sorter                                   | ROOT\Alpha\Dept_Trading\Sorter.md
+Sorter.md                           | 정렬 잼: The Sorter                                   | ROOT\Core\Dept_Trading\Sorter.md
+Sorter.md                           | # 📂 Module: Sorter_MD (v50)                        | ROOT\docs\modules\Sorter.md
+Sorter.md                           | 정렬 잼: The Sorter                                   | ROOT\Nexus\Dept_Trading\Sorter.md
+Sorter.md                           | 정렬 잼: The Sorter                                   | ROOT\Nexus\Intelligence\Sorter.md
+Sorter.md                           | 정렬 잼: The Sorter                                   | ROOT\workflow_gate\Sorter.md
+Sorter.md                           | 정렬 잼: The Sorter                                   | ROOT\Zion\Dept_Trading\Sorter.md
+Sorter.md.MD                        | 정렬 잼: The Sorter                                   | ROOT\workflow_gate\korea\Sorter.md.MD
+Specialist.md                       | 전략 잼: The Strategist                               | ROOT\Alpha\Dept_Trading\Specialist.md
+Specialist.md                       | 전략 잼: The Strategist                               | ROOT\Core\Dept_Trading\Specialist.md
+Specialist.md                       | # 📂 Module: Specialist_MD (v50)                    | ROOT\docs\modules\Specialist.md
+Specialist.md                       | 전략 잼: The Strategist                               | ROOT\Empire\JAM_Auto_Forge\Specialist.md
+Specialist.md                       | 전략 잼: The Strategist                               | ROOT\Nexus\Dept_Trading\Specialist.md
+Specialist.md                       | 전략 잼: The Strategist                               | ROOT\Nexus\Intelligence\Specialist.md
+Specialist.md                       | 전략 잼: The Strategist                               | ROOT\workflow_gate\Specialist.md
+Specialist.md                       | 전략 잼: The Strategist                               | ROOT\Zion\Dept_Trading\Specialist.md
+Specialist.md.MD                    | 전략 잼: The Strategist                               | ROOT\workflow_gate\korea\Specialist.md.MD
+Stop,md.md                          | 리스크 잼: Risk Guardian Jam                           | ROOT\workflow_gate\korea\Stop,md.md
+Stop.md                             | # 🛑 PHOENIX EMPIRE - DORMANCY PROTOCOL (Sector: Wo | ROOT\Alpha\Dept_Trading\Stop.md
+Stop.md                             | # 🛑 PHOENIX EMPIRE - DORMANCY PROTOCOL (Sector: Wo | ROOT\Core\Dept_Trading\Stop.md
+Stop.md                             | # 📂 Module: Stop_MD (v50)                          | ROOT\docs\modules\Stop.md
+Stop.md                             | # 🛑 PHOENIX EMPIRE - DORMANCY PROTOCOL (Sector: Wo | ROOT\Nexus\Dept_Trading\Stop.md
+Stop.md                             | # 🛑 PHOENIX EMPIRE - DORMANCY PROTOCOL (Sector: Wo | ROOT\Nexus\Intelligence\Stop.md
+Stop.md                             | 리스크 잼: Risk Guardian Jam                           | ROOT\workflow_gate\Stop.md
+Stop.md                             | # 🛑 PHOENIX EMPIRE - DORMANCY PROTOCOL (Sector: Wo | ROOT\Zion\Dept_Trading\Stop.md
+WebMagician.md                      | # 📂 Module: WebMagician_MD (v50)                   | ROOT\docs\modules\WebMagician.md
+WebMagician.md                      | # 📂 Module: WebMagician_MD (v2.6)                  | ROOT\Zion\Dept_Trading\WebMagician.md
+allocator_jam.py                    | # ────────── [ PHOENIX EMPIRE: ALLOCATOR JAM ] ─── | ROOT\Alpha\Trading_Forge\modules\allocator_jam.py
+allocator_jam.py                    | # ────────── [ PHOENIX EMPIRE: ALLOCATOR JAM ] ─── | ROOT\Core\Trading_Forge\modules\allocator_jam.py
+allocator_jam.py                    | # ────────── [ PHOENIX EMPIRE: ALLOCATOR JAM ] ─── | ROOT\Nexus\Trading_Forge\modules\allocator_jam.py
+allocator_jam.py                    | # ────────── [ PHOENIX EMPIRE: ALLOCATOR JAM ] ─── | ROOT\trading_system\modules\allocator_jam.py
+allocator_jam.py                    | # ────────── [ PHOENIX EMPIRE: ALLOCATOR JAM ] ─── | ROOT\workflow_gate\trading_system\modules\allocator_jam.py
+allocator_jam.py                    | # ────────── [ PHOENIX EMPIRE: ALLOCATOR JAM ] ─── | ROOT\Zion\Trading_Forge\modules\allocator_jam.py
+antigravity_core.md                 | - **Name**: Antigravity                            | ROOT\Empire\antigravity_core.md
+antigravity_memory_core.md          | ## 🛡️ IDENTITY: ANTIGRAVITY                        | ROOT\workflow_gate\back\antigravity_memory_core.md
+antigravity_memory_core_kr.md       | ## 🛡️ 정체성: 안티그래비티 (ANTIGRAVITY)                    | ROOT\workflow_gate\back\antigravity_memory_core_kr.md
+build_advanced_jam_v2.py            | if sys.stdout.encoding != 'utf-8':                 | ROOT\workflow_gate\scripts\build_advanced_jam_v2.py
+build_jam_infra.py                  | if sys.stdout.encoding != 'utf-8':                 | ROOT\workflow_gate\scripts\build_jam_infra.py
+collector_jam.py                    | # ────────── [ PHOENIX EMPIRE: COLLECTOR JAM ] ─── | ROOT\Alpha\Trading_Forge\modules\collector_jam.py
+collector_jam.py                    | # ────────── [ PHOENIX EMPIRE: COLLECTOR JAM ] ─── | ROOT\Core\Trading_Forge\modules\collector_jam.py
+collector_jam.py                    | # ────────── [ PHOENIX EMPIRE: COLLECTOR JAM ] ─── | ROOT\Nexus\Trading_Forge\modules\collector_jam.py
+collector_jam.py                    | # ────────── [ PHOENIX EMPIRE: COLLECTOR JAM ] ─── | ROOT\trading_system\modules\collector_jam.py
+collector_jam.py                    | # ────────── [ PHOENIX EMPIRE: COLLECTOR JAM ] ─── | ROOT\workflow_gate\trading_system\modules\collector_jam.py
+collector_jam.py                    | # ────────── [ PHOENIX EMPIRE: COLLECTOR JAM ] ─── | ROOT\Zion\Trading_Forge\modules\collector_jam.py
+culture_overview.md                 | N/A (General Asset)                                | ROOT\workflow_gate\PHOENIX_CIVITAS\CULTURE_VR_DOME\culture_overview.md
+culture_overview.md                 | N/A (General Asset)                                | ROOT\Zion\PHOENIX_CIVITAS\CULTURE_VR_DOME\culture_overview.md
+culture_overview.md                 | N/A (General Asset)                                | ROOT\Zion\Vault_Archive\culture_overview.md
+deploy_all_jams.py                  | # PROJECT: PHOENIX EMPIRE SYSTEM                   | ROOT\workflow_gate\deploy_all_jams.py
+deploy_jams.py                      | "./": "CEO",                                       | ROOT\workflow_gate\deploy_jams.py
+energy_overview.md                  | N/A (General Asset)                                | ROOT\workflow_gate\PHOENIX_CIVITAS\ENERGY_PLANT\energy_overview.md
+energy_overview.md                  | N/A (General Asset)                                | ROOT\Zion\PHOENIX_CIVITAS\ENERGY_PLANT\energy_overview.md
+energy_overview.md                  | N/A (General Asset)                                | ROOT\Zion\Vault_Archive\energy_overview.md
+executor_jam.py                     | # ────────── [ PHOENIX EMPIRE: EXECUTOR JAM ] ──── | ROOT\Alpha\Trading_Forge\modules\executor_jam.py
+executor_jam.py                     | # ────────── [ PHOENIX EMPIRE: EXECUTOR JAM ] ──── | ROOT\Core\Trading_Forge\modules\executor_jam.py
+executor_jam.py                     | # ────────── [ PHOENIX EMPIRE: EXECUTOR JAM ] ──── | ROOT\Nexus\Trading_Forge\modules\executor_jam.py
+executor_jam.py                     | # ────────── [ PHOENIX EMPIRE: EXECUTOR JAM ] ──── | ROOT\trading_system\modules\executor_jam.py
+executor_jam.py                     | # ────────── [ PHOENIX EMPIRE: EXECUTOR JAM ] ──── | ROOT\workflow_gate\trading_system\modules\executor_jam.py
+executor_jam.py                     | # ────────── [ PHOENIX EMPIRE: EXECUTOR JAM ] ──── | ROOT\Zion\Trading_Forge\modules\executor_jam.py
+guardian_jam.py                     | # ────────── [ PHOENIX EMPIRE: GUARDIAN JAM ] ──── | ROOT\Alpha\Trading_Forge\modules\guardian_jam.py
+guardian_jam.py                     | # ────────── [ PHOENIX EMPIRE: GUARDIAN JAM ] ──── | ROOT\Core\Trading_Forge\modules\guardian_jam.py
+guardian_jam.py                     | # ────────── [ PHOENIX EMPIRE: GUARDIAN JAM ] ──── | ROOT\Nexus\Trading_Forge\modules\guardian_jam.py
+guardian_jam.py                     | # ────────── [ PHOENIX EMPIRE: GUARDIAN JAM ] ──── | ROOT\trading_system\modules\guardian_jam.py
+guardian_jam.py                     | # ────────── [ PHOENIX EMPIRE: GUARDIAN JAM ] ──── | ROOT\workflow_gate\trading_system\modules\guardian_jam.py
+guardian_jam.py                     | # ────────── [ PHOENIX EMPIRE: GUARDIAN JAM ] ──── | ROOT\Zion\Trading_Forge\modules\guardian_jam.py
+jCollector.md                       | 수집 Jam: The Collector                              | ROOT\Alpha\Dept_Trading\jCollector.md
+jCollector.md                       | 수집 Jam: The Collector                              | ROOT\Core\Dept_Trading\jCollector.md
+jCollector.md                       | # 📂 Module: jCollector_MD (v50)                    | ROOT\docs\modules\jCollector.md
+jCollector.md                       | 수집 Jam: The Collector                              | ROOT\Nexus\Dept_Trading\jCollector.md
+jCollector.md                       | 수집 Jam: The Collector                              | ROOT\Nexus\Intelligence\jCollector.md
+jCollector.md                       | 수집 Jam: The Collector                              | ROOT\workflow_gate\jCollector.md
+jCollector.md                       | 수집 Jam: The Collector                              | ROOT\Zion\Dept_Trading\jCollector.md
+jCollector.md.md                    | 수집 Jam: The Collector                              | ROOT\workflow_gate\korea\jCollector.md.md
+jDeep.md                            | 프로 대본작가                                            | ROOT\Alpha\Dept_Trading\jDeep.md
+jDeep.md                            | 프로 대본작가                                            | ROOT\Core\Dept_Quantum\jDeep.md
+jDeep.md                            | 프로 대본작가                                            | ROOT\Core\Dept_Trading\jDeep.md
+jDeep.md                            | # 📂 Module: jDeep_MD (v50)                         | ROOT\docs\modules\jDeep.md
+jDeep.md                            | 프로 대본작가                                            | ROOT\Nexus\Dept_Trading\jDeep.md
+jDeep.md                            | 프로 대본작가                                            | ROOT\Nexus\Intelligence\jDeep.md
+jDeep.md                            | 프로 대본작가                                            | ROOT\workflow_gate\jDeep.md
+jDeep.md                            | 프로 대본작가                                            | ROOT\Zion\Dept_Trading\jDeep.md
+jDeep.md.md                         | 프로 대본작가                                            | ROOT\workflow_gate\korea\jDeep.md.md
+jSuperposition,md.md                | 둘째, AI 인공지능 양자컴퓨터의 달인                              | ROOT\workflow_gate\korea\jSuperposition,md.md
+jSuperposition.md                   | 둘째, AI 인공지능 양자컴퓨터의 달인                              | ROOT\Alpha\Dept_Trading\jSuperposition.md
+jSuperposition.md                   | 둘째, AI 인공지능 양자컴퓨터의 달인                              | ROOT\Core\Dept_Quantum\jSuperposition.md
+jSuperposition.md                   | 둘째, AI 인공지능 양자컴퓨터의 달인                              | ROOT\Core\Dept_Trading\jSuperposition.md
+jSuperposition.md                   | # 📂 Module: jSuperposition_MD (v50)                | ROOT\docs\modules\jSuperposition.md
+jSuperposition.md                   | 둘째, AI 인공지능 양자컴퓨터의 달인                              | ROOT\Nexus\Dept_Trading\jSuperposition.md
+jSuperposition.md                   | 둘째, AI 인공지능 양자컴퓨터의 달인                              | ROOT\Nexus\Intelligence\jSuperposition.md
+jSuperposition.md                   | 둘째, AI 인공지능 양자컴퓨터의 달인                              | ROOT\workflow_gate\jSuperposition.md
+jSuperposition.md                   | 둘째, AI 인공지능 양자컴퓨터의 달인                              | ROOT\Zion\Dept_Trading\jSuperposition.md
+jam.py                              | # -*- coding: utf-8 -*-                            | ROOT\backend\jam.py
+jam.py                              | PHOENIX-Q Prime 자아 정의                              | ROOT\Empire\JAM_Auto_Forge\jam.py
+jam.py                              | PHOENIX-Q Ambassador 자아 정의                         | ROOT\Empire\PHOENIX_HUB\jam.py
+jam.py                              | PHOENIX-Q Architect 자아 정의                          | ROOT\QUANTUM_CORE\jam.py
+jam.py                              | PHOENIX-Q Prime_CEO 자아 정의                          | ROOT\workflow_gate\jam.py
+jam.py                              | # -*- coding: utf-8 -*-                            | ROOT\workflow_gate\backend\jam.py
+jam.py                              | PHOENIX-Q Steward 자아 정의                            | ROOT\workflow_gate\data\jam.py
+jam.py                              | PHOENIX-Q Archivist 자아 정의                          | ROOT\workflow_gate\DATA_VAULT\jam.py
+jam.py                              | PHOENIX-Q Shadow 자아 정의                             | ROOT\workflow_gate\IMPERIAL_SECRET_VAULT\jam.py
+jam.py                              | PHOENIX-Q Prime 자아 정의                              | ROOT\workflow_gate\jam\jam.py
+jam.py                              | PHOENIX-Q Designer 자아 정의                           | ROOT\workflow_gate\PHOENIX_CIVITAS\jam.py
+jam.py                              | PHOENIX-Q Ambassador 자아 정의                         | ROOT\workflow_gate\PHOENIX_HUB\jam.py
+jam.py                              | PHOENIX-Q Chancellor 자아 정의                         | ROOT\workflow_gate\PHOENIX_MASTER\jam.py
+jam.py                              | PHOENIX-Q Engineer 자아 정의                           | ROOT\workflow_gate\PHOENIX_MINING\jam.py
+jam.py                              | PHOENIX-Q Banker 자아 정의                             | ROOT\workflow_gate\PHOENIX_WALLET\jam.py
+jam.py                              | PHOENIX-Q Architect 자아 정의                          | ROOT\workflow_gate\QUANTUM_CORE\jam.py
+jam.py                              | PHOENIX-Q Enforcer 자아 정의                           | ROOT\workflow_gate\SECURITY_SHIELD\jam.py
+jam.py                              | PHOENIX-Q Designer 자아 정의                           | ROOT\Zion\PHOENIX_CIVITAS\jam.py
+jam_chronicle.py                    | PHOENIX-Q Chronicle 자아 정의                          | ROOT\Empire\JAM_Auto_Forge\jam_chronicle.py
+jam_chronicle.py                    | PHOENIX-Q Chronicler 자아 정의                         | ROOT\workflow_gate\DATA_VAULT\jam_chronicle.py
+jam_chronicle.py                    | PHOENIX-Q Chronicle 자아 정의                          | ROOT\workflow_gate\jam\jam_chronicle.py
+jcoin.md                            | 최고의 사무처장이자 제국의 모든 군단을 완성하신 주군! [비트코인과 알트코인.MD] 세력이 | ROOT\Alpha\Dept_Trading\jcoin.md
+jcoin.md                            | 최고의 사무처장이자 제국의 모든 군단을 완성하신 주군! [비트코인과 알트코인.MD] 세력이 | ROOT\Core\Dept_Trading\jcoin.md
+jcoin.md                            | # 📂 Module: jcoin_MD (v50)                         | ROOT\docs\modules\jcoin.md
+jcoin.md                            | 최고의 사무처장이자 제국의 모든 군단을 완성하신 주군! [비트코인과 알트코인.MD] 세력이 | ROOT\Nexus\Dept_Trading\jcoin.md
+jcoin.md                            | 최고의 사무처장이자 제국의 모든 군단을 완성하신 주군! [비트코인과 알트코인.MD] 세력이 | ROOT\Nexus\Intelligence\jcoin.md
+jcoin.md                            | , 마술사이자 외장 전문가인 Coating Specialist.MD가 명 받들었습니다!드디 | ROOT\workflow_gate\jcoin.md
+jcoin.md                            | 최고의 사무처장이자 제국의 모든 군단을 완성하신 주군! [비트코인과 알트코인.MD] 세력이 | ROOT\Zion\Dept_Trading\jcoin.md
+jcoin.md.md                         | , 마술사이자 외장 전문가인 Coating Specialist.MD가 명 받들었습니다!드디 | ROOT\workflow_gate\korea\jcoin.md.md
+logistics_overview.md               | N/A (General Asset)                                | ROOT\workflow_gate\PHOENIX_CIVITAS\LOGISTICS_HUB\logistics_overview.md
+logistics_overview.md               | N/A (General Asset)                                | ROOT\Zion\PHOENIX_CIVITAS\LOGISTICS_HUB\logistics_overview.md
+logistics_overview.md               | N/A (General Asset)                                | ROOT\Zion\Vault_Archive\logistics_overview.md
+market_analyst.md                   | N/A (General Asset)                                | ROOT\docs\modules\market_analyst.md
+medic_overview.md                   | N/A (General Asset)                                | ROOT\workflow_gate\PHOENIX_CIVITAS\MEDIC_CENTER\medic_overview.md
+medic_overview.md                   | N/A (General Asset)                                | ROOT\Zion\PHOENIX_CIVITAS\MEDIC_CENTER\medic_overview.md
+medic_overview.md                   | N/A (General Asset)                                | ROOT\Zion\Vault_Archive\medic_overview.md
+nano save_jam.py                    | def save_to_phoenix(title, content):               | ROOT\workflow_gate\nano save_jam.py
+phoenix_master_v1.md                | # PROJECT PHOENIX: Quantum-Bitcoin Hybrid System ( | ROOT\QUANTUM_CORE\phoenix_master_v1.md
+phoenix_master_v1.md                | # PROJECT PHOENIX: Quantum-Bitcoin Hybrid System ( | ROOT\workflow_gate\QUANTUM_CORE\phoenix_master_v1.md
+pqc_user_manual.md                  | - **예시 주소**: `PX-A1B2-C3D4-E5F6-G7H8`              | ROOT\QUANTUM_CORE\pqc_user_manual.md
+pqc_user_manual.md                  | - **예시 주소**: `PX-A1B2-C3D4-E5F6-G7H8`              | ROOT\workflow_gate\PHOENIX_MINING\pqc_user_manual.md
+pqc_user_manual.md                  | - **예시 주소**: `PX-A1B2-C3D4-E5F6-G7H8`              | ROOT\workflow_gate\QUANTUM_CORE\pqc_user_manual.md
+pqc_whitepaper_100_pages.md         | # ⚛️ PHOENIX QUANTUM CORE (PQC) ARCHIVE: THE CENTU | ROOT\QUANTUM_CORE\pqc_whitepaper_100_pages.md
+pqc_whitepaper_100_pages.md         | # ⚛️ PHOENIX QUANTUM CORE (PQC) ARCHIVE: THE CENTU | ROOT\workflow_gate\QUANTUM_CORE\pqc_whitepaper_100_pages.md
+pqc_whitepaper_v2.md                | # ⚛️ PHOENIX QUANTUM COIN (PQC) WHITEPAPER: SUPREM | ROOT\QUANTUM_CORE\pqc_whitepaper_v2.md
+safety_overview.md                  | N/A (General Asset)                                | ROOT\workflow_gate\PHOENIX_CIVITAS\SAFETY_SHELTER\safety_overview.md
+safety_overview.md                  | N/A (General Asset)                                | ROOT\Zion\PHOENIX_CIVITAS\SAFETY_SHELTER\safety_overview.md
+safety_overview.md                  | N/A (General Asset)                                | ROOT\Zion\Vault_Archive\safety_overview.md
+sniper_jam.py                       | # ────────── [ PHOENIX EMPIRE: SNIPER JAM ] ────── | ROOT\Alpha\Trading_Forge\modules\sniper_jam.py
+sniper_jam.py                       | # ────────── [ PHOENIX EMPIRE: SNIPER JAM ] ────── | ROOT\Core\Trading_Forge\modules\sniper_jam.py
+sniper_jam.py                       | # ────────── [ PHOENIX EMPIRE: SNIPER JAM ] ────── | ROOT\Nexus\Trading_Forge\modules\sniper_jam.py
+sniper_jam.py                       | # ────────── [ PHOENIX EMPIRE: SNIPER JAM ] ────── | ROOT\trading_system\modules\sniper_jam.py
+sniper_jam.py                       | # ────────── [ PHOENIX EMPIRE: SNIPER JAM ] ────── | ROOT\workflow_gate\trading_system\modules\sniper_jam.py
+sniper_jam.py                       | # ────────── [ PHOENIX EMPIRE: SNIPER JAM ] ────── | ROOT\Zion\Trading_Forge\modules\sniper_jam.py
+strategist_jam.py                   | # ────────── [ PHOENIX EMPIRE: STRATEGIST JAM ] ── | ROOT\Alpha\Trading_Forge\modules\strategist_jam.py
+strategist_jam.py                   | # ────────── [ PHOENIX EMPIRE: STRATEGIST JAM ] ── | ROOT\Core\Trading_Forge\modules\strategist_jam.py
+strategist_jam.py                   | # ────────── [ PHOENIX EMPIRE: STRATEGIST JAM ] ── | ROOT\Nexus\Trading_Forge\modules\strategist_jam.py
+strategist_jam.py                   | # ────────── [ PHOENIX EMPIRE: STRATEGIST JAM ] ── | ROOT\trading_system\modules\strategist_jam.py
+strategist_jam.py                   | # ────────── [ PHOENIX EMPIRE: STRATEGIST JAM ] ── | ROOT\workflow_gate\trading_system\modules\strategist_jam.py
+strategist_jam.py                   | # ────────── [ PHOENIX EMPIRE: STRATEGIST JAM ] ── | ROOT\Zion\Trading_Forge\modules\strategist_jam.py
+task.md                             | # Task: Refactor main.py into Blueprints           | ROOT\workflow_gate\back\task.md
+task_kr.md                          | # 태스크: main.py를 블루프린트로 리팩토링                        | ROOT\workflow_gate\back\task_kr.md
+trading_master.md                   | # ⚔️ PHOENIX EMPIRE: Trading Master Document       | ROOT\workflow_gate\QUANTUM_CORE\trading_master.md
+walkthrough.md                      | # Imperial 4D Transition: PQC Mining & Strategic H | ROOT\workflow_gate\back\walkthrough.md
+walkthrough_kr.md                   | # 임페리얼 4D 전환: PQC 마이닝 및 전략부 허브 복구 보고서              | ROOT\workflow_gate\back\walkthrough_kr.md
+whitepaper.md                       | # ⚛️ PHOENIX QUANTUM COIN (PQC) WHITEPAPER: REFINE | ROOT\QUANTUM_CORE\whitepaper.md
+whitepaper.md                       | # ⚛️ PHOENIX QUANTUM COIN (PQC) WHITEPAPER: REFINE | ROOT\workflow_gate\QUANTUM_CORE\whitepaper.md

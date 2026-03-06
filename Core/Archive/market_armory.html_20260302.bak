@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>IMPERIAL ARMORY & MARKET | PHOENIX EMPIRE</title>
+</head>
+<body>
+    {% include 'PHOENIX_MASTER/imperial_nav.html' %}
+    <!-- ... (REST OF CONTENT OMITTED FROM VIEW_FILE) ... -->
+</body>
+</html>

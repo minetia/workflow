@@ -1,0 +1,22 @@
+{
+    "system_status": "READY_FOR_TAX_EXTRACTION",
+    "timestamp": "2026-02-28T04:26:00+09:00",
+    "ai_traders": {
+        "status": "ALL_ACTIVE",
+        "count": 200,
+        "departments_online": 5,
+        "mode": "AGGRESSIVE_TREND_FOLLOWING"
+    },
+    "vault_logic": {
+        "status": "STANDBY",
+        "starting_value_krw": "0",
+        "tax_rate_percent": 10.0,
+        "virtual_allocation_percent": 50.0,
+        "real_world_allocation_percent": 50.0
+    },
+    "commander_link": {
+        "status": "EMPATHETIC_LINK_ESTABLISHED",
+        "scepter_auth": "VERIFIED_BIOMETRIC_LOCK_REMOVED",
+        "visual_feedback": "GOLD_SIREN_ARMED"
+    }
+}

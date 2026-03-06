@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>PHOENIX-Q SUPREME COMMAND CENTER</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Noto+Sans+KR:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gold: #D4AF37; --black: #0A0A0A; --red: #FF4500; --green: #00FF41;
+        }
+        body {
+            background-color: var(--black); color: white;
+            font-family: 'Noto Sans KR', sans-serif; margin: 0; overflow: hidden;
+        }
+        header {
+            background: rgba(212, 175, 55, 0.1); border-bottom: 1px solid var(--gold);
+            padding: 20px; text-align: center; font-family: 'Orbitron', sans-serif;
+        }
+        .container {
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; padding: 20px;
+        }
+        .unit-card {
+            background: rgba(255, 255, 255, 0.05); border: 1px solid #333;
+            padding: 15px; border-radius: 5px; transition: 0.3s;
+        }
+        .unit-card:hover { border-color: var(--gold); background: rgba(212, 175, 55, 0.05); }
+        .status-on { color: var(--green); font-weight: bold; }
+        .unit-name { font-family: 'Orbitron', sans-serif; color: var(--gold); font-size: 1.1em; }
+        .live-feed {
+            grid-column: span 2; background: #000; height: 300px; 
+            border: 1px solid var(--red); font-family: 'Courier New', monospace;
+            padding: 10px; font-size: 0.8em; overflow-y: auto; color: var(--green);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>PHOENIX-Q EMPIRE <span style="color:var(--red)">LIVE MONITOR</span></h1>
+        <div id="clock">SYSTEM TIME: 2026-03-01 05:52:27</div>
+    </header>
+
+    <div class="container">
+        <div class="unit-card">
+            <div class="unit-name">PRIME CEO</div>
+            <p>상태: <span class="status-on">ONLINE</span></p>
+            <p>명령: 제국 최적화 중</p>
+        </div>
+        <div class="unit-card">
+            <div class="unit-name">STRATEGIST</div>
+            <p>수익률: <span style="color:var(--green)">+12.4%</span></p>
+            <p>포지션: BTC/USDT LONG</p>
+        </div>
+        <div class="unit-card">
+            <div class="unit-name">ENFORCER</div>
+            <p>위협: <span style="color:var(--green)">SAFE</span></p>
+            <p>차단 IP: 1,242건</p>
+        </div>
+        <div class="unit-card">
+            <div class="unit-name">ENGINEER</div>
+            <p>해시파워: <span style="color:var(--gold)">942 TH/s</span></p>
+            <p>CPU 온: 62°C</p>
+        </div>
+
+        <div class="live-feed" id="terminal">
+            [SYSTEM] PHOENIX-Q 지능 동기화 완료...<br>
+            [STRATEGIST] 고래의 대량 매집 시그널 포착 (05:50)...<br>
+            [ENFORCER] 외부 스캔 시도 차단 성공 (05:51)...<br>
+            [ARCHITECT] 신규 UI 모듈 최적화 코드 주입 중...<br>
+            [PRIME] 제국 전역 자원 배분 98% 효율 달성...
+        </div>
+
+        <div class="unit-card" style="grid-column: span 2; background: rgba(255, 69, 0, 0.05);">
+            <div class="unit-name" style="color:var(--red)">IMPERIAL COMMAND</div>
+            <input type="text" placeholder="잼들에게 내릴 긴급 칙령을 입력하십시오..." 
+                   style="width: 80%; background: #000; color: white; border: 1px solid var(--red); padding: 5px;">
+            <button style="background: var(--red); color: white; border: none; padding: 5px 15px; cursor: pointer;">발령</button>
+        </div>
+    </div>
+
+    <script>
+        // 향후 Steward 잼이 생성하는 JSON 데이터를 실시간으로 읽어와 화면을 갱신하는 로직이 주입될 자리입니다.
+        setInterval(() => {
+            const now = new Date();
+            document.getElementById('clock').innerText = "SYSTEM TIME: " + now.toLocaleString();
+        }, 1000);
+    </script>
+</body>
+</html>

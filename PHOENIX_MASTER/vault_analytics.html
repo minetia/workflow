@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IMPERIAL VAULT ANALYTICS - PHOENIX EMPIRE</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: radial-gradient(circle at top right, #050a0f, #020406);
+            color: #e2e8f0;
+            margin: 0;
+            min-height: 100vh;
+        }
+
+        .premium-card {
+            background: rgba(13, 17, 23, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 215, 0, 0.15);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+            border-radius: 20px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .gold-border {
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.05);
+        }
+
+        .neon-text-gold {
+            color: #ffd700;
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
+        }
+
+        .stat-box {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 1rem;
+        }
+
+        .growth-up {
+            color: #10b981;
+        }
+
+        .growth-down {
+            color: #ef4444;
+        }
+
+        .scanline {
+            width: 100%;
+            height: 2px;
+            background: rgba(255, 215, 0, 0.1);
+            position: absolute;
+            top: 0;
+            left: 0;
+            animation: scan 4s linear infinite;
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        @keyframes scan {
+            0% {
+                top: 0%;
+            }
+
+            100% {
+                top: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body class="p-6 md:p-12 relative pt-24">
+    <div class="scanline"></div>
+
+    {% with page_title="Vault Analytics", page_subtitle="IMPERIAL TREASURY INTELLIGENCE" %}
+    {% include 'PHOENIX_MASTER/imperial_nav.html' %}
+    {% endwith %}
+
+    <div class="mt-20 w-full max-w-7xl mx-auto">
+
+        <div class="flex justify-between items-end mb-12">
+            <div>
+                <h1 class="text-5xl font-black text-white tracking-tighter uppercase">Vault Analytics</h1>
+                <p class="text-yellow-500 font-bold tracking-[0.3em] text-xs mt-2 uppercase">Imperial Treasury
+                    Intelligence Center</p>
+            </div>
+            <div class="text-right">
+                <span class="text-[10px] text-gray-500 font-black uppercase tracking-widest">Protocol Status</span>
+                <div class="text-green-400 font-black text-sm tracking-widest">ENCRYPTED // ACTIVE</div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-8 mb-8">
+            <!-- Assets Categories -->
+            <div class="lg:col-span-1 space-y-6">
+                <div class="premium-card p-6 gold-border">
+                    <h2 class="text-[10px] text-gray-500 font-black uppercase tracking-widest mb-6">Categorized Assets
+                    </h2>
+                    <div id="asset-list" class="space-y-4">
+                        <!-- Loaded via JS -->
+                        <div class="animate-pulse flex justify-between">
+                            <div class="h-4 bg-gray-700 rounded w-1/2"></div>
+                            <div class="h-4 bg-gray-700 rounded w-1/4"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="premium-card p-6 border-blue-500/20">
+                    <h2 class="text-[10px] text-blue-400/70 font-black uppercase tracking-widest mb-4">Growth Metrics
+                    </h2>
+                    <div class="grid grid-cols-2 gap-3" id="growth-stats">
+                        <div class="stat-box text-center">
+                            <span class="text-[8px] text-gray-500 font-black uppercase block">Daily</span>
+                            <span class="text-sm font-black growth-up">+2.45%</span>
+                        </div>
+                        <div class="stat-box text-center">
+                            <span class="text-[8px] text-gray-500 font-black uppercase block">Monthly</span>
+                            <span class="text-sm font-black growth-up">+12.8%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Granular Movements -->
+            <div class="lg:col-span-3 space-y-8">
+                <div class="premium-card p-8">
+                    <div class="flex justify-between items-center mb-8 border-b border-white/5 pb-4">
+                        <h2 class="text-lg font-black text-white tracking-widest uppercase">Granular Movement Ledger
+                        </h2>
+                        <div class="flex gap-4">
+                            <button
+                                class="text-[10px] text-yellow-500 font-black hover:text-white transition uppercase">Export
+                                CSV</button>
+                            <button
+                                class="text-[10px] text-gray-500 font-black hover:text-white transition uppercase">Filter</button>
+                        </div>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-[11px]">
+                            <thead>
+                                <tr class="text-gray-600 font-black uppercase border-b border-white/5">
+                                    <th class="pb-4">Timestamp (Sec)</th>
+                                    <th class="pb-4">Asset Type</th>
+                                    <th class="pb-4 text-right">Amount</th>
+                                    <th class="pb-4 text-center">Protocol</th>
+                                    <th class="pb-4 text-right">Balance Impact</th>
+                                </tr>
+                            </thead>
+                            <tbody id="movement-ledger" class="divide-y divide-white/5">
+                                <!-- Loaded via JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="premium-card p-6">
+                        <h3 class="text-[10px] text-gray-500 font-black uppercase tracking-widest mb-6 text-center">
+                            Asset Distribution</h3>
+                        <div class="h-48 flex items-center justify-center">
+                            <canvas id="assetChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="premium-card p-6">
+                        <h3 class="text-[10px] text-gray-500 font-black uppercase tracking-widest mb-6 text-center">
+                            Movement Intensity</h3>
+                        <div class="h-48">
+                            <canvas id="intensityChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function fetchVaultAnalytics() {
+            try {
+                const response = await fetch('/api/vault/pqc_analytics');
+                const data = await response.json();
+
+                if (!data || data.msg === "No history found") return;
+
+                // Update Asset List
+                const assetList = document.getElementById('asset-list');
+                assetList.innerHTML = '';
+                data.current_assets.forEach(asset => {
+                    const div = document.createElement('div');
+                    div.className = 'flex justify-between items-center group';
+                    div.innerHTML = `
+                        <span class="text-[10px] font-bold text-gray-400 group-hover:text-white transition uppercase">${asset.name}</span>
+                        <span class="text-xs font-black text-white">${asset.amount.toLocaleString()} <span class="text-[8px] text-yellow-500 ml-1">${asset.unit}</span></span>
+                    `;
+                    assetList.appendChild(div);
+                });
+
+                // Update Movements Ledger
+                const ledger = document.getElementById('movement-ledger');
+                ledger.innerHTML = '';
+                data.movements.reverse().forEach(log => {
+                    const row = document.createElement('tr');
+                    row.className = 'hover:bg-white/5 transition-all';
+                    row.innerHTML = `
+                        <td class="py-4 font-mono text-gray-400">${log.timestamp}</td>
+                        <td class="py-4">
+                            <span class="px-2 py-0.5 rounded bg-white/5 border border-white/10 font-bold uppercase text-[9px]">${log.asset}</span>
+                        </td>
+                        <td class="py-4 text-right font-black ${log.direction === 'IN' ? 'text-green-400' : 'text-red-400'}">
+                            ${log.direction === 'IN' ? '+' : '-'}${log.amount.toLocaleString()}
+                        </td>
+                        <td class="py-4 text-center">
+                            <span class="text-[9px] font-black tracking-tighter italic text-yellow-500/50">QUANTUM_SETTLE</span>
+                        </td>
+                        <td class="py-4 text-right font-mono text-gray-500">${log.direction}</td>
+                    `;
+                    ledger.appendChild(row);
+                });
+
+                // Update Growth (%) - Directly Linked to PQC Engine
+                updateGrowthMetrics(data.stats);
+
+                // Update Charts
+                updateCharts(data);
+
+            } catch (e) {
+                console.error("Vault Telemetry Sync Error:", e);
+                document.querySelectorAll('.stat-box span.font-black').forEach(el => {
+                    el.textContent = "SYNC_ERR";
+                    el.className = "text-sm font-black text-red-500";
+                });
+            }
+        }
+
+        function updateGrowthMetrics(stats) {
+            const growthGrid = document.getElementById('growth-stats');
+            const speed = stats.network_speed || 0;
+            const price = stats.pqc_price || 0;
+            const target = stats.target_price || 0;
+
+            // Formula: (Price / Target) as a proxy for growth status
+            const health = (price / target * 100).toFixed(2);
+            const trend = price > (target * 0.9) ? 'growth-up' : 'growth-down';
+
+            growthGrid.innerHTML = `
+                <div class="stat-box text-center">
+                    <span class="text-[8px] text-gray-500 font-black uppercase block">Extraction V</span>
+                    <span class="text-sm font-black text-blue-400">${speed.toFixed(2)} Gh/s</span>
+                </div>
+                <div class="stat-box text-center">
+                    <span class="text-[8px] text-gray-500 font-black uppercase block">PQC Value</span>
+                    <span class="text-sm font-black ${trend}">₩${price.toLocaleString()}</span>
+                </div>
+                <div class="stat-box text-center col-span-2 mt-2">
+                    <span class="text-[8px] text-gray-500 font-black uppercase block">Quantum Health Index</span>
+                    <span class="text-lg font-black neon-text-gold">${health}% OF TARGET</span>
+                </div>
+            `;
+        }
+
+        let assetChart, intensityChart;
+        function updateCharts(data) {
+            if (!assetChart) {
+                const ctx = document.getElementById('assetChart').getContext('2d');
+                assetChart = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: [],
+                        datasets: [{
+                            data: [],
+                            backgroundColor: ['#ffd700', '#10b981', '#3b82f6', '#8b5cf6', '#f59e0b', '#6366f1', '#ec4899'],
+                            borderWidth: 0
+                        }]
+                    },
+                    options: {
+                        plugins: { legend: { display: false } },
+                        cutout: '80%',
+                        animation: { duration: 500 }
+                    }
+                });
+            }
+            // Update mapping dynamically
+            const topAssets = data.current_assets.sort((a, b) => b.amount - a.amount).slice(0, 7);
+            assetChart.data.labels = topAssets.map(a => a.name);
+            assetChart.data.datasets[0].data = topAssets.map(a => a.amount || 0.1);
+            assetChart.update();
+        }
+
+        setInterval(fetchVaultAnalytics, 5000);
+        fetchVaultAnalytics();
+    </script>
+</body>
+
+</html>

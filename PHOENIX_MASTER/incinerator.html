@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PHOENIX EMPIRE | 제국 중앙 정화소 (Incinerator)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+
+        body {
+            background: #05070a;
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            background-image: radial-gradient(circle at center, rgba(30, 10, 0, 0.8) 0%, #05070a 100%);
+        }
+
+        .incinerator-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 100px 20px;
+            min-height: 100vh;
+        }
+
+        .core-furnace {
+            width: 80%;
+            max-width: 900px;
+            background: rgba(15, 5, 0, 0.9);
+            border: 2px solid #ff3b30;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 0 50px rgba(255, 59, 48, 0.2);
+            position: relative;
+            overflow: hidden;
+            margin-top: 2rem;
+        }
+
+        .fire-glow {
+            position: absolute;
+            bottom: -50px;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background: #ff3b30;
+            filter: blur(50px);
+            opacity: 0.2;
+            transition: all 1s ease;
+        }
+
+        .fire-glow.burning {
+            height: 300px;
+            opacity: 0.8;
+            background: #ffaa00;
+            filter: blur(80px);
+            animation: pulse-fire 0.5s infinite alternate;
+        }
+
+        @keyframes pulse-fire {
+            0% {
+                opacity: 0.6;
+                transform: scaleY(0.9);
+            }
+
+            100% {
+                opacity: 0.9;
+                transform: scaleY(1.1);
+            }
+        }
+
+        .debris-list {
+            margin-top: 1.5rem;
+            max-height: 400px;
+            overflow-y: auto;
+            border: 1px solid rgba(255, 59, 48, 0.3);
+            background: rgba(0, 0, 0, 0.5);
+            padding: 1rem;
+            border-radius: 10px;
+        }
+
+        .debris-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background: rgba(255, 59, 48, 0.05);
+            border-left: 4px solid #ff3b30;
+            margin-bottom: 0.8rem;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+
+        .debris-item.pollutant {
+            border-left-color: #aa00ff;
+            background: rgba(170, 0, 255, 0.05);
+        }
+
+        .debris-item.error {
+            border-left-color: #ff3b30;
+            background: rgba(255, 59, 48, 0.05);
+        }
+
+        .debris-item.waste {
+            border-left-color: #8b949e;
+            background: rgba(139, 148, 158, 0.05);
+        }
+
+        .debris-item.incinerating {
+            transform: scale(0.95);
+            opacity: 0;
+            filter: blur(10px) brightness(2);
+        }
+
+        .item-type {
+            font-size: 0.7rem;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .type-pollutant {
+            background: rgba(170, 0, 255, 0.2);
+            color: #e066ff;
+        }
+
+        .type-error {
+            background: rgba(255, 59, 48, 0.2);
+            color: #ff8b85;
+        }
+
+        .type-waste {
+            background: rgba(139, 148, 158, 0.2);
+            color: #c9d1d9;
+        }
+
+        .btn-purify {
+            background: linear-gradient(135deg, #ff3b30, #ffaa00);
+            color: #fff;
+            font-weight: 900;
+            font-size: 1.2rem;
+            padding: 1rem 3rem;
+            border-radius: 50px;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(255, 59, 48, 0.4);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 2rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .btn-purify:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 40px rgba(255, 170, 0, 0.6);
+        }
+
+        .btn-purify:disabled {
+            background: #333;
+            color: #888;
+            box-shadow: none;
+            cursor: not-allowed;
+            transform: scale(1);
+        }
+
+        .system-status {
+            margin-top: 1rem;
+            font-family: monospace;
+            color: #ffaa00;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        .neon-glow {
+            text-shadow: 0 0 10px currentColor;
+        }
+
+        /* Scrollbar styles */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #ff3b30;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+
+<body class="pt-24">
+
+    {% with page_title="Incinerator", page_subtitle="WASTE PURIFICATION UNIT" %}
+    {% include 'PHOENIX_MASTER/imperial_nav.html' %}
+    {% endwith %}
+
+    <div class="incinerator-container">
+        <div class="text-center">
+            <h1 class="text-4xl font-black tracking-widest uppercase neon-glow" style="color: #ff3b30;">🔥 제국 폐기물 정화실
+            </h1>
+            <p class="text-[12px] text-gray-400 font-bold uppercase tracking-widest mt-2">Imperial Incinerator & Waste
+                Management</p>
+        </div>
+
+        <div class="core-furnace">
+            <div class="fire-glow" id="fireGlow"></div>
+
+            <div class="flex justify-between items-center border-b border-red-500/30 pb-4 relative z-10">
+                <div>
+                    <h2 class="text-xl font-bold text-white">격리된 시스템 잔해 및 오염물</h2>
+                    <p class="text-xs text-red-400 mt-1">Quarantined System Debris & Pollutants</p>
+                </div>
+                <div class="text-right">
+                    <span class="text-3xl font-black text-red-500" id="debrisCount">8</span>
+                    <span class="text-xs text-gray-400 block tracking-widest">CONTAMINANTS</span>
+                </div>
+            </div>
+
+            <div class="debris-list relative z-10" id="debrisList">
+                <div class="debris-item error">
+                    <div>
+                        <span class="item-type type-error">ERROR 502</span>
+                        <div class="font-bold text-sm mt-1">Bad Gateway in Global Hub Socket</div>
+                        <div class="text-[10px] text-gray-500 font-mono">Timestamp: 07:44:12 | Source: /api/live_stream
+                        </div>
+                    </div>
+                    <div class="text-red-500 text-xl font-black opacity-50">CRITICAL</div>
+                </div>
+
+                <div class="debris-item pollutant">
+                    <div>
+                        <span class="item-type type-pollutant">POLLUTANT</span>
+                        <div class="font-bold text-sm mt-1">Rogue API Key Injection Attempt</div>
+                        <div class="text-[10px] text-gray-500 font-mono">IP: 192.168.45.22 | Blocked Payload: true</div>
+                    </div>
+                    <div class="text-purple-500 text-xl font-black opacity-50">MALICIOUS</div>
+                </div>
+
+                <div class="debris-item waste">
+                    <div>
+                        <span class="item-type type-waste">MEMORY WASTE</span>
+                        <div class="font-bold text-sm mt-1">Orphaned Trading Instances (34 nodes)</div>
+                        <div class="text-[10px] text-gray-500 font-mono">RAM Bound: 1.2GB | Thread State: Zombie</div>
+                    </div>
+                    <div class="text-gray-500 text-xl font-black opacity-50">DEAD</div>
+                </div>
+
+                <div class="debris-item error">
+                    <div>
+                        <span class="item-type type-error">LOGIC ERROR</span>
+                        <div class="font-bold text-sm mt-1">NaN Value in AI Indicator Engine</div>
+                        <div class="text-[10px] text-gray-500 font-mono">Strategy: MovingAverageCrossover (Line 42)
+                        </div>
+                    </div>
+                    <div class="text-red-500 text-xl font-black opacity-50">WARN</div>
+                </div>
+
+                <div class="debris-item pollutant">
+                    <div>
+                        <span class="item-type type-pollutant">DATA CORRUPTION</span>
+                        <div class="font-bold text-sm mt-1">Sync Failure in Sector 7 Database</div>
+                        <div class="text-[10px] text-gray-500 font-mono">Checksum Mismatch | Restored from Backup</div>
+                    </div>
+                    <div class="text-purple-500 text-xl font-black opacity-50">FRAGMENTED</div>
+                </div>
+
+                <div class="debris-item waste">
+                    <div>
+                        <span class="item-type type-waste">UI DEBRIS</span>
+                        <div class="font-bold text-sm mt-1">Unused CSS Classes & DOM Fragments</div>
+                        <div class="text-[10px] text-gray-500 font-mono">Location: /strategic_dashboard | Size: 45KB
+                        </div>
+                    </div>
+                    <div class="text-gray-500 text-xl font-black opacity-50">CLUTTER</div>
+                </div>
+
+                <div class="debris-item error">
+                    <div>
+                        <span class="item-type type-error">AGENT FAULT</span>
+                        <div class="font-bold text-sm mt-1">Colosseum Agent 'Blade-04' Timeout</div>
+                        <div class="text-[10px] text-gray-500 font-mono">Action: Submit Execution Order | State: Hung
+                        </div>
+                    </div>
+                    <div class="text-red-500 text-xl font-black opacity-50">CRITICAL</div>
+                </div>
+
+                <div class="debris-item pollutant">
+                    <div>
+                        <span class="item-type type-pollutant">NETWORK POLLUTION</span>
+                        <div class="font-bold text-sm mt-1">Excessive Pings (DDoS Mitigation Log)</div>
+                        <div class="text-[10px] text-gray-500 font-mono">Packets Dropped: 1.5M | Origin: Segment 4A
+                        </div>
+                    </div>
+                    <div class="text-purple-500 text-xl font-black opacity-50">FILTERED</div>
+                </div>
+            </div>
+
+            <div class="text-center">
+                <button class="btn-purify" id="purifyBtn" onclick="initiatePurge()">
+                    🔥 완전 정화 개시 (INITIATE PURGE)
+                </button>
+                <div class="system-status" id="systemStatus">STATUS: AWAITING COMMANDER'S ORDER</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function initiatePurge() {
+            const btn = document.getElementById('purifyBtn');
+            const status = document.getElementById('systemStatus');
+            const glow = document.getElementById('fireGlow');
+            const items = document.querySelectorAll('.debris-item');
+            const counter = document.getElementById('debrisCount');
+
+            // UI State change
+            btn.disabled = true;
+            btn.innerHTML = '⚙️ 소각 중... (INCINERATING)';
+            status.style.color = '#ff3b30';
+            status.innerHTML = 'WARNING: CORE TEMPERATURE RISING. PURGING DEBRIS...';
+            glow.classList.add('burning');
+            document.querySelector('.core-furnace').style.borderColor = '#ffaa00';
+            document.querySelector('.core-furnace').style.boxShadow = '0 0 100px rgba(255, 170, 0, 0.4)';
+
+            // Incinerate animation (delayed stagger)
+            let remaining = items.length;
+
+            items.forEach((item, index) => {
+                setTimeout(() => {
+                    item.classList.add('incinerating');
+
+                    // Update count
+                    setTimeout(() => {
+                        remaining--;
+                        counter.textContent = remaining;
+                        if (remaining === 0) {
+                            completePurge();
+                        }
+                    }, 300); // Wait for CSS transition
+
+                }, index * 400 + 500); // 400ms interval
+            });
+        }
+
+        function completePurge() {
+            const btn = document.getElementById('purifyBtn');
+            const status = document.getElementById('systemStatus');
+            const glow = document.getElementById('fireGlow');
+            const list = document.getElementById('debrisList');
+
+            setTimeout(() => {
+                glow.classList.remove('burning');
+                glow.style.background = '#00f3ff';
+                document.querySelector('.core-furnace').style.borderColor = '#00f3ff';
+                document.querySelector('.core-furnace').style.boxShadow = '0 0 50px rgba(0, 243, 255, 0.2)';
+
+                list.innerHTML = `
+                    <div class="text-center py-10">
+                        <div class="text-6xl mb-4">✨</div>
+                        <h3 class="text-xl font-black text-sky-400">정화 완료 (100% PURIFIED)</h3>
+                        <p class="text-sm text-gray-400 mt-2">모든 오염물 및 페기물이 시스템에서 완전히 제거되었습니다.</p>
+                        <p class="text-[10px] text-sky-500 font-mono mt-4">CORE INTEGRITY RESTORED TO MAXIMUM EFFICIENCY.</p>
+                    </div>
+                `;
+
+                btn.innerHTML = '✨ 시스템 무결성 확보됨';
+                btn.style.background = 'linear-gradient(135deg, #00f3ff, #0077ff)';
+                btn.style.boxShadow = '0 10px 30px rgba(0, 243, 255, 0.3)';
+
+                status.style.color = '#00f3ff';
+                status.innerHTML = 'SYSTEM STATUS: OPTIMAL & PURIFIED';
+            }, 1000);
+        }
+    </script>
+</body>
+
+</html>

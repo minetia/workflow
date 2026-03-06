@@ -1,0 +1,69 @@
+{% extends "layout.html" %}
+{% block title %}Supreme Dashboard{% endblock %}
+{% block content %}
+<header>
+    <h1>SUPREME COMMAND</h1>
+    <div style="color: var(--accent-gold); font-size: 0.9rem; letter-spacing: 2px;">GLOBAL SECTOR OVERVIEW</div>
+</header>
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-bottom: 40px;"
+    id="grid">
+    <!-- Nation Cards -->
+</div>
+
+<div style="display: grid; grid-template-columns: 1.5fr 1fr; gap: 20px;">
+    <div
+        style="background: var(--glass-bg); padding: 25px; border-radius: 20px; height: 400px; display: flex; flex-direction: column;">
+        <div
+            style="font-weight: 600; margin-bottom: 15px; color: var(--accent-cyan); display: flex; justify-content: space-between;">
+            <span>IMPERIAL_PIPELINE_LOGS</span>
+            <span id="log-clock">--:--:--</span>
+        </div>
+        <div id="logs"
+            style="flex: 1; overflow-y: auto; font-family: 'Courier New'; font-size: 0.85rem; line-height: 1.6; color: #ccc;">
+            [SYSTEM] Awaiting supreme command...
+        </div>
+    </div>
+
+    <div
+        style="background: linear-gradient(135deg, rgba(0, 242, 255, 0.05), rgba(138, 43, 226, 0.05)); border: 1px solid rgba(0, 242, 255, 0.2); border-radius: 20px; padding: 40px; text-align: center; display: flex; flex-direction: column; justify-content: center;">
+        <h2 style="font-size: 1.5rem; margin-bottom: 10px;">RE-ORCHESTRATION</h2>
+        <button onclick="triggerOrchestration()"
+            style="background: var(--accent-cyan); color: #000; border: none; padding: 15px 40px; border-radius: 40px; font-weight: 800; cursor: pointer; transition: 0.3s; box-shadow: 0 0 20px rgba(0, 242, 255, 0.4);">EXECUTE
+            PROTOCOL</button>
+    </div>
+</div>
+
+<script>
+    async function fetchStatus() {
+        const response = await fetch('/api/status');
+        const data = await response.json();
+        const grid = document.getElementById('grid');
+        grid.innerHTML = '';
+        for (const [name, info] of Object.entries(data.nations)) {
+            grid.innerHTML += `
+                <div style="background: var(--glass-bg); padding: 25px; border-radius: 20px; text-align: center; border: 1px solid rgba(255,255,255,0.05);">
+                    <div style="font-weight: 600; margin-bottom: 10px;">${name}</div>
+                    <div style="display: inline-block; padding: 3px 10px; background: rgba(0,255,128,0.1); color: #00ff80; border-radius: 10px; font-size: 0.7rem; margin-bottom: 10px;">${info.status}</div>
+                    <div style="color: var(--accent-gold); font-size: 0.8rem;">Integrity</div>
+                    <div style="font-size: 1.5rem; font-weight: 300; margin: 5px 0;">${info.knowledge}</div>
+                </div>
+            `;
+        }
+        const logEl = document.getElementById('logs');
+        logEl.innerHTML = data.logs.map(line => `<div>${line}</div>`).join('');
+        logEl.scrollTop = logEl.scrollHeight;
+        document.getElementById('log-clock').innerText = new Date().toLocaleTimeString();
+    }
+
+    async function triggerOrchestration() {
+        const btn = document.querySelector('button');
+        btn.innerText = "ORCHESTRATING...";
+        await fetch('/api/execute', { method: 'POST' });
+        setTimeout(() => { btn.innerText = "EXECUTE PROTOCOL"; }, 5000);
+    }
+
+    setInterval(fetchStatus, 3000);
+    fetchStatus();
+</script>
+{% endblock %}

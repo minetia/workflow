@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Insights | KOREA AI Trading</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <style>
+        .insight-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 16px;
+            padding: 20px;
+        }
+
+        .insight-card {
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 12px;
+            padding: 16px;
+            transition: 0.2s;
+        }
+
+        .insight-card:hover {
+            border-color: #388bfd;
+            transform: translateY(-2px);
+        }
+
+        .site-name {
+            font-weight: 900;
+            font-size: 16px;
+            color: #e6edf3;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .site-url {
+            font-size: 11px;
+            color: #8b949e;
+            word-break: break-all;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .badge {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .badge-BULLISH {
+            background: rgba(14, 203, 129, 0.1);
+            color: #0ecb81;
+        }
+
+        .badge-BEARISH {
+            background: rgba(246, 70, 93, 0.1);
+            color: #f6465d;
+        }
+
+        .badge-NEUTRAL {
+            background: rgba(139, 148, 158, 0.1);
+            color: #8b949e;
+        }
+    </style>
+</head>
+
+<body style="background: #0d1117;">
+    <header class="app-header">
+        <div style="display:flex; align-items:center;">
+            <button class="hamburger-btn" onclick="toggleSidebar()">☰</button>
+            <div class="logo" onclick="location.href='/'" style="cursor:pointer">
+                <div class="logo-icon">🌐</div>
+                <div>
+                    <span class="logo-text">GLOBAL</span>
+                    <span class="logo-sub">INSIGHTS</span>
+                </div>
+            </div>
+            <div style="flex:1; margin: 0 40px;">
+                <input type="text" id="insight-search" placeholder="사이트 또는 심리 검색..."
+                    style="width:100%; max-width:600px; background:#0d1117; border:1px solid #30363d; color:#e6edf3; padding:10px 16px; border-radius:20px;"
+                    oninput="loadInsights(this.value)">
+            </div>
+            <button class="header-tab active" onclick="location.href='/'">🔙 대시보드로 돌아가기</button>
+    </header>
+
+    <div class="insight-grid" id="insight-grid">
+        <div style="grid-column: 1/-1; text-align:center; padding:100px; color:#484f58;">
+            <h2>데이터 수집 중...</h2>
+        </div>
+    </div>
+
+    <!-- ═══ 사이드바 네비게이션 ═══ -->
+    <div class="nav-overlay" id="nav-overlay" onclick="toggleSidebar()"></div>
+    <nav class="sidebar-nav" id="sidebar-nav">
+        <div class="nav-groups">
+            <div class="nav-group">
+                <div class="nav-group-title">AI COMMAND</div>
+                <a href="/" class="nav-item"><i>🤖</i> Gemini 1 (The Architect)</a>
+                <a href="/" class="nav-item"><i>⚡</i> Gemini 2 (The Executor)</a>
+                <a href="/" class="nav-item"><i>🔮</i> Gemini 3 (The Magician)</a>
+                <a href="/" class="nav-item"><i>🎓</i> Specialist Units</a>
+            </div>
+            <div class="nav-group">
+                <div class="nav-group-title">TACTICAL UNITS</div>
+                <a href="/" class="nav-item"><i>🎯</i> Sniper (Precision Hit)</a>
+                <a href="/" class="nav-item"><i>📦</i> Sorter (Logic Flow)</a>
+                <a href="/" class="nav-item"><i>✋</i> Stop Loss Guardian</a>
+                <a href="/hub" class="nav-item"><i>🛰️</i> Intelligence Swarm</a>
+            </div>
+            <!-- Imperial Resources Group -->
+            <div class="nav-group">
+                <div class="nav-group-title">IMPERIAL RESOURCES</div>
+                <a href="/pqc_mining" class="nav-item"><i>💎</i> Mining Interface</a>
+                <a href="/pqc_wallet" class="nav-item"><i>💳</i> Quantum Wallet 4D</a>
+                <a href="/market" class="nav-item"><i>🏛️</i> 제국 무기고 (Armory)</a>
+            </div>
+
+            <!-- Intelligence Hub Group -->
+            <div class="nav-group">
+                <div class="nav-group-title">INTELLIGENCE HUB</div>
+                <a href="/global" class="nav-item active"><i>📊</i> Global Insights</a>
+                <a href="/intel" class="nav-item"><i>🔎</i> Market Intel</a>
+                <a href="/phoenix" class="nav-item"><i>🏆</i> Phoenix Ranking</a>
+            </div>
+
+            <!-- Imperial Security Group -->
+            <div class="nav-group">
+                <div class="nav-group-title">IMPERIAL SECURITY</div>
+                <a href="/security" class="nav-item"><i>🛡️</i> Security Complex</a>
+                <a href="/vault" class="nav-item"><i>🏦</i> Vault System</a>
+                <a href="/command" class="nav-item"><i>⚡</i> Central Command</a>
+            </div>
+        </div>
+        <div class="citizen-nav-section">
+            <button class="citizen-nav-btn" onclick="location.href='/citizen'">
+                👨‍👩‍👧‍👦 시민 서비스 센터 (Citizen)
+            </button>
+        </div>
+    </nav>
+    <!-- ... (SCRIPT TAGS OMITTED) ... -->
+</body>
+</html>

@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PHOENIX QUANTUM COIN - IMPERIAL WHITEPAPER</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Marked.js for parsing Markdown -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: linear-gradient(135deg, #020604 0%, #0a1f10 100%);
+            color: #e2e8f0;
+            margin: 0;
+            min-height: 100vh;
+            overflow-x: hidden;
+            overflow-y: hidden;
+        }
+
+        .viewer-container {
+            background: rgba(9, 31, 20, 0.85);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 215, 0, 0.4);
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.8), inset 0 0 20px rgba(255, 215, 0, 0.05);
+            border-radius: 12px;
+            max-width: 1000px;
+            margin: 0 auto;
+            height: calc(100vh - 120px);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .viewer-header {
+            padding: 20px 30px;
+            border-bottom: 1px solid rgba(255, 215, 0, 0.3);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.5);
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
+        }
+
+        .viewer-content {
+            padding: 40px 60px;
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+
+        /* --------------------------
+           Markdown Styles 
+           -------------------------- */
+        .markdown-body h1 {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: #ffd700;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid rgba(255, 215, 0, 0.5);
+            padding-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+        }
+
+        .markdown-body h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #34d399;
+            margin-top: 3rem;
+            margin-bottom: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(52, 211, 153, 0.3);
+            text-shadow: 0 0 10px rgba(52, 211, 153, 0.5);
+        }
+
+        .markdown-body h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #fff;
+            margin-top: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .markdown-body p {
+            margin-bottom: 1rem;
+            line-height: 1.8;
+            color: #cbd5e1;
+            font-size: 1.05rem;
+        }
+
+        .markdown-body ul {
+            list-style-type: none;
+            padding-left: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .markdown-body ul li {
+            position: relative;
+            margin-bottom: 0.5rem;
+            color: #e2e8f0;
+            line-height: 1.6;
+        }
+
+        .markdown-body ul li::before {
+            content: "◈";
+            color: #f59e0b;
+            position: absolute;
+            left: -1.5rem;
+            text-shadow: 0 0 5px rgba(245, 158, 11, 0.8);
+        }
+
+        .markdown-body strong {
+            color: #ffd700;
+            font-weight: 700;
+        }
+
+        .markdown-body a {
+            color: #60a5fa;
+            text-decoration: none;
+        }
+
+        /* Custom Scrollbar for Viewer */
+        .viewer-content::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .viewer-content::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .viewer-content::-webkit-scrollbar-thumb {
+            background: rgba(255, 215, 0, 0.4);
+            border-radius: 4px;
+        }
+
+        .viewer-content::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 215, 0, 0.7);
+        }
+    </style>
+</head>
+
+<body class="p-4 md:p-8">
+
+    <!-- 👑 프리미엄 임페리얼 탭 네비게이션 통합 -->
+    {% include 'PHOENIX_MASTER/imperial_nav.html' %}
+
+    <div class="mt-20 flex justify-center w-full">
+        <div class="viewer-container w-full">
+
+            <div class="viewer-header">
+                <div class="flex items-center">
+                    <div class="text-3xl mr-3 mb-1">📖</div>
+                    <div>
+                        <h2
+                            class="text-xl font-bold text-yellow-500 tracking-widest leading-none drop-shadow-[0_0_10px_rgba(255,215,0,0.8)]">
+                            IMPERIAL ARCHIVE VIEWER</h2>
+                        <span class="text-xs text-gray-400">PQC 100-PAGE WHITEPAPER LOADED</span>
+                    </div>
+                </div>
+                <button onclick="window.history.back()"
+                    class="bg-black/50 hover:bg-yellow-600/30 text-yellow-500 border border-yellow-500/50 px-4 py-2 rounded transition font-bold tracking-widest text-xs uppercase">
+                    Exit Viewer
+                </button>
+            </div>
+
+            <div class="viewer-content">
+                <div id="markdown-container" class="markdown-body">
+                    <div class="flex justify-center items-center h-full">
+                        <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-yellow-500"></div>
+                        <span class="ml-4 text-yellow-500 font-bold tracking-widest">LOADING 100 PAGES...</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Page Tracker Footer -->
+            <div
+                class="bg-black/80 px-4 py-3 border-t border-yellow-500/30 flex justify-between items-center text-xs text-gray-500 font-bold tracking-widest rounded-b-xl">
+                <span>SECURITY: QUANTUM LATTICE</span>
+                <span>SCROLL TO READ</span>
+                <span class="text-yellow-600">PHOENIX EMPIRE PROPERTY</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function fetchAndRenderWhitepaper() {
+            try {
+                // Fetch the generated 100-page markdown file
+                const response = await fetch('/pqc_whitepaper_100_pages.md');
+                if (!response.ok) throw new Error("Could not find whitepaper document.");
+                const markdownText = await response.text();
+
+                // Parse markdown to HTML
+                const htmlContent = marked.parse(markdownText);
+
+                // Inject
+                document.getElementById('markdown-container').innerHTML = htmlContent;
+            } catch (error) {
+                console.error(error);
+                document.getElementById('markdown-container').innerHTML = `
+                    <div class="text-center mt-20 text-red-500 font-bold text-xl">
+                        ⚠️ Error: Whitepaper document not found.<br>
+                        <span class="text-sm text-gray-400">Make sure to generate it using the python script first.</span>
+                    </div>`;
+            }
+        }
+
+        // Initialize
+        setTimeout(fetchAndRenderWhitepaper, 800); // slight delay for dramatic effect
+    </script>
+</body>
+
+</html>

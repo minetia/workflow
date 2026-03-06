@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚔️ SYSTEMCORE | ARENA — 100 TRADER BATTLE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <script src="core_persistence.js"></script>
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --gold: #ffd700;
+            --cyan: #00d4ff;
+            --green: #00ff88;
+            --red: #ff4444;
+            --dark: #04060a;
+            --panel: rgba(255, 255, 255, 0.04);
+            --border: rgba(255, 215, 0, 0.15);
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--dark);
+            color: #e0e6f0;
+            min-height: 100vh;
+            overflow-x: hidden;
+            padding-top: 60px;
+            background-image: radial-gradient(ellipse at 20% 0%, rgba(0, 212, 255, 0.06) 0%, transparent 60%), radial-gradient(ellipse at 80% 100%, rgba(255, 215, 0, 0.05) 0%, transparent 60%);
+        }
+
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 24px;
+            background: rgba(0, 0, 0, 0.7);
+            border-bottom: 1px solid var(--border);
+            backdrop-filter: blur(20px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            gap: 12px;
+        }
+
+        .logo {
+            font-size: 0.95rem;
+            font-weight: 900;
+            letter-spacing: 3px;
+            color: var(--gold);
+        }
+
+        .logo span {
+            color: var(--cyan);
+        }
+
+        .nav-links-bar {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            flex-wrap: nowrap;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            color: #888;
+            border: 1px solid transparent;
+            background: transparent;
+            transition: all 0.2s;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .nav-item:hover {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .nav-item.active {
+            color: var(--cyan);
+            border-bottom: 2px solid var(--cyan);
+            border-radius: 4px 4px 0 0;
+            background: rgba(0, 212, 255, 0.03);
+        }
+
+        /* Special 100인 군단 button style */
+        .nav-item.arena-btn {
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            color: var(--gold);
+            background: rgba(255, 215, 0, 0.05);
+            margin-left: 4px;
+        }
+
+        .nav-item.arena-btn:hover {
+            background: rgba(255, 215, 0, 0.1);
+            border-color: var(--gold);
+        }
+
+        .nav-item.arena-btn.active {
+            border: 1px solid var(--gold);
+            background: rgba(255, 215, 0, 0.1);
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.1);
+            border-bottom: 1px solid var(--gold);
+            border-radius: 8px;
+        }
+
+        .ws-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            color: #666;
+            min-width: 120px;
+            justify-content: flex-end;
+        }
+
+        .ws-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #666;
+        }
+
+        .ws-dot.live {
+            background: var(--green);
+            box-shadow: 0 0 12px var(--green);
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+
+            0%,
+            100% {
+                opacity: 1
+            }
+
+            50% {
+                opacity: 0.4
+            }
+        }
+
+        .ticker-bar {
+            background: rgba(0, 0, 0, 0.5);
+            border-bottom: 1px solid var(--border);
+            padding: 8px 32px;
+            display: flex;
+            gap: 32px;
+            overflow-x: auto;
+        }
+
+        .ticker-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 90px;
+        }
+
+        .ticker-symbol {
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: #888;
+        }
+
+        .ticker-price {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .ticker-change {
+            font-size: 0.72rem;
+            font-weight: 600;
+        }
+
+        .up {
+            color: var(--green);
+        }
+
+        .down {
+            color: var(--red);
+        }
+
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1px;
+            background: var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .stat-cell {
+            background: var(--dark);
+            padding: 14px 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .stat-label {
+            font-size: 0.6rem;
+            letter-spacing: 2px;
+            color: #555;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 900;
+            margin-top: 2px;
+        }
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: 310px 1fr 320px;
+            gap: 0;
+            height: calc(100vh - 170px);
+        }
+
+        .leaderboard {
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .panel-title {
+            padding: 16px 20px;
+            font-size: 0.7rem;
+            font-weight: 900;
+            letter-spacing: 3px;
+            color: var(--gold);
+            text-transform: uppercase;
+            border-bottom: 1px solid var(--border);
+            background: rgba(255, 215, 0, 0.03);
+        }
+
+        .lb-list {
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .lb-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 18px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        }
+
+        .lb-rank {
+            font-size: 0.8rem;
+            font-weight: 900;
+            width: 24px;
+            text-align: center;
+            color: #555;
+        }
+
+        .lb-avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .lb-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .lb-name {
+            font-size: 0.78rem;
+            font-weight: 700;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .lb-strategy {
+            font-size: 0.6rem;
+            color: #555;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .lb-pnl {
+            text-align: right;
+            min-width: 60px;
+        }
+
+        .lb-pnl-val {
+            font-size: 0.85rem;
+            font-weight: 800;
+        }
+
+        .battle-arena {
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .arena-header {
+            padding: 16px 24px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .arena-title {
+            font-size: 1.2rem;
+            font-weight: 900;
+            letter-spacing: 2px;
+        }
+
+        .arena-title span {
+            color: var(--cyan);
+        }
+
+        .consensus-bar {
+            padding: 14px 24px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .vote-bar {
+            flex: 1;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 4px;
+            overflow: hidden;
+            display: flex;
+        }
+
+        .vote-buy {
+            background: linear-gradient(90deg, #00ff88, #00cc66);
+            transition: width 0.5s;
+        }
+
+        .vote-hold {
+            background: rgba(255, 255, 255, 0.2);
+            transition: width 0.5s;
+        }
+
+        .vote-sell {
+            background: linear-gradient(90deg, #ff6644, #ff2222);
+            transition: width 0.5s;
+        }
+
+        .vote-counts {
+            display: flex;
+            gap: 20px;
+            font-size: 0.72rem;
+            font-weight: 700;
+        }
+
+        .v-buy {
+            color: var(--green);
+        }
+
+        .v-hold {
+            color: #888;
+        }
+
+        .v-sell {
+            color: var(--red);
+        }
+
+        .agents-grid {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px 24px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(85px, 1fr));
+            gap: 6px;
+            align-content: start;
+        }
+
+        .agent-card {
+            padding: 8px 6px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            text-align: center;
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .agent-card.buy {
+            border-color: rgba(0, 255, 136, 0.4);
+            background: rgba(0, 255, 136, 0.05);
+        }
+
+        .agent-card.sell {
+            border-color: rgba(255, 68, 68, 0.4);
+            background: rgba(255, 68, 68, 0.05);
+        }
+
+        .agent-card.top {
+            box-shadow: 0 0 12px rgba(255, 215, 0, 0.3);
+            border-color: rgba(255, 215, 0, 0.5);
+        }
+
+        .live-feed {
+            border-left: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .feed-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 8px 0;
+        }
+
+        .feed-item {
+            padding: 10px 18px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            animation: fadeSlide 0.3s ease;
+        }
+
+        @keyframes fadeSlide {
+            from {
+                opacity: 0;
+                transform: translateX(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: none;
+            }
+        }
+
+        .feed-time {
+            font-size: 0.6rem;
+            color: #444;
+        }
+
+        .feed-text {
+            font-size: 0.75rem;
+            color: #aaa;
+            margin-top: 3px;
+        }
+
+        .feed-text strong {
+            color: #fff;
+        }
+
+        .feed-text .fUp {
+            color: var(--green);
+        }
+
+        .feed-text .fDown {
+            color: var(--red);
+        }
+
+        .signal-panel {
+            padding: 16px 18px;
+            border-top: 1px solid var(--border);
+            background: rgba(0, 212, 255, 0.03);
+        }
+
+        .signal-title {
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: var(--cyan);
+            margin-bottom: 10px;
+        }
+
+        .signal-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        .sig-item {
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 8px;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .sig-label {
+            font-size: 0.6rem;
+            color: #555;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .sig-val {
+            font-size: 1rem;
+            font-weight: 800;
+            margin-top: 4px;
+        }
+
+        .big-consensus {
+            margin: 0 24px 12px;
+            padding: 16px;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 1.4rem;
+            font-weight: 900;
+            letter-spacing: 4px;
+        }
+
+        .big-consensus.BUY {
+            background: rgba(0, 255, 136, 0.1);
+            color: var(--green);
+            box-shadow: 0 0 30px rgba(0, 255, 136, 0.2);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+        }
+
+        .big-consensus.SELL {
+            background: rgba(255, 68, 68, 0.1);
+            color: var(--red);
+            box-shadow: 0 0 30px rgba(255, 68, 68, 0.2);
+            border: 1px solid rgba(255, 68, 68, 0.3);
+        }
+
+        .big-consensus.HOLD {
+            background: rgba(255, 255, 255, 0.04);
+            color: #888;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 0, 0.2);
+            border-radius: 2px;
+        }
+    </style>
+</head>
+
+<body>
+    {% with page_title="ARENA — 100 TRADER BATTLE", page_subtitle="SYSTEMCORE" %}
+    {% include 'PHOENIX_MASTER/imperial_nav.html' %}
+    {% endwith %}
+
+    <div class="ticker-bar" id="tickerBar">
+        <div class="ticker-item">
+            <div class="ticker-symbol">BTCUSDT</div>
+            <div class="ticker-price" id="t-BTCUSDT">—</div>
+            <div class="ticker-change" id="c-BTCUSDT">—</div>
+        </div>
+        <div class="ticker-item">
+            <div class="ticker-symbol">ETHUSDT</div>
+            <div class="ticker-price" id="t-ETHUSDT">—</div>
+            <div class="ticker-change" id="c-ETHUSDT">—</div>
+        </div>
+        <div class="ticker-item">
+            <div class="ticker-symbol">SOLUSDT</div>
+            <div class="ticker-price" id="t-SOLUSDT">—</div>
+            <div class="ticker-change" id="c-SOLUSDT">—</div>
+        </div>
+        <div class="ticker-item">
+            <div class="ticker-symbol">XRPUSDT</div>
+            <div class="ticker-price" id="t-XRPUSDT">—</div>
+            <div class="ticker-change" id="c-XRPUSDT">—</div>
+        </div>
+        <div class="ticker-item">
+            <div class="ticker-symbol">BNBUSDT</div>
+            <div class="ticker-price" id="t-BNBUSDT">—</div>
+            <div class="ticker-change" id="c-BNBUSDT">—</div>
+        </div>
+        <div class="ticker-item">
+            <div class="ticker-symbol">DOGEUSDT</div>
+            <div class="ticker-price" id="t-DOGEUSDT">—</div>
+            <div class="ticker-change" id="c-DOGEUSDT">—</div>
+        </div>
+    </div>
+
+    <div class="stats-row">
+        <div class="stat-cell">
+            <div class="stat-label">총 거래 횟수</div>
+            <div class="stat-value" id="statTrades" style="color:var(--cyan)">0</div>
+        </div>
+        <div class="stat-cell">
+            <div class="stat-label">군단 총 수익</div>
+            <div class="stat-value" id="statPnl" style="color:var(--green)">+$0.00</div>
+        </div>
+        <div class="stat-cell">
+            <div class="stat-label">현재 콘센서스</div>
+            <div class="stat-value" id="statConsensus" style="color:var(--gold)">HOLD</div>
+        </div>
+        <div class="stat-cell">
+            <div class="stat-label">라운드</div>
+            <div class="stat-value" id="statRound" style="color:#888">1</div>
+        </div>
+    </div>
+
+    <div class="main-grid">
+        <div class="leaderboard">
+            <div class="panel-title">🏆 TOP 100 TRADER RANKING</div>
+            <div class="lb-list" id="lbList"></div>
+        </div>
+        <div class="battle-arena">
+            <div class="arena-header">
+                <div>
+                    <div class="arena-title">⚔️ BATTLE <span>ARENA</span></div>
+                    <div class="battle-round" id="roundLabel">ROUND 1 · 분석 중...</div>
+                </div>
+                <div style="font-size:0.75rem;color:var(--gold);font-weight:900" id="globalBalDisplay">GLOBAL: $0.00
+                </div>
+            </div>
+            <div class="consensus-bar">
+                <div class="vote-bar">
+                    <div class="vote-buy" id="voteBuyBar" style="width:33%"></div>
+                    <div class="vote-hold" id="voteHoldBar" style="width:34%"></div>
+                    <div class="vote-sell" id="voteSellBar" style="width:33%"></div>
+                </div>
+                <div class="vote-counts"><span class="v-buy">BUY <span id="vBuy">0</span></span><span
+                        class="v-hold">HOLD <span id="vHold">0</span></span><span class="v-sell">SELL <span
+                            id="vSell">0</span></span></div>
+            </div>
+            <div class="big-consensus HOLD" id="bigConsensus">⚖️ HOLD</div>
+            <div class="agents-grid" id="agentsGrid"></div>
+        </div>
+        <div class="live-feed">
+            <div class="panel-title" style="color:var(--gold);">📰 TOP 30 전문 암호화폐 뉴스</div>
+            <div class="feed-list" id="newsList" style="flex: 0 0 160px; overflow-y:auto; background:rgba(0,0,0,0.3);">
+            </div>
+
+            <div class="panel-title" style="margin-top:0; border-top:1px solid var(--border); color:var(--cyan);">📡 50
+                퀀텀 마켓 지표</div>
+            <div class="signal-panel" style="flex: 1; overflow-y: auto; padding: 10px; border-top:none;">
+                <div class="signal-grid" id="indicatorGrid" style="grid-template-columns: repeat(2, 1fr); gap:6px;">
+                    <!-- 50 항목 렌더링 영역 -->
+                </div>
+            </div>
+
+            <div class="panel-title" style="margin-top:0; border-top:1px solid var(--border); color:var(--red);">⚔️ LIVE
+                BATTLE LOG</div>
+            <div class="feed-list" id="feedList" style="flex: 0 0 160px; overflow-y:auto;"></div>
+        </div>
+    </div>
+
+    <script>
+        const EMOJIS = ['🐉', '🦅', '🌙', '⚡', '🔥', '🎯', '🛡️', '🗡️', '🌊', '🏔️', '🦁', '🌑', '💫', '☄️', '🔱', '🌪️', '🦊', '🌟', '🔮', '💎'];
+        const STRATEGIES = ['RSI+MA', 'SCALP', 'SWING', 'QUANT', 'SNIPER', 'BREAKOUT', 'MEAN-REV', 'MOMENTUM'];
+        const MARKETS = ['BTCUSDT', 'ETHUSDT', 'SOLUSDT', 'XRPUSDT', 'BNBUSDT', 'DOGEUSDT', 'ADAUSDT', 'AVAXUSDT'];
+
+        let traders = [], round = 1, currentPrice = 0, priceHistory = [], wsConnected = false, prices = {};
+
+        function initTraders() {
+            const saved = Persistence.getTradersState();
+            const version = localStorage.getItem('sc_arena_v');
+            if (version === '1.1' && saved && saved.length === 100 && saved[0].strategy) {
+                traders = saved; round = Persistence.getRound(); return;
+            }
+            traders = Array.from({ length: 100 }, (_, i) => ({
+                id: i + 1, name: `JAM-${String(i + 1).padStart(3, '0')}`, emoji: EMOJIS[i % EMOJIS.length],
+                strategy: STRATEGIES[i % STRATEGIES.length], bias: (Math.random() - 0.5) * 0.4, pnl: 0, trades: 0, signal: 'HOLD', reliability: 0.7 + Math.random() * 0.29, color: `hsl(${Math.random() * 360},60%,55%)`
+            }));
+            Persistence.saveTradersState(traders, 1);
+            localStorage.setItem('sc_arena_v', '1.1');
+        }
+
+        function connectBybit() {
+            const ws = new WebSocket('wss://stream.bybit.com/v5/public/spot');
+            ws.onopen = () => { wsConnected = true; try { if (document.getElementById('wsDot')) document.getElementById('wsDot').className = 'ws-dot live'; if (document.getElementById('wsLabel')) document.getElementById('wsLabel').textContent = 'BYBIT LIVE'; } catch (e) { } ws.send(JSON.stringify({ op: 'subscribe', args: MARKETS.map(m => `tickers.${m}`) })); addFeed(`🟢 바이비트 WebSocket <strong>연결 완료</strong> — ${MARKETS.length}개 마켓 구독 시작`); };
+            ws.onmessage = (e) => {
+                const msg = JSON.parse(e.data);
+                if (msg.topic?.startsWith('tickers.') && msg.data) {
+                    const d = msg.data, sym = d.symbol, p = +d.lastPrice, c = +d.price24hPcnt * 100;
+                    prices[sym] = p; updateTickerUI(sym, p, c);
+                    if (sym === 'BTCUSDT') { currentPrice = p; priceHistory.push(p); if (priceHistory.length > 30) priceHistory.shift(); try { document.getElementById('sigBTC').textContent = '$' + p.toLocaleString(); } catch (e) { } }
+                }
+            };
+            ws.onclose = () => { wsConnected = false; try { if (document.getElementById('wsDot')) document.getElementById('wsDot').className = 'ws-dot'; } catch (e) { } setTimeout(connectBybit, 3000); };
+        }
+
+        function updateTickerUI(sym, p, c) {
+            const elP = document.getElementById('t-' + sym), elC = document.getElementById('c-' + sym);
+            if (!elP) return; elP.textContent = '$' + p.toLocaleString(); elC.textContent = (c >= 0 ? '+' : '') + c.toFixed(2) + '%'; elC.className = 'ticker-change ' + (c >= 0 ? 'up' : 'down');
+        }
+
+        function runBattleRound() {
+            if (!currentPrice || priceHistory.length < 5) return;
+            const rsi = calcRSI(priceHistory);
+            const trend = (priceHistory[priceHistory.length - 1] - priceHistory[priceHistory.length - 5]) / priceHistory[0] * 100;
+            const vol = calcVolatility(priceHistory);
+
+            try {
+                document.getElementById('sigRSI').textContent = rsi.toFixed(1);
+                document.getElementById('sigRSI').style.color = rsi > 70 ? 'var(--red)' : rsi < 30 ? 'var(--green)' : 'var(--cyan)';
+                document.getElementById('sigVol').textContent = vol.toFixed(2) + '%';
+                document.getElementById('sigTrend').textContent = (trend >= 0 ? '↑ +' : '↓ ') + trend.toFixed(3) + '%';
+                document.getElementById('sigTrend').style.color = trend >= 0 ? 'var(--green)' : 'var(--red)';
+            } catch (e) { } // Ignored if replaced by the new generic layout
+
+            // ⚛️ QUANTUM & NEWS DATA INJECTION
+            const quantumScore = (Math.random() - 0.5) * 1.5; // 양자 컴퓨터 모의 시그널 (-0.75 ~ 0.75)
+            const newsSentimentScore = (Math.random() - 0.5) * 1.0; // 뉴스 지표 센티멘털 (-0.5 ~ 0.5)
+
+            if (round % 5 === 0) {
+                const qMsg = `⚛️ <span style="color:var(--cyan)">QUANTUM SCORE</span> [${quantumScore > 0 ? '+' + quantumScore.toFixed(2) : quantumScore.toFixed(2)}] & 📰 <span style="color:var(--gold)">NEWS SENTIMENT</span> [${newsSentimentScore > 0 ? '+' + newsSentimentScore.toFixed(2) : newsSentimentScore.toFixed(2)}] 실시간 뇌파 주입성공`;
+                addFeed(qMsg);
+            }
+
+            let buyV = 0, sellV = 0, holdV = 0;
+
+            traders.forEach(t => {
+                const noise = (Math.random() - 0.5) * (1 - t.reliability) * 0.3;
+
+                // 전략에 따른 지표 가중치
+                let qWeight = t.strategy === 'QUANT' ? 1.5 : 0.5;
+                let nWeight = t.strategy === 'MEAN-REV' ? 1.0 : (t.strategy === 'BREAKOUT' ? 0.8 : 0.3);
+
+                // 오리지널 기술적 지표 + 퀀텀 인사이트 + 뉴스 센티멘트 복합 평가
+                const score = ((rsi - 50) * 0.02) + t.bias + noise + (trend * 0.1) + (quantumScore * qWeight * 0.15) + (newsSentimentScore * nWeight * 0.15);
+
+                let b_thr = -0.3, s_thr = 0.3;
+                if (t.strategy === 'SCALP') { b_thr = -0.15; s_thr = 0.15; }
+                if (t.strategy === 'SWING') { b_thr = -0.45; s_thr = 0.45; }
+                if (t.strategy === 'QUANT') { b_thr = -0.2; s_thr = 0.2; } // 퀀텀은 민감하게 반응
+
+                if (score < b_thr) { t.signal = 'BUY'; buyV++; }
+                else if (score > s_thr) { t.signal = 'SELL'; sellV++; }
+                else { t.signal = 'HOLD'; holdV++; }
+
+                if (t.signal !== 'HOLD' && Math.random() < 0.3) {
+                    const pnlChange = (Math.random() * 0.4 - 0.18) * (t.reliability * 2);
+                    t.pnl += pnlChange; t.trades++;
+                    Persistence.setBalance(Persistence.getBalance() + pnlChange);
+                }
+            });
+
+            document.getElementById('voteBuyBar').style.width = (buyV) + '%';
+            document.getElementById('voteHoldBar').style.width = (holdV) + '%';
+            document.getElementById('voteSellBar').style.width = (sellV) + '%';
+            document.getElementById('vBuy').textContent = buyV; document.getElementById('vHold').textContent = holdV; document.getElementById('vSell').textContent = sellV;
+
+            const consensus = buyV > sellV ? 'BUY' : sellV > buyV ? 'SELL' : 'HOLD';
+            const bc = document.getElementById('bigConsensus');
+            bc.className = 'big-consensus ' + consensus; bc.textContent = consensus === 'BUY' ? '🚀 BUY' : consensus === 'SELL' ? '📉 SELL' : '⚖️ HOLD';
+
+            round++; Persistence.saveTradersState(traders, round);
+            document.getElementById('statRound').textContent = round;
+            document.getElementById('statConsensus').textContent = consensus;
+            document.getElementById('statConsensus').style.color = consensus === 'BUY' ? 'var(--green)' : consensus === 'SELL' ? 'var(--red)' : 'var(--gold)';
+            document.getElementById('statPnl').textContent = (traders.reduce((a, t) => a + t.pnl, 0) >= 0 ? '+$' : '-$') + Math.abs(traders.reduce((a, t) => a + t.pnl, 0)).toFixed(2);
+            document.getElementById('statPnl').style.color = traders.reduce((a, t) => a + t.pnl, 0) >= 0 ? 'var(--green)' : 'var(--red)';
+            document.getElementById('statTrades').textContent = traders.reduce((a, t) => a + t.trades, 0).toLocaleString();
+            document.getElementById('globalBalDisplay').textContent = `GLOBAL: $${Persistence.getBalance().toLocaleString()}`;
+            document.getElementById('roundLabel').textContent = `ROUND ${round} · BTC $${currentPrice.toLocaleString()}`;
+
+            if (consensus !== 'HOLD' && Math.random() < 0.5) {
+                const leader = [...traders].sort((a, b) => b.pnl - a.pnl)[0];
+                addFeed(`${leader.emoji} <strong>${leader.name}</strong> [${leader.strategy}] <span class="${consensus === 'BUY' ? 'fUp' : 'fDown'}">${consensus}</span> 신호 — BTC $${currentPrice.toLocaleString()}`);
+            }
+
+            renderAgents(); renderLeaderboard();
+        }
+
+        function calcRSI(p) { if (p.length < 14) return 50; let g = 0, l = 0; for (let i = p.length - 14; i < p.length; i++) { let d = p[i] - p[i - 1]; if (d > 0) g += d; else l += Math.abs(d); } return 100 - (100 / (1 + (g / (l + 0.0001)))); }
+        function calcVolatility(p) { if (p.length < 5) return 0; const last = p.slice(-5); const avg = last.reduce((a, b) => a + b, 0) / last.length; return (Math.sqrt(last.reduce((a, b) => a + (b - avg) ** 2, 0) / last.length) / avg) * 100; }
+        function addFeed(html) { const list = document.getElementById('feedList'); const time = new Date().toTimeString().slice(0, 8); const item = document.createElement('div'); item.className = 'feed-item'; item.innerHTML = `<div class="feed-time">${time}</div><div class="feed-text">${html}</div>`; list.insertBefore(item, list.firstChild); if (list.children.length > 50) list.removeChild(list.lastChild); }
+        function renderAgents() { const sorted = [...traders].sort((a, b) => b.pnl - a.pnl); const topIds = new Set(sorted.slice(0, 5).map(t => t.id)); document.getElementById('agentsGrid').innerHTML = traders.map(t => `<div class="agent-card ${t.signal.toLowerCase()} ${topIds.has(t.id) ? 'top' : ''}"><div>${t.emoji}</div><div style="font-size:9px;color:#555">${t.name}</div><div style="font-weight:900;font-size:10px;color:${t.signal === 'BUY' ? 'var(--green)' : t.signal === 'SELL' ? 'var(--red)' : '#666'}">${t.signal}</div><div style="font-size:10px;color:${t.pnl >= 0 ? 'var(--green)' : 'var(--red)'}">${t.pnl >= 0 ? '+' : ''}${t.pnl.toFixed(1)}</div></div>`).join(''); }
+        function renderLeaderboard() { document.getElementById('lbList').innerHTML = [...traders].sort((a, b) => b.pnl - a.pnl).slice(0, 10).map((t, i) => `<div class="lb-row"><div class="lb-rank ${i < 3 ? 'r' + (i + 1) : ''}">${i + 1}</div><div class="lb-avatar">${t.emoji}</div><div class="lb-info"><div class="lb-name">${t.name}</div><div class="lb-strategy">${t.strategy} · ${t.trades}회</div></div><div class="lb-pnl"><div class="lb-pnl-val" style="color:${t.pnl >= 0 ? 'var(--green)' : 'var(--red)'}">${t.pnl >= 0 ? '+' : ''}$${Math.abs(t.pnl).toFixed(2)}</div></div></div>`).join(''); }
+
+        const CRYPTO_NEWS = ["비트코인, 기관 투자자 매수세에 힘입어 랠리 시도", "이더리움 덴쿤 업그레이드 이후 L2 수수료 90% 급감", "미 연준 금리 스탠스 변화 촉각... 암호화폐 시장 관망세", "솔라나(SOL) 생태계 활성화 지속, 신규 지갑 생성 최고치", "리플(XRP) - SEC 소송 합의 가시화 루머에 변동성 확대", "블랙록 비트코인 현물 ETF, 자금 연속 유입 기록 경신", "바이낸스, 새로운 규제 준수 시스템 '실드 V2' 도입 발표", "JP모건 '비트코인, 금 대비 포트폴리오 비중 더 높아질 것'", "아발란체(AVAX) 서브넷 채택 기관 증가, 생태계 확장 가속", "마이크로스트래티지, 비트코인 1만 개 추가 매입", "폴카닷(DOT) 2.0 비전 백서 공개, 토큰노믹스 대규모 개편", "체인링크(LINK) CCIP 도입 글로벌 은행 10곳 돌파", "홍콩 당국, 이더리움 현물 ETF 아시아 최초 승인 유력", "테더(USDT) 시총 사상 최고치 달성, 시장 유동성 역대급", "코인베이스 분기 실적 어닝 서프라이즈, 기관 거래량 급증", "탈중앙화거래소(DEX) 거래량, 전체 시장의 20% 돌파", "AI-암호화폐 융합 프로젝트 강세, 월드코인(WLD) 급등", "그레이스케일 GBTC 매도세 둔화, 지지선 단기 확보", "비트코인 고래 지갑, 하락장마다 축적 패턴 뚜렷", "미국 고용 지표 예상 하회, 금리 인하 기대감에 반등", "유럽연합 MiCA 법안 전면 시행, 거래소들 라이선스 비상", "밈코인(Meme) 슈퍼 사이클 도래? PEPE 수익률 300% 급등", "비트코인 반감기 우려 씻어내고 해시레이트 점진적 회복", "레이어제로(LayerZero) 토큰 에어드랍 확정, 생태계 후끈", "아비트럼(ARB) 다오 수익 환원 스테이킹 보상 플랜 통과", "아이겐레이어(EigenLayer), 활발한 자금 유입 TVL 1위 기록", "도지코인(DOGE), X(구 트위터) 결제수단 통합 루머 점화", "RWA(실물자산) 토큰화 폭발적 성장, 온도 파이낸스 급등", "크립토 VC 자금 유입 사이클 재개, ZK 인프라에 집중", "바이비트(Bybit), 글로벌 기관 전용 프라임 서비스 론칭"];
+
+        const INDICATORS = [{ n: 'RSI (14)', v: '0' }, { n: 'MACD', v: '0' }, { n: 'Bollinger Up', v: '0' }, { n: 'Bollinger Low', v: '0' }, { n: 'EMA 50', v: '0' }, { n: 'EMA 200', v: '0' }, { n: 'Stoch %K', v: '50%' }, { n: 'Stoch %D', v: '50%' }, { n: 'ATR', v: '120' }, { n: 'OBV', v: '1.4M' }, { n: 'ADX (14)', v: '25' }, { n: 'CCI (20)', v: '100' }, { n: 'Ichimoku A', v: '0' }, { n: 'Ichimoku B', v: '0' }, { n: 'Parabolic SAR', v: '0' }, { n: 'VWAP', v: '0' }, { n: 'MFI (14)', v: '45.0' }, { n: 'Will %R', v: '-50' }, { n: 'ROC', v: '+2.1%' }, { n: 'Chaikin MF', v: '0.1' }, { n: 'MACD Hist', v: '1.2' }, { n: 'Donchian Top', v: '0' }, { n: 'Donchian Bot', v: '0' }, { n: 'Keltner Mid', v: '0' }, { n: 'VIX', v: '15.4' }, { n: 'Fear & Greed', v: '75' }, { n: 'Hash Rate', v: '600 E' }, { n: 'MVRV Ratio', v: '2.1' }, { n: 'NVT Ratio', v: '50.4' }, { n: 'SOPR', v: '1.02' }, { n: 'Funding Rate', v: '0.01%' }, { n: 'Open Interest', v: '15B' }, { n: 'Liquidations', v: '50M' }, { n: 'Long/Short', v: '1.25' }, { n: 'Volatility', v: '3.5%' }, { n: 'Momentum', v: '+200' }, { n: 'Volume', v: '45B' }, { n: 'Dominance', v: '52.4%' }, { n: 'Altseason', v: '45' }, { n: 'Net Growth', v: '+12%' }, { n: 'Active Addrs', v: '1.1M' }, { n: 'Whale Index', v: 'High' }, { n: 'ExInflow', v: '10k' }, { n: 'ExOutflow', v: '12k' }, { n: 'Miner Rsrv', v: '1.8M' }, { n: 'Puell Mult', v: '0.9' }, { n: 'Pi Cycle', v: '90k' }, { n: 'Stock-to-Flow', v: '85k' }, { n: 'CVD (Cumul)', v: '+500' }, { n: 'Order Imbal', v: 'Buy 55%' }];
+
+        function initNewsAndIndicators() {
+            document.getElementById('newsList').innerHTML = CRYPTO_NEWS.map(n => `<div style="font-size:0.75rem; padding:8px 12px; border-bottom:1px solid rgba(255,255,255,0.05); color:#ddd; font-weight:600;"><span style="color:var(--cyan); margin-right:6px;">▪</span>${n}</div>`).join('');
+            renderIndicators();
+        }
+
+        function renderIndicators() {
+            const grid = document.getElementById('indicatorGrid');
+            if (!grid) return;
+            grid.innerHTML = INDICATORS.map(ind => {
+                let text = ind.v;
+                if (text === '0') text = currentPrice ? (currentPrice * (1 + (Math.random() - 0.5) * 0.015)).toFixed(0) : '—';
+                return `<div style="background:rgba(255,255,255,0.03); padding:6px 4px; border-radius:6px; display:flex; flex-direction:column; align-items:center; border:1px solid rgba(255,255,255,0.05);">
+                    <span style="font-size:0.55rem; color:#aaa; font-weight:700; letter-spacing:1px; text-align:center;">${ind.n}</span>
+                    <span style="font-size:0.8rem; font-weight:900; color:var(--cyan); margin-top:3px;">${text}</span>
+                </div>`;
+            }).join('');
+        }
+
+        initTraders(); connectBybit(); initNewsAndIndicators();
+        setInterval(() => { runBattleRound(); renderIndicators(); }, 3000);
+        addFeed(`⚔️ <strong>QUANTUM LEGION</strong> 부팅 완료 — 100인 전투 대원 배치 완료`);
+    </script>
+</body>
+
+</html>

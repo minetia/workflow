@@ -1,0 +1,1122 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💠 SYSTEMCORE | HQ — 실시간 AI 트레이딩</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lightweight-charts@4.2.0/dist/lightweight-charts.standalone.production.js"></script>
+    <script src="core_persistence.js"></script>
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --bg: #0d1117;
+            --panel: #161b22;
+            --border: #30363d;
+            --accent: #388bfd;
+            --green: #0ecb81;
+            --red: #f6465d;
+            --gold: #ffd700;
+            --cyan: #00d4ff;
+            --text: #e6edf3;
+            --muted: #8b949e;
+        }
+
+        html,
+        body {
+            height: 100%;
+            overflow: hidden;
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Outfit', sans-serif;
+            font-size: 13px;
+        }
+
+        /* ── TOP NAV ── */
+        .top-nav {
+            height: 52px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            background: rgba(13, 17, 23, 0.95);
+            border-bottom: 1px solid var(--border);
+            position: relative;
+            z-index: 50;
+            backdrop-filter: blur(12px);
+        }
+
+        .nav-logo {
+            font-size: 1rem;
+            font-weight: 900;
+            letter-spacing: 3px;
+            color: var(--gold);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-logo span {
+            color: var(--cyan);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            color: #888;
+            border: 1px solid transparent;
+            background: transparent;
+            transition: all 0.2s;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .nav-link:hover {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .nav-link.active {
+            color: var(--cyan);
+            border-bottom: 2px solid var(--cyan);
+            border-radius: 4px 4px 0 0;
+            background: rgba(0, 212, 255, 0.03);
+        }
+
+        .nav-link.arena-btn {
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            color: var(--gold);
+            background: rgba(255, 215, 0, 0.05);
+            margin-left: 4px;
+        }
+
+        .nav-link.arena-btn:hover {
+            background: rgba(255, 215, 0, 0.1);
+            border-color: var(--gold);
+        }
+
+        .nav-link.arena-btn.active {
+            border: 1px solid var(--gold);
+            background: rgba(255, 215, 0, 0.1);
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.1);
+            border-bottom: 1px solid var(--gold);
+            border-radius: 8px;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .ws-badge {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: var(--muted);
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border);
+            padding: 4px 10px;
+            border-radius: 20px;
+        }
+
+        .ws-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #444;
+            transition: all 0.4s;
+        }
+
+        .ws-dot.live {
+            background: var(--green);
+            box-shadow: 0 0 8px var(--green);
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1
+            }
+
+            50% {
+                opacity: 0.5
+            }
+        }
+
+        .app-layout {
+            display: grid;
+            grid-template-columns: 240px 1fr 280px;
+            min-height: 100vh;
+            height: 100vh;
+            overflow: hidden;
+            padding-top: 60px;
+        }
+
+        /* ── COIN PANEL ── */
+        .coin-panel {
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            background: var(--panel);
+        }
+
+        .panel-tabs {
+            display: flex;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .panel-tab {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: var(--muted);
+            transition: all 0.2s;
+        }
+
+        .panel-tab.active {
+            color: var(--accent);
+            border-bottom: 2px solid var(--accent);
+        }
+
+        .coin-search {
+            padding: 10px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .coin-search input {
+            width: 100%;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 7px 10px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-family: inherit;
+        }
+
+        .coin-search input:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .coin-list-header {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            padding: 6px 12px;
+            font-size: 10px;
+            color: var(--muted);
+            font-weight: 700;
+            border-bottom: 1px solid var(--border);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .coin-list {
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .coin-item {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            padding: 9px 12px;
+            cursor: pointer;
+            border-bottom: 1px solid rgba(48, 54, 61, 0.5);
+            transition: background 0.15s;
+        }
+
+        .coin-item:hover {
+            background: rgba(56, 139, 253, 0.05);
+        }
+
+        .coin-item.active {
+            background: rgba(56, 139, 253, 0.1);
+            border-left: 2px solid var(--accent);
+        }
+
+        .coin-name {
+            font-weight: 700;
+            font-size: 12px;
+        }
+
+        .coin-sub {
+            font-size: 10px;
+            color: var(--muted);
+            margin-top: 1px;
+        }
+
+        .coin-price {
+            font-size: 11px;
+            font-family: monospace;
+            font-weight: 600;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .coin-rate {
+            font-size: 10px;
+            font-weight: 700;
+            text-align: right;
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+
+        .up {
+            color: var(--green);
+        }
+
+        .down {
+            color: var(--red);
+        }
+
+        .even {
+            color: var(--muted);
+        }
+
+        .up-bg {
+            background: rgba(14, 203, 129, 0.15);
+            color: var(--green);
+        }
+
+        .down-bg {
+            background: rgba(246, 70, 93, 0.15);
+            color: var(--red);
+        }
+
+        .flash-up {
+            animation: flashUp 0.5s ease;
+        }
+
+        .flash-down {
+            animation: flashDown 0.5s ease;
+        }
+
+        @keyframes flashUp {
+            0% {
+                background: rgba(14, 203, 129, 0.3)
+            }
+
+            100% {
+                background: transparent
+            }
+        }
+
+        @keyframes flashDown {
+            0% {
+                background: rgba(246, 70, 93, 0.3)
+            }
+
+            100% {
+                background: transparent
+            }
+        }
+
+        /* ── EXCHANGE TABS ── */
+        .exchange-tabs {
+            display: flex;
+            padding: 8px 12px;
+            gap: 6px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .ex-tab {
+            flex: 1;
+            padding: 5px;
+            text-align: center;
+            border-radius: 6px;
+            font-size: 0.65rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            cursor: pointer;
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--muted);
+            transition: all 0.2s;
+        }
+
+        .ex-tab.active {
+            background: rgba(56, 139, 253, 0.2);
+            color: var(--accent);
+            border-color: var(--accent);
+        }
+
+        /* ── CHART AREA ── */
+        .chart-area {
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            background: var(--bg);
+        }
+
+        .chart-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 18px;
+            border-bottom: 1px solid var(--border);
+            flex-shrink: 0;
+        }
+
+        .chart-coin-name {
+            font-size: 1.1rem;
+            font-weight: 900;
+            letter-spacing: 1px;
+        }
+
+        .chart-price {
+            font-size: 1.4rem;
+            font-weight: 900;
+            font-family: monospace;
+        }
+
+        .chart-meta {
+            display: flex;
+            gap: 16px;
+            margin-top: 4px;
+        }
+
+        .chart-meta-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .meta-label {
+            font-size: 10px;
+            color: var(--muted);
+        }
+
+        .meta-value {
+            font-size: 12px;
+            font-weight: 700;
+            font-family: monospace;
+        }
+
+        .chart-controls {
+            display: flex;
+            gap: 4px;
+        }
+
+        .interval-btn {
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--muted);
+            transition: all 0.2s;
+        }
+
+        .interval-btn.active,
+        .interval-btn:hover {
+            background: rgba(56, 139, 253, 0.2);
+            color: var(--accent);
+            border-color: var(--accent);
+        }
+
+        #chart-container {
+            flex: 1;
+            width: 100%;
+            min-height: 300px;
+            position: relative;
+        }
+
+        .signal-banner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 18px;
+            background: var(--panel);
+            border-top: 1px solid var(--border);
+            flex-shrink: 0;
+        }
+
+        .signal-badge {
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 900;
+            letter-spacing: 1px;
+        }
+
+        .signal-BUY,
+        .signal-STRONG_BUY {
+            background: rgba(14, 203, 129, 0.2);
+            color: var(--green);
+        }
+
+        .signal-SELL,
+        .signal-STRONG_SELL {
+            background: rgba(246, 70, 93, 0.2);
+            color: var(--red);
+        }
+
+        .signal-HOLD {
+            background: rgba(139, 148, 158, 0.15);
+            color: var(--muted);
+        }
+
+        #tech-indicator-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            padding: 8px 18px;
+            background: var(--panel);
+            border-top: 1px solid var(--border);
+        }
+
+        /* ── RIGHT PANEL ── */
+        .right-panel {
+            border-left: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            background: var(--panel);
+        }
+
+        .r-section {
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 0;
+        }
+
+        .r-title {
+            padding: 10px 14px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: var(--muted);
+            border-bottom: 1px solid var(--border);
+            text-transform: uppercase;
+        }
+
+        /* Orderbook */
+        .orderbook {
+            padding: 0;
+        }
+
+        .ob-header {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            padding: 6px 12px;
+            font-size: 10px;
+            color: var(--muted);
+            font-weight: 700;
+        }
+
+        .ob-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            padding: 4px 12px;
+            font-size: 11px;
+            position: relative;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+
+        .ob-row:hover {
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .ob-price {
+            text-align: center;
+            font-weight: 700;
+            font-family: monospace;
+        }
+
+        .ob-qty {
+            font-family: monospace;
+            color: var(--muted);
+            font-size: 10px;
+        }
+
+        /* Trade list */
+        .trade-list {
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .trade-item {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            padding: 4px 12px;
+            font-size: 10px;
+            border-bottom: 1px solid rgba(48, 54, 61, 0.3);
+        }
+
+        .trade-time {
+            color: var(--muted);
+        }
+
+        /* Order panel */
+        .order-panel {
+            padding: 10px 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .order-tabs {
+            display: flex;
+            gap: 4px;
+        }
+
+        .order-tab-btn {
+            flex: 1;
+            padding: 7px;
+            border-radius: 6px;
+            font-weight: 900;
+            font-size: 12px;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+        }
+
+        .order-tab-btn.bid {
+            background: var(--green);
+            color: #000;
+        }
+
+        .order-tab-btn.ask {
+            background: transparent;
+            color: var(--red);
+            border: 1px solid var(--red);
+        }
+
+        .order-input {
+            width: 100%;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 7px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-family: monospace;
+        }
+
+        .order-input:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        select.order-input option {
+            background: var(--panel);
+        }
+
+        .ratio-btns {
+            display: flex;
+            gap: 4px;
+        }
+
+        .ratio-btn {
+            flex: 1;
+            padding: 4px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 700;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border);
+            color: var(--muted);
+            cursor: pointer;
+        }
+
+        .ratio-btn:hover {
+            background: rgba(56, 139, 253, 0.15);
+            color: var(--accent);
+        }
+
+        .order-submit {
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: 900;
+            font-size: 14px;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+            letter-spacing: 0.5px;
+        }
+
+        .order-submit.bid {
+            background: var(--green);
+            color: #000;
+        }
+
+        .order-submit.ask {
+            background: var(--red);
+            color: #fff;
+        }
+
+        .balance-mini {
+            background: var(--bg);
+            border-radius: 6px;
+            padding: 8px 10px;
+            font-size: 11px;
+            color: var(--muted);
+        }
+
+        .balance-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 3px;
+        }
+
+        .input-label {
+            font-size: 10px;
+            color: var(--muted);
+            font-weight: 700;
+            margin-bottom: 3px;
+        }
+
+        /* ── SYSTEM LOG ── */
+        .log-panel {
+            flex: 0 0 120px;
+            border-top: 1px solid var(--border);
+            background: rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .log-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 8px 12px;
+            font-family: monospace;
+            font-size: 10px;
+        }
+
+        .log-entry {
+            margin-bottom: 4px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            padding-bottom: 2px;
+        }
+
+        .log-time {
+            color: var(--muted);
+            margin-right: 6px;
+        }
+
+        .log-msg {
+            color: var(--text);
+        }
+
+        ::-webkit-scrollbar {
+            width: 4px;
+            height: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 2px;
+        }
+    </style>
+</head>
+
+<body>
+
+    {% with page_title="HQ — 실시간 AI 트레이딩", page_subtitle="SYSTEMCORE" %}
+    {% include 'PHOENIX_MASTER/imperial_nav.html' %}
+    {% endwith %}
+
+    <div class="app-layout">
+        <aside class="coin-panel">
+            <div class="exchange-tabs">
+                <button class="ex-tab active" id="tab-bybit" onclick="switchExchange('bybit', this)">BYBIT</button>
+                <button class="ex-tab" id="tab-upbit" onclick="switchExchange('upbit', this)">UPBIT</button>
+            </div>
+            <div class="panel-tabs">
+                <div class="panel-tab active" onclick="filterCoins('all', this)">전체</div>
+                <div class="panel-tab" onclick="filterCoins('fav', this)">즐겨찾기</div>
+                <div class="panel-tab" onclick="filterCoins('ai', this)">AI 신호</div>
+            </div>
+            <div class="coin-search">
+                <input type="text" id="coin-search-input" placeholder="코인 검색..." oninput="filterSearch(this.value)"
+                    autocomplete="off">
+            </div>
+            <div class="coin-list-header">
+                <span>코인명</span>
+                <span style="text-align:center">현재가</span>
+                <span style="text-align:right">등락률</span>
+            </div>
+            <div class="coin-list" id="coin-list">
+                <div style="padding:30px;text-align:center;color:var(--muted)">⏳ 연결 중...</div>
+            </div>
+        </aside>
+
+        <main class="chart-area">
+            <div class="chart-header">
+                <div>
+                    <div style="display:flex;align-items:baseline;gap:12px;margin-bottom:4px;">
+                        <span class="chart-coin-name" id="chart-coin-name">BTC/USDT</span>
+                        <span class="chart-price up" id="chart-price">—</span>
+                        <span class="coin-rate" id="chart-change-rate">—</span>
+                    </div>
+                    <div class="chart-meta">
+                        <div class="chart-meta-item"><span class="meta-label">고가</span><span class="meta-value up"
+                                id="meta-high">—</span></div>
+                        <div class="chart-meta-item"><span class="meta-label">저가</span><span class="meta-value down"
+                                id="meta-low">—</span></div>
+                        <div class="chart-meta-item"><span class="meta-label">거래량(24H)</span><span class="meta-value"
+                                id="meta-vol">—</span></div>
+                    </div>
+                </div>
+                <div class="chart-controls">
+                    <button class="interval-btn active" onclick="changeInterval('1',this)">1분</button>
+                    <button class="interval-btn" onclick="changeInterval('3',this)">3분</button>
+                    <button class="interval-btn" onclick="changeInterval('5',this)">5분</button>
+                    <button class="interval-btn" onclick="changeInterval('15',this)">15분</button>
+                    <button class="interval-btn" onclick="changeInterval('60',this)">1시간</button>
+                    <button class="interval-btn" onclick="changeInterval('240',this)">4시간</button>
+                </div>
+            </div>
+            <div id="chart-container"></div>
+            <div class="signal-banner">
+                <div>
+                    <span class="signal-badge signal-HOLD" id="signal-badge">⏳ HOLD</span>
+                    <span id="signal-reason" style="margin-left:12px;color:var(--muted);font-size:11px;">분석 중...</span>
+                </div>
+                <div style="display:flex;gap:16px;font-size:11px;color:var(--muted);font-family:monospace;">
+                    <span>RSI: <strong id="si-rsi">—</strong></span>
+                    <span>MA5: <strong id="si-ma5">—</strong></span>
+                    <span>MA20: <strong id="si-ma20">—</strong></span>
+                    <span>점수: <strong id="si-score" style="color:var(--accent)">—</strong></span>
+                </div>
+            </div>
+            <div id="tech-indicator-stack"></div>
+        </main>
+
+        <aside class="right-panel">
+            <div class="r-section">
+                <div class="r-title">💰 주문 패널</div>
+                <div class="order-panel">
+                    <div class="order-tabs">
+                        <button class="order-tab-btn bid" id="btn-bid" onclick="switchOrderTab('bid')">매수</button>
+                        <button class="order-tab-btn ask" id="btn-ask" onclick="switchOrderTab('ask')">매도</button>
+                    </div>
+                    <select class="order-input" id="ord-type">
+                        <option value="Market">시장가</option>
+                        <option value="Limit">지정가</option>
+                    </select>
+                    <div id="price-field" style="display:none">
+                        <div class="input-label">주문 가격 (USDT)</div>
+                        <input class="order-input" id="ord-price" type="number" placeholder="0">
+                    </div>
+                    <div>
+                        <div class="input-label" id="amount-label">주문 금액 (USDT)</div>
+                        <input class="order-input" id="ord-amount" type="number" placeholder="10 이상">
+                    </div>
+                    <div class="ratio-btns">
+                        <button class="ratio-btn" onclick="setRatio(0.25)">25%</button>
+                        <button class="ratio-btn" onclick="setRatio(0.5)">50%</button>
+                        <button class="ratio-btn" onclick="setRatio(0.75)">75%</button>
+                        <button class="ratio-btn" onclick="setRatio(1.0)">MAX</button>
+                    </div>
+                    <button class="order-submit bid" id="order-btn" onclick="executeOrder()">매수 주문</button>
+                    <div class="balance-mini">
+                        <div class="balance-row"><span>USDT 잔고</span><span id="bal-krw">—</span></div>
+                        <div class="balance-row"><span>코인 보유</span><span id="bal-coin">—</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="r-section" style="flex:1;display:flex;flex-direction:column;min-height:0">
+                <div class="r-title">📋 호가창</div>
+                <div class="orderbook" id="orderbook" style="overflow-y:auto"></div>
+                <div class="r-title" style="border-top:1px solid var(--border)">⚡ 최근 체결</div>
+                <div class="trade-list" id="trade-list"></div>
+            </div>
+
+            <div class="log-panel">
+                <div class="r-title">📡 시스템 머신 로그</div>
+                <div class="log-content" id="system-log"></div>
+            </div>
+        </aside>
+    </div>
+
+    <script>
+        // ── State ──
+        let currentExchange = 'bybit', currentMarket = 'BTCUSDT', currentInterval = '1';
+        let coinData = {}, orderSide = 'bid', candleData = [];
+        let lvChart = null, lvSeries = null, bybitWs = null;
+
+        const BYBIT_MARKETS = ['BTCUSDT', 'ETHUSDT', 'SOLUSDT', 'XRPUSDT', 'BNBUSDT', 'DOGEUSDT', 'ADAUSDT', 'AVAXUSDT', 'DOTUSDT', 'LINKUSDT', 'MATICUSDT', 'LTCUSDT', 'UNIUSDT', 'ATOMUSDT', 'NEARUSDT', 'APTUSDT', 'ARBUSDT', 'OPUSDT', 'INJUSDT', 'SUIUSDT'];
+        const UPBIT_MARKETS = ['KRW-BTC', 'KRW-ETH', 'KRW-SOL', 'KRW-XRP', 'KRW-ADA', 'KRW-DOGE', 'KRW-AVAX', 'KRW-DOT', 'KRW-LINK', 'KRW-MATIC'];
+
+        const ChartEngine = {
+            init() {
+                const container = document.getElementById('chart-container');
+                lvChart = LightweightCharts.createChart(container, {
+                    width: container.clientWidth, height: container.clientHeight,
+                    layout: { background: { color: '#0d1117' }, textColor: '#8b949e' },
+                    grid: { vertLines: { color: '#161b22' }, horzLines: { color: '#161b22' } },
+                    timeScale: { borderColor: '#30363d', timeVisible: true },
+                });
+                lvSeries = lvChart.addCandlestickSeries({ upColor: '#0ecb81', downColor: '#f6465d' });
+                new ResizeObserver(() => lvChart.applyOptions({ width: container.clientWidth, height: container.clientHeight })).observe(container);
+            },
+            async load(market, ex, iv) {
+                try {
+                    let url = ex === 'bybit' ? `https://api.bybit.com/v5/market/kline?category=spot&symbol=${market}&interval=${iv}&limit=200` : `https://api.upbit.com/v1/minutes/${iv === 'D' ? 'days' : iv}?market=${market}&count=200`;
+                    const r = await fetch(url); const d = await r.json();
+                    let candles = ex === 'bybit' ? d.result.list.reverse().map(c => ({ time: Math.floor(c[0] / 1000), open: +c[1], high: +c[2], low: +c[3], close: +c[4] })) : d.reverse().map(c => ({ time: Math.floor(new Date(c.candle_date_time_utc).getTime() / 1000), open: c.opening_price, high: c.high_price, low: c.low_price, close: c.trade_price }));
+                    candleData = candles; lvSeries.setData(candles); lvChart.timeScale().fitContent(); computeSignal(candles);
+                } catch (e) { }
+            }
+        };
+
+        function connectBybit() {
+            bybitWs = new WebSocket('wss://stream.bybit.com/v5/public/spot');
+            bybitWs.onopen = () => { setWsStatus(true); bybitWs.send(JSON.stringify({ op: 'subscribe', args: BYBIT_MARKETS.map(m => `tickers.${m}`) })); };
+            bybitWs.onmessage = (e) => {
+                const msg = JSON.parse(e.data);
+                if (msg.topic?.startsWith('tickers.') && msg.data) {
+                    const d = msg.data, sym = d.symbol, p = +d.lastPrice, c = +d.price24hPcnt * 100;
+                    const prev = coinData[sym] || {}; coinData[sym] = { ...d, price: p, change_rate: c };
+                    updateCoinItemUI(sym, p, c, prev.price || 0);
+                    if (sym === currentMarket) updateChartHeader(sym, p, c, +d.highPrice24h, +d.lowPrice24h, +d.volume24h);
+                }
+            };
+            bybitWs.onclose = () => { setWsStatus(false); setTimeout(connectBybit, 3000); };
+        }
+
+        async function loadUpbitTickers() {
+            try {
+                const r = await fetch(`https://api.upbit.com/v1/ticker?markets=${UPBIT_MARKETS.join(',')}`); const d = await r.json();
+                d.forEach(t => {
+                    const prev = coinData[t.market] || {}; coinData[t.market] = { price: t.trade_price, change_rate: t.signed_change_rate * 100, high24h: t.high_price, low24h: t.low_price, volume24h: t.acc_trade_volume_24h };
+                    updateCoinItemUI(t.market, t.trade_price, t.signed_change_rate * 100, prev.price || 0);
+                    if (t.market === currentMarket) updateChartHeader(t.market, t.trade_price, t.signed_change_rate * 100, t.high_price, t.low_price, t.acc_trade_volume_24h);
+                });
+            } catch (e) { }
+        }
+
+        function setWsStatus(live) {
+            try {
+                if (document.getElementById('wsDot')) document.getElementById('wsDot').className = 'ws-dot' + (live ? ' live' : '');
+                if (document.getElementById('wsLabel')) document.getElementById('wsLabel').textContent = live ? 'BYBIT LIVE' : 'OFFLINE';
+            } catch (e) { }
+        }
+
+        function updateCoinItemUI(key, price, rate, prev) {
+            const el = document.getElementById(`coin-item-${key}`); if (!el) return;
+            const pEl = el.querySelector('.coin-price'), rEl = el.querySelector('.coin-rate');
+            pEl.textContent = currentExchange === 'bybit' ? '$' + price.toLocaleString() : '₩' + price.toLocaleString();
+            pEl.className = `coin-price ${rate > 0 ? 'up' : rate < 0 ? 'down' : 'even'} ${price > prev ? 'flash-up' : price < prev ? 'flash-down' : ''}`;
+            rEl.textContent = (rate > 0 ? '+' : '') + rate.toFixed(2) + '%'; rEl.className = `coin-rate ${rate > 0 ? 'up-bg' : rate < 0 ? 'down-bg' : 'even'}`;
+        }
+
+        function renderCoinList() {
+            const list = document.getElementById('coin-list');
+            const mkts = currentExchange === 'bybit' ? BYBIT_MARKETS : UPBIT_MARKETS;
+            list.innerHTML = mkts.map(k => {
+                const d = coinData[k] || {}, p = d.price || 0, r = d.change_rate || 0;
+                return `<div class="coin-item ${k === currentMarket ? 'active' : ''}" id="coin-item-${k}" onclick="selectCoin('${k}')">
+                    <div class="coin-name">${k.replace('USDT', '').replace('KRW-', '')}</div>
+                    <div class="coin-price">${p.toLocaleString()}</div>
+                    <div class="coin-rate">${r.toFixed(2)}%</div>
+                </div>`;
+            }).join('');
+        }
+
+        async function selectCoin(k) { currentMarket = k; renderCoinList(); await ChartEngine.load(k, currentExchange, currentInterval); loadOrderbook(k); loadRecentTrades(k); updateBalanceDisplay(); }
+
+        function updateChartHeader(m, p, r, h, l, v) {
+            document.getElementById('chart-price').textContent = currentExchange === 'bybit' ? '$' + p.toLocaleString() : '₩' + p.toLocaleString();
+            document.getElementById('chart-change-rate').textContent = (r > 0 ? '+' : '') + r.toFixed(2) + '%';
+            document.getElementById('meta-high').textContent = h.toLocaleString();
+            document.getElementById('meta-low').textContent = l.toLocaleString();
+            document.getElementById('meta-vol').textContent = Math.round(v).toLocaleString();
+        }
+
+        async function loadOrderbook(m) {
+            const el = document.getElementById('orderbook');
+            let url = currentExchange === 'bybit' ? `https://api.bybit.com/v5/market/orderbook?category=spot&symbol=${m}&limit=10` : `https://api.upbit.com/v1/orderbook?markets=${m}`;
+            const r = await fetch(url); const d = await r.json();
+            const units = currentExchange === 'bybit' ? d.result.a.map((x, i) => [x[0], x[1], d.result.b[i][0], d.result.b[i][1]]) : d[0].orderbook_units.map(u => [u.ask_price, u.ask_size, u.bid_price, u.bid_size]);
+            el.innerHTML = units.map(u => `<div class="ob-row"><span class="ob-qty down">${(+u[1]).toFixed(3)}</span><span class="ob-price">${(+u[0]).toLocaleString()}</span><span class="ob-price up">${(+u[2]).toLocaleString()}</span><span class="ob-qty up">${(+u[3]).toFixed(3)}</span></div>`).join('');
+        }
+
+        async function loadRecentTrades(m) {
+            const el = document.getElementById('trade-list');
+            let url = currentExchange === 'bybit' ? `https://api.bybit.com/v5/market/recent-trade?category=spot&symbol=${m}&limit=20` : `https://api.upbit.com/v1/trades/ticks?market=${m}&count=20`;
+            const r = await fetch(url); const d = await r.json();
+            const trades = currentExchange === 'bybit' ? d.result.list : d;
+            el.innerHTML = trades.map(t => `<div class="trade-item"><span>${t.time || t.trade_time}</span><span class="${(t.side || t.ask_bid) === 'Buy' || (t.side || t.ask_bid) === 'BID' ? 'up' : 'down'}">${(+t.price || t.trade_price).toLocaleString()}</span><span>${(+t.size || t.trade_volume).toFixed(4)}</span></div>`).join('');
+        }
+
+        function executeOrder() {
+            const amt = +document.getElementById('ord-amount').value; if (!amt) return;
+            const price = coinData[currentMarket].price;
+            let bal = Persistence.getBalance();
+            let portfolio = Persistence.getPortfolio();
+            const sym = currentMarket.replace('USDT', '');
+
+            if (orderSide === 'bid') {
+                if (amt > bal) { Persistence.log('ERR', 'Insufficient USDT'); return; }
+                bal -= amt; portfolio[sym] = (portfolio[sym] || 0) + (amt / price);
+            } else {
+                if (amt > (portfolio[sym] || 0)) { Persistence.log('ERR', `Insufficient ${sym}`); return; }
+                portfolio[sym] -= amt; bal += amt * price;
+            }
+            Persistence.setBalance(bal); Persistence.savePortfolio(portfolio);
+            Persistence.log('TRADE', `${orderSide === 'bid' ? 'Buy' : 'Sell'} ${sym} | Price: ${price}`);
+            updateBalanceDisplay(); document.getElementById('ord-amount').value = '';
+        }
+
+        function updateBalanceDisplay() {
+            document.getElementById('bal-krw').textContent = '$' + Persistence.getBalance().toFixed(2);
+            const sym = currentMarket.replace('USDT', '');
+            document.getElementById('bal-coin').textContent = (Persistence.getPortfolio()[sym] || 0).toFixed(6) + ' ' + sym;
+        }
+
+        function switchOrderTab(s) { orderSide = s; document.getElementById('btn-bid').className = s === 'bid' ? 'order-tab-btn bid' : 'order-tab-btn ask'; document.getElementById('order-btn').textContent = s === 'bid' ? '매수 주문' : '매도 주문'; document.getElementById('order-btn').className = 'order-submit ' + s; }
+        function setRatio(r) { document.getElementById('ord-amount').value = orderSide === 'bid' ? (Persistence.getBalance() * r).toFixed(2) : ((Persistence.getPortfolio()[currentMarket.replace('USDT', '')] || 0) * r).toFixed(6); }
+        function updateLogUI() { document.getElementById('system-log').innerHTML = Persistence.getLogs().map(l => `<div class="log-entry"><span class="log-time">[${l.t}]</span><span class="log-msg"><b>${l.k}</b>: ${l.m}</span></div>`).join(''); }
+
+        window.addEventListener('sc_log_update', updateLogUI);
+
+        function calcRSI(closes, period = 14) {
+            if (closes.length < period + 1) return 50;
+            let g = 0, l = 0;
+            for (let i = closes.length - period; i < closes.length; i++) {
+                const d = closes[i] - closes[i - 1];
+                if (d > 0) g += d; else l += Math.abs(d);
+            }
+            const rs = (g / period) / ((l / period) + 0.0001);
+            return 100 - (100 / (1 + rs));
+        }
+
+        function calcMA(closes, period) {
+            if (closes.length < period) return 0;
+            return closes.slice(-period).reduce((a, b) => a + b, 0) / period;
+        }
+
+        function computeSignal(candles) {
+            if (candles.length < 21) return;
+            const closes = candles.map(c => c.close);
+            const rsi = calcRSI(closes);
+            const ma5 = calcMA(closes, 5);
+            const ma20 = calcMA(closes, 20);
+            const last = closes[closes.length - 1];
+
+            let score = 0;
+            if (rsi < 30) score += 2;
+            else if (rsi < 45) score += 1;
+            else if (rsi > 70) score -= 2;
+            else if (rsi > 55) score -= 1;
+
+            if (ma5 > ma20) score += 1;
+            else if (ma5 < ma20) score -= 1;
+
+            if (last > ma5) score += 0.5;
+            else score -= 0.5;
+
+            let signal, reason;
+            if (score >= 2.5) { signal = 'STRONG_BUY'; reason = `🚀 RSI 과매도(${rsi.toFixed(1)}) + MA 골든크로스`; }
+            else if (score >= 1) { signal = 'BUY'; reason = `📈 매수 우세 (RSI:${rsi.toFixed(1)}, MA5>MA20)`; }
+            else if (score <= -2.5) { signal = 'STRONG_SELL'; reason = `💀 RSI 과매수(${rsi.toFixed(1)}) + MA 데드크로스`; }
+            else if (score <= -1) { signal = 'SELL'; reason = `📉 매도 우세 (RSI:${rsi.toFixed(1)}, MA5<MA20)`; }
+            else { signal = 'HOLD'; reason = `⏸ 관망 구간 (RSI:${rsi.toFixed(1)}, Score:${score.toFixed(1)})`; }
+
+            document.getElementById('signal-badge').textContent = { STRONG_BUY: '🚀 STRONG BUY', BUY: '📈 BUY', HOLD: '⏸ HOLD', SELL: '📉 SELL', STRONG_SELL: '💀 STRONG SELL' }[signal];
+            document.getElementById('signal-badge').className = `signal-badge signal-${signal}`;
+            document.getElementById('signal-reason').textContent = reason;
+            document.getElementById('si-rsi').textContent = rsi.toFixed(1);
+            document.getElementById('si-rsi').style.color = rsi > 70 ? 'var(--red)' : rsi < 30 ? 'var(--green)' : 'var(--text)';
+            document.getElementById('si-ma5').textContent = ma5.toLocaleString(undefined, { maximumFractionDigits: 2 });
+            document.getElementById('si-ma20').textContent = ma20.toLocaleString(undefined, { maximumFractionDigits: 2 });
+            document.getElementById('si-score').textContent = (score > 0 ? '+' : '') + score.toFixed(1);
+
+            const macd = ma5 - ma20;
+            const bb_mid = ma20;
+            const bb_std = Math.sqrt(closes.slice(-20).reduce((a, b) => a + (b - bb_mid) ** 2, 0) / 20);
+            const bb_up = bb_mid + 2 * bb_std, bb_dn = bb_mid - 2 * bb_std;
+            const indicators = {
+                'RSI(14)': rsi.toFixed(1), 'MA(5)': ma5.toFixed(2), 'MA(20)': ma20.toFixed(2),
+                'MACD': macd.toFixed(2), 'BB Upper': bb_up.toFixed(2), 'BB Lower': bb_dn.toFixed(2),
+                'Price': last.toFixed(2), '신호점수': (score > 0 ? '+' : '') + score.toFixed(1)
+            };
+            document.getElementById('tech-indicator-stack').innerHTML = Object.entries(indicators).map(([k, v]) =>
+                `<div style="background:var(--panel);border:1px solid var(--border);padding:4px 8px;border-radius:4px;font-size:10px;">
+                    <span style="color:var(--muted)">${k}:</span>
+                    <span style="color:var(--text);font-weight:700;margin-left:4px">${v}</span>
+                </div>`
+            ).join('');
+        }
+
+        async function switchExchange(ex, btn) {
+            currentExchange = ex;
+            document.querySelectorAll('.ex-tab').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            coinData = {};
+            currentMarket = ex === 'bybit' ? 'BTCUSDT' : 'KRW-BTC';
+
+            if (ex === 'bybit') {
+                connectBybit();
+            } else {
+                if (bybitWs) bybitWs.close();
+                setWsStatus(false);
+                try { if (document.getElementById('wsLabel')) document.getElementById('wsLabel').textContent = 'UPBIT REST'; } catch (e) { }
+                loadUpbitTickers();
+            }
+
+            renderCoinList();
+            await selectCoin(currentMarket);
+        }
+
+        let searchTimer;
+        function filterSearch(q) { clearTimeout(searchTimer); searchTimer = setTimeout(() => renderCoinList(q), 150); }
+        function filterCoins(type, btn) {
+            document.querySelectorAll('.panel-tab').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            renderCoinList();
+        }
+
+        function changeInterval(interval, btn) {
+            currentInterval = interval;
+            document.querySelectorAll('.interval-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            ChartEngine.load(currentMarket, currentExchange, interval);
+        }
+
+        connectBybit(); ChartEngine.init(); selectCoin('BTCUSDT'); updateLogUI();
+        setInterval(() => { if (currentExchange === 'upbit') loadUpbitTickers(); loadOrderbook(currentMarket); loadRecentTrades(currentMarket); }, 5000);
+    </script>
+</body>
+
+</html>

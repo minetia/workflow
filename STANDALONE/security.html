@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🛡️ SYSTEMCORE | 보안</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <script src="core_persistence.js"></script>
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0
+        }
+
+        :root {
+            --bg: #0d1117;
+            --panel: #161b22;
+            --border: #30363d;
+            --gold: #ffd700;
+            --cyan: #00d4ff;
+            --green: #0ecb81;
+            --red: #f6465d;
+            --text: #e6edf3;
+            --muted: #8b949e
+        }
+
+        html,
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Outfit', sans-serif;
+            font-size: 13px;
+            min-height: 100vh;
+            overflow-x: hidden;
+            overflow-y: auto;
+            padding-top: 60px;
+        }
+
+        .top-nav {
+            height: 52px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            background: rgba(13, 17, 23, .95);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            backdrop-filter: blur(12px)
+        }
+
+        .nav-logo {
+            font-size: 1rem;
+            font-weight: 900;
+            letter-spacing: 3px;
+            color: var(--gold)
+        }
+
+        .nav-logo span {
+            color: var(--cyan)
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            color: #888;
+            border: 1px solid transparent;
+            background: transparent;
+            transition: all 0.2s;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .nav-link:hover {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .nav-link.active {
+            color: var(--cyan);
+            border-bottom: 2px solid var(--cyan);
+            border-radius: 4px 4px 0 0;
+            background: rgba(0, 212, 255, 0.03);
+        }
+
+        .nav-link.arena-btn {
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            color: var(--gold);
+            background: rgba(255, 215, 0, 0.05);
+            margin-left: 4px;
+        }
+
+        .nav-link.arena-btn:hover {
+            background: rgba(255, 215, 0, 0.1);
+            border-color: var(--gold);
+        }
+
+        .nav-link.arena-btn.active {
+            border: 1px solid var(--gold);
+            background: rgba(255, 215, 0, 0.1);
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.1);
+            border-bottom: 1px solid var(--gold);
+            border-radius: 8px;
+        }
+
+        .ws-badge {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: .65rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: var(--muted);
+            background: rgba(255, 255, 255, .04);
+            border: 1px solid var(--border);
+            padding: 4px 10px;
+            border-radius: 20px
+        }
+
+        .ws-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #444
+        }
+
+        .ws-dot.live {
+            background: var(--green);
+            box-shadow: 0 0 8px var(--green);
+            animation: pulse 1.5s infinite
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1
+            }
+
+            50% {
+                opacity: .5
+            }
+        }
+
+        .page {
+            padding: 24px;
+            max-width: 1400px;
+            margin: 0 auto
+        }
+
+        .page-title {
+            font-size: 1.6rem;
+            font-weight: 900;
+            letter-spacing: 3px;
+            color: var(--red);
+            margin-bottom: 4px
+        }
+
+        .page-sub {
+            font-size: .72rem;
+            color: var(--muted);
+            letter-spacing: 2px;
+            margin-bottom: 24px
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+            margin-bottom: 20px
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 20px
+        }
+
+        .panel {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px
+        }
+
+        .panel-red {
+            border-color: rgba(246, 70, 93, .3);
+            background: rgba(246, 70, 93, .03)
+        }
+
+        .panel-title {
+            font-size: .65rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+            color: var(--muted);
+            text-transform: uppercase;
+            margin-bottom: 16px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border)
+        }
+
+        .stat-card {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center
+        }
+
+        .stat-val {
+            font-size: 1.8rem;
+            font-weight: 900;
+            margin: 8px 0
+        }
+
+        .alert-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, .04)
+        }
+
+        .alert-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: .9rem
+        }
+
+        .alert-DANGER {
+            background: rgba(246, 70, 93, .2);
+            border: 1px solid rgba(246, 70, 93, .3)
+        }
+
+        .alert-info {
+            flex: 1
+        }
+
+        .alert-label {
+            font-weight: 700;
+            font-size: .85rem
+        }
+
+        .alert-badge {
+            font-size: .65rem;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 4px;
+            letter-spacing: 1px
+        }
+
+        .badge-DANGER {
+            background: rgba(246, 70, 93, .2);
+            color: var(--red)
+        }
+
+        .badge-OK {
+            background: rgba(14, 203, 129, .2);
+            color: var(--green)
+        }
+
+        .px-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, .04)
+        }
+
+        .px-sym {
+            font-weight: 800
+        }
+
+        .px-val {
+            font-family: monospace;
+            font-weight: 700
+        }
+
+        .px-chg {
+            font-size: .75rem;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 4px
+        }
+
+        .up-bg {
+            background: rgba(14, 203, 129, .15);
+            color: var(--green)
+        }
+
+        .down-bg {
+            background: rgba(246, 70, 93, .15);
+            color: var(--red)
+        }
+
+        .log-entry {
+            font-size: 11px;
+            font-family: monospace;
+            padding: 4px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+            color: var(--muted);
+        }
+
+        .log-entry span {
+            color: var(--text);
+        }
+
+        ::-webkit-scrollbar {
+            width: 4px
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 2px
+        }
+    </style>
+</head>
+
+<body>
+    {% with page_title="보안 SECURITY COMPLEX", page_subtitle="SYSTEMCORE" %}
+    {% include 'PHOENIX_MASTER/imperial_nav.html' %}
+    {% endwith %}
+
+    <div class="page">
+        <div class="page-title">🛡️ 보안 SECURITY COMPLEX</div>
+        <div class="page-sub">SYSTEMCORE · PERSISTENT RISK MONITOR · ARMOR v1.0</div>
+
+        <div class="grid-3">
+            <div class="stat-card">
+                <div class="stat-label">BTC 도미넌스 (추정)</div>
+                <div class="stat-val" style="color:var(--gold)">52.4%</div>
+                <div style="font-size:.75rem;color:var(--muted)">마켓 캡 비중</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">실시간 잔고 SYNC</div>
+                <div class="stat-val" id="sync-bal" style="color:var(--cyan)">$0</div>
+                <div style="font-size:.75rem;color:var(--muted)">PERSISTENT LAYER</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">보안 레벨</div>
+                <div class="stat-val" style="color:var(--green)">OPTIMAL</div>
+                <div style="font-size:.75rem;color:var(--muted)">방화벽 가동 중</div>
+            </div>
+        </div>
+
+        <div class="grid-2">
+            <div class="panel panel-red">
+                <div class="panel-title" style="color:var(--red)">🚨 SHARED SYSTEM LOG</div>
+                <div id="system-log" style="max-height: 400px; overflow-y: auto;"></div>
+            </div>
+            <div class="panel">
+                <div class="panel-title">📡 MARKET VOLATILITY MONITOR</div>
+                <div id="px-monitor"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const MKTS = ['BTCUSDT', 'ETHUSDT', 'SOLUSDT', 'XRPUSDT', 'BNBUSDT', 'DOGEUSDT'];
+        let prices = {};
+
+        function updateUI() {
+            document.getElementById('sync-bal').textContent = '$' + Persistence.getBalance().toLocaleString();
+            updateLogUI();
+        }
+
+        function updateLogUI() {
+            const list = document.getElementById('system-log');
+            const logs = Persistence.getLogs();
+            list.innerHTML = logs.map(l => `<div class="log-entry">[${l.time}] <span>${l.module}</span>: ${l.msg}</div>`).join('');
+        }
+
+        window.addEventListener('sc_log_update', updateLogUI);
+
+        function buildPxMonitor() {
+            const el = document.getElementById('px-monitor');
+            el.innerHTML = MKTS.map(sym => `
+                <div class="px-row" id="px-${sym}">
+                    <span class="px-sym">${sym}</span>
+                    <span class="px-val">—</span>
+                    <span class="px-chg">—</span>
+                </div>
+            `).join('');
+        }
+
+        const ws = new WebSocket('wss://stream.bybit.com/v5/public/spot');
+        ws.onopen = () => { try { if (document.getElementById('wsDot')) document.getElementById('wsDot').className = 'ws-dot live'; } catch (e) { } ws.send(JSON.stringify({ op: 'subscribe', args: MKTS.map(m => `tickers.${m}`) })) };
+        ws.onmessage = (e) => {
+            const msg = JSON.parse(e.data);
+            if (msg.topic?.startsWith('tickers.') && msg.data) {
+                const d = msg.data, sym = d.symbol, p = +d.lastPrice, c = +d.price24hPcnt * 100;
+                const row = document.getElementById(`px-${sym}`);
+                if (row) {
+                    row.querySelector('.px-val').textContent = '$' + p.toLocaleString();
+                    row.querySelector('.px-chg').textContent = (c >= 0 ? '+' : '') + c.toFixed(2) + '%';
+                    row.querySelector('.px-chg').className = 'px-chg ' + (c >= 0 ? 'up-bg' : 'down-bg');
+                }
+            }
+        };
+        buildPxMonitor(); updateUI(); setInterval(updateUI, 2000);
+    </script>
+</body>
+
+</html>

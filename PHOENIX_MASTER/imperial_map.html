@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IMPERIAL MAP SYSTEM · PHOENIX EMPIRE</title>
+    <style>
+        :root {
+            --gold: #ffd700;
+            --gold-glow: rgba(255, 215, 0, 0.4);
+            --cyan: #00f3ff;
+            --cyan-glow: rgba(0, 243, 255, 0.4);
+            --crimson: #ff3e3e;
+            --bg: #05070a;
+            --glass: rgba(15, 20, 30, 0.8);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ── Background Grid ── */
+        .map-container {
+            flex: 1;
+            position: relative;
+            background-image:
+                radial-gradient(circle at 50% 50%, rgba(0, 243, 255, 0.05) 0%, transparent 70%),
+                linear-gradient(rgba(0, 243, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 243, 255, 0.03) 1px, transparent 1px);
+            background-size: 100% 100%, 40px 40px, 40px 40px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            perspective: 1000px;
+        }
+
+        .map-surface {
+            position: relative;
+            width: 1000px;
+            height: 700px;
+            transform-style: preserve-3d;
+            transition: transform 0.1s ease-out;
+        }
+
+        /* ── Nodes ── */
+        .node {
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            background: var(--glass);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 10;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+        }
+
+        .node:hover {
+            transform: scale(1.1) translateZ(30px);
+            border-color: var(--accent);
+            box-shadow: 0 0 30px var(--accent-glow);
+        }
+
+        .node-icon {
+            font-size: 30px;
+            margin-bottom: 8px;
+            filter: drop-shadow(0 0 10px var(--accent-glow));
+        }
+
+        .node-label {
+            font-size: 10px;
+            font-weight: 900;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--accent);
+            text-align: center;
+        }
+
+        .node-sub {
+            font-size: 7px;
+            color: rgba(255, 255, 255, 0.4);
+            letter-spacing: 1px;
+            margin-top: 4px;
+        }
+
+        /* ── Connections ── */
+        .connector {
+            position: absolute;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+            opacity: 0.2;
+            transform-origin: left center;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* ── Sector Specific Colors ── */
+        .node.hq {
+            --accent: var(--gold);
+            --accent-glow: var(--gold-glow);
+            left: 440px;
+            top: 290px;
+        }
+
+        .node.vault {
+            --accent: var(--gold);
+            --accent-glow: var(--gold-glow);
+            left: 200px;
+            top: 150px;
+        }
+
+        .node.quantum {
+            --accent: #a78bfa;
+            --accent-glow: rgba(167, 139, 250, 0.4);
+            left: 680px;
+            top: 150px;
+        }
+
+        .node.security {
+            --accent: var(--crimson);
+            --accent-glow: rgba(255, 62, 62, 0.4);
+            left: 320px;
+            top: 500px;
+        }
+
+        .node.civitas {
+            --accent: #4ade80;
+            --accent-glow: rgba(74, 222, 128, 0.4);
+            left: 560px;
+            top: 500px;
+        }
+
+        .node.network {
+            --accent: var(--cyan);
+            --accent-glow: var(--cyan-glow);
+        }
+
+        .node.network-1 {
+            left: 320px;
+            top: 70px;
+        }
+
+        .node.network-2 {
+            left: 440px;
+            top: 70px;
+        }
+
+        .node.network-3 {
+            left: 560px;
+            top: 70px;
+        }
+
+        .node.network-4 {
+            left: 440px;
+            top: 180px;
+            --accent: #f87171;
+            --accent-glow: rgba(248, 113, 113, 0.4);
+        }
+
+        .node.dungeon {
+            --accent: #ef4444;
+            --accent-glow: rgba(239, 68, 68, 0.4);
+            left: 100px;
+            top: 450px;
+        }
+
+        /* ── HUD Elements ── */
+        .hud-overlay {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            border: 20px solid transparent;
+            border-image: radial-gradient(circle, transparent 60%, rgba(0, 243, 255, 0.05) 100%) 30;
+            z-index: 20;
+        }
+
+        .map-header {
+            position: absolute;
+            top: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            z-index: 100;
+        }
+
+        .map-title {
+            font-size: 24px;
+            font-weight: 100;
+            letter-spacing: 15px;
+            text-transform: uppercase;
+            color: var(--cyan);
+            text-shadow: 0 0 20px var(--cyan-glow);
+        }
+
+        .map-status {
+            font-size: 10px;
+            color: rgba(0, 243, 255, 0.5);
+            letter-spacing: 4px;
+            margin-top: 10px;
+            text-transform: uppercase;
+        }
+
+        .scanning-line {
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+            top: -100%;
+            left: 0;
+            opacity: 0.3;
+            animation: scan 8s infinite linear;
+            z-index: 5;
+        }
+
+        @keyframes scan {
+            from {
+                top: -10%;
+            }
+
+            to {
+                top: 110%;
+            }
+        }
+
+        /* ── Info Box ── */
+        .info-box {
+            position: absolute;
+            bottom: 40px;
+            right: 40px;
+            width: 300px;
+            background: var(--glass);
+            border: 1px solid rgba(0, 243, 255, 0.2);
+            padding: 20px;
+            border-radius: 4px;
+            backdrop-filter: blur(20px);
+            z-index: 100;
+            display: none;
+        }
+
+        .info-box.active {
+            display: block;
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .info-title {
+            font-size: 14px;
+            font-weight: 900;
+            color: var(--cyan);
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+
+        .info-desc {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.6;
+        }
+
+        .btn-back {
+            position: absolute;
+            top: 40px;
+            left: 40px;
+            background: transparent;
+            border: 1px solid var(--cyan);
+            color: var(--cyan);
+            padding: 8px 16px;
+            font-size: 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            z-index: 100;
+            transition: all 0.3s;
+        }
+
+        .btn-back:hover {
+            background: var(--cyan);
+            color: #000;
+            box-shadow: 0 0 20px var(--cyan-glow);
+        }
+
+        /* ── Pulse ── */
+        .pulse {
+            position: absolute;
+            border: 2px solid var(--accent);
+            border-radius: 50%;
+            inset: -10px;
+            opacity: 0;
+            animation: pulse-ring 2s infinite;
+        }
+
+        @keyframes pulse-ring {
+            0% {
+                transform: scale(0.8);
+                opacity: 0.5;
+            }
+
+            100% {
+                transform: scale(1.5);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <button class="btn-back" onclick="window.history.back()">← COMMAND HQ</button>
+
+    <div class="map-container" id="map-container">
+        <div class="hud-overlay"></div>
+        <div class="scanning-line"></div>
+
+        <div class="map-header">
+            <div class="map-title">IMPERIAL MAP SYSTEM</div>
+            <div class="map-status">SYSTEM STATUS: OPTIMAL · ALL SECTORS LIVE</div>
+        </div>
+
+        <div class="map-surface" id="map-surface">
+            <!-- HQ -->
+            <div class="node hq" onclick="nav('/hq')" onmouseover="showInfo('hq')" onmouseout="hideInfo()">
+                <div class="pulse"></div>
+                <div class="node-icon">🏰</div>
+                <div class="node-label">IMPERIAL HQ</div>
+                <div class="node-sub">CITADEL CENTRAL</div>
+            </div>
+
+            <!-- VAULT -->
+            <div class="node vault" onclick="nav('/vault')" onmouseover="showInfo('vault')" onmouseout="hideInfo()">
+                <div class="node-icon">💰</div>
+                <div class="node-label">VAULT</div>
+                <div class="node-sub">TREASURY WING</div>
+            </div>
+
+            <!-- QUANTUM -->
+            <div class="node quantum" onclick="nav('/pqc_mining')" onmouseover="showInfo('quantum')"
+                onmouseout="hideInfo()">
+                <div class="node-icon">🧬</div>
+                <div class="node-label">QUANTUM CORE</div>
+                <div class="node-sub">RESOURCE OPS</div>
+            </div>
+
+            <!-- SECURITY -->
+            <div class="node security" onclick="nav('/judiciary')" onmouseover="showInfo('security')"
+                onmouseout="hideInfo()">
+                <div class="node-icon">🛡️</div>
+                <div class="node-label">SECURITY CITADEL</div>
+                <div class="node-sub">IMPERIAL SHIELD</div>
+            </div>
+
+            <!-- CIVITAS -->
+            <div class="node civitas" onclick="nav('/civitas_center')" onmouseover="showInfo('civitas')"
+                onmouseout="hideInfo()">
+                <div class="node-icon">🏙️</div>
+                <div class="node-label">CIVITAS</div>
+                <div class="node-sub">PUBLIC SECTOR</div>
+            </div>
+
+            <!-- NETWORK DIVISION -->
+            <div class="node network network-1" onclick="nav('/hub_center')" onmouseover="showInfo('net1')"
+                onmouseout="hideInfo()">
+                <div class="node-icon">🌐</div>
+                <div class="node-label">NET DIV-1</div>
+                <div class="node-sub">GLOBAL HUB</div>
+            </div>
+            <div class="node network network-2" onclick="nav('/api_monitor')" onmouseover="showInfo('net2')"
+                onmouseout="hideInfo()">
+                <div class="node-icon">📡</div>
+                <div class="node-label">NET DIV-2</div>
+                <div class="node-sub">INTEGRITY</div>
+            </div>
+            <div class="node network network-3" onclick="nav('/quantum_telemetry')" onmouseover="showInfo('net3')"
+                onmouseout="hideInfo()">
+                <div class="node-icon">⚛️</div>
+                <div class="node-label">NET DIV-3</div>
+                <div class="node-sub">QUANTUM LINK</div>
+            </div>
+            <div class="node network network-4" onclick="nav('/network_trace')" onmouseover="showInfo('net4')"
+                onmouseout="hideInfo()">
+                <div class="node-icon">🔍</div>
+                <div class="node-label">NET DIV-4</div>
+                <div class="node-sub">ENFORCER</div>
+            </div>
+
+            <!-- DUNGEON -->
+            <div class="node dungeon" onclick="nav('/dungeon')" onmouseover="showInfo('dungeon')"
+                onmouseout="hideInfo()">
+                <div class="node-icon">⛓️</div>
+                <div class="node-label">DUNGEON B-7</div>
+                <div class="node-sub">RESTRICTED ZONE</div>
+            </div>
+
+            <!-- SVG for lines -->
+            <svg id="connectors-svg" width="100%" height="100%"
+                style="position:absolute; inset:0; pointer-events:none;"></svg>
+        </div>
+
+        <div class="info-box" id="info-box">
+            <div class="info-title" id="info-title">SECTOR NAME</div>
+            <div class="info-desc" id="info-desc">Sector description will appear here.</div>
+        </div>
+    </div>
+
+    <script>
+        const surface = document.getElementById('map-surface');
+        const container = document.getElementById('map-container');
+        const infoBox = document.getElementById('info-box');
+        const infoTitle = document.getElementById('info-title');
+        const infoDesc = document.getElementById('info-desc');
+
+        // Dynamic Info
+        const SECTOR_DATA = {
+            hq: { title: "IMPERIAL HQ", desc: "제국의 심장부. 모든 연산과 지휘가 이곳에서 시작됩니다. LV.5 사령관 전용 구역." },
+            vault: { title: "IMPERIAL VAULT", desc: "제국의 자산이 집결되는 금고. 실시간 자산 정산 및 분석 엔진이 가동 중입니다." },
+            quantum: { title: "QUANTUM CORE", desc: "PQC 채굴 및 양자 연산 구역. 제국의 에너지와 리소스가 생성되는 핵심 동력원입니다." },
+            security: { title: "SECURITY CITADEL", desc: "법원과 감찰국이 위치한 보안 구역. 제국의 질서와 무결성을 수호합니다." },
+            civitas: { title: "CIVITAS HUB", desc: "시민들의 생활 공역. 시장, 공원, 주거 지구가 통합된 거대 커뮤니티 섹터입니다." },
+            dungeon: { title: "SUBLEVEL B-7: DUNGEON", desc: "최하층 감옥. 규율 위반자들의 강제 트레이딩 노역이 집행되는 격리 구역입니다." },
+            net1: { title: "NETWORK DIV-1", desc: "글로벌 거래소 감시 분과. 전 세계 시장의 흐름과 거래소 API를 실시간 모니터링합니다." },
+            net2: { title: "NETWORK DIV-2", desc: "내부 무결성 감시 분과. 제국 시스템 간의 데이터 통신 및 API 무결성을 검증합니다." },
+            net3: { title: "NETWORK DIV-3", desc: "양자 영동 텔레메트리 분과. 퀀텀 코어와의 영동 연결 및 데이터 송수신을 관리합니다." },
+            net4: { title: "NETWORK DIV-4", desc: "보안 추적 및 봉쇄 분과. 네트워크 침입 시도 추적 및 공격 원점 봉쇄를 담당합니다." }
+        };
+
+        function showInfo(id) {
+            const data = SECTOR_DATA[id];
+            infoTitle.textContent = data.title;
+            infoDesc.textContent = data.desc;
+            infoBox.classList.add('active');
+        }
+
+        function hideInfo() {
+            infoBox.classList.remove('active');
+        }
+
+        function nav(url) {
+            window.location.href = url;
+        }
+
+        // Tilt effect
+        container.addEventListener('mousemove', (e) => {
+            const xAxis = (window.innerWidth / 2 - e.pageX) / 40;
+            const yAxis = (window.innerHeight / 2 - e.pageY) / 40;
+            surface.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+        });
+
+        // DRAW CONNECTIONS
+        function drawConnectors() {
+            const svg = document.getElementById('connectors-svg');
+            svg.innerHTML = '';
+            const hq = document.querySelector('.node.hq');
+            const others = document.querySelectorAll('.node:not(.hq)');
+
+            const hqRect = hq.getBoundingClientRect();
+            const hqX = hq.offsetLeft + 60;
+            const hqY = hq.offsetTop + 60;
+
+            others.forEach(node => {
+                const nx = node.offsetLeft + 60;
+                const ny = node.offsetTop + 60;
+
+                const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+                line.setAttribute("x1", hqX);
+                line.setAttribute("y1", hqY);
+                line.setAttribute("x2", nx);
+                line.setAttribute("y2", ny);
+                line.setAttribute("stroke", "rgba(0, 243, 255, 0.15)");
+                line.setAttribute("stroke-width", "1");
+                svg.appendChild(line);
+            });
+        }
+
+        window.onload = drawConnectors;
+        window.onresize = drawConnectors;
+    </script>
+</body>
+
+</html>

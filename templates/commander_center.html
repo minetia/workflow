@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PHOENIX EMPIRE | COMMANDER CENTER v7.0</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700;900&family=Orbitron:wght@700;900&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --gold: #D4AF37;
+            --bg-dark: #05070a;
+            --glass: rgba(15, 20, 30, 0.8);
+        }
+
+        body {
+            background: var(--bg-dark);
+            color: #fff;
+            font-family: 'Rajdhani', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .tower-title {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--gold);
+            letter-spacing: 4px;
+            text-shadow: 0 0 15px var(--gold);
+        }
+
+        .glass-card {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 16px;
+            transition: 0.3s;
+        }
+
+        .glass-card:hover {
+            border-color: var(--gold);
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.1);
+        }
+
+        .status-pulse {
+            width: 10px;
+            height: 10px;
+            background: #10b981;
+            border-radius: 50%;
+            display: inline-block;
+            box-shadow: 0 0 10px #10b981;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            50% {
+                transform: scale(1.4);
+                opacity: 0.5;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+
+<body class="p-6 pt-24">
+    {% with page_title="Sovereign Command", page_subtitle="JAM INTELLIGENCE v7.0" %}
+    {% include 'PHOENIX_MASTER/imperial_nav.html' %}
+    {% endwith %}
+    <!-- Header -->
+    <header
+        class="flex flex-col md:flex-row justify-between items-center mb-10 border-b border-gold/30 pb-6 max-w-[95%] mx-auto">
+        <div>
+            <h1 class="text-4xl font-black tower-title uppercase">SOVEREIGN COMMAND</h1>
+            <p class="text-[10px] tracking-[0.5em] text-gray-500 uppercase mt-2">Phoenix Empire Strategic AI Core</p>
+        </div>
+        <div class="flex gap-4 mt-4 md:mt-0">
+            <button onclick="location.href='/jam/nexus'"
+                class="bg-gold text-black px-6 py-2 rounded-full font-black text-xs hover:scale-105 transition shadow-lg shadow-gold/20">🏛️
+                NEXUS HUB</button>
+            <div class="text-right flex flex-col justify-center">
+                <span class="text-xs font-bold text-emerald-400"><span class="status-pulse mr-2"></span>LINK
+                    STABLE</span>
+                <span id="clock" class="text-[10px] font-mono text-gray-500 italic">SYNCING...</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-[95%] mx-auto space-y-8">
+        <!-- Top Row: Core Authority & AI Goal -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div class="glass-card p-8 border-l-4 border-l-red-600">
+                <h2 class="text-2xl font-black text-red-500 mb-6 uppercase flex justify-between">
+                    <span>👑 Authority Protocol</span>
+                    <span class="bg-red-600/20 text-red-500 text-xs px-3 py-1 rounded">MASTER ACCESS</span>
+                </h2>
+                <div class="grid grid-cols-2 gap-6">
+                    <div class="space-y-2">
+                        <div class="text-[10px] text-gray-500 uppercase font-black">Commander</div>
+                        <div class="text-lg font-bold">VERIFIED: lovesoong</div>
+                    </div>
+                    <div class="space-y-2">
+                        <div class="text-[10px] text-gray-500 uppercase font-black">Security Logic</div>
+                        <div class="text-lg font-bold text-emerald-400">BYPASS ENABLED</div>
+                    </div>
+                </div>
+                <button onclick="location.href='/master_console'"
+                    class="w-full mt-8 bg-black/40 border border-white/10 hover:border-red-500 text-gray-400 hover:text-white py-3 rounded-xl transition text-xs font-bold uppercase">Open
+                    System Internal Console</button>
+            </div>
+
+            <div class="glass-card p-8 border-l-4 border-l-gold">
+                <h2 class="text-2xl font-black text-gold mb-6 uppercase">🎯 Autonomous Goal Engine</h2>
+                <div class="bg-black/40 p-5 rounded-xl border border-white/5 mb-4">
+                    <div class="text-[10px] text-gray-600 mb-1 uppercase">Objective</div>
+                    <div class="text-xl font-black text-white italic">"Expanding Financial Resource Pipeline via
+                        Quantitative Mastery"</div>
+                </div>
+                <div class="flex justify-between text-xs font-mono">
+                    <span class="text-gray-500">GPU LOAD: <span class="text-emerald-400">42%</span></span>
+                    <span class="text-gray-500">QPU PULSE: <span class="text-cyan-400">ACTIVE</span></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Middle Row: Market & Traders Summary -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Market Summary (1/3) -->
+            <div class="glass-card p-6">
+                <h2
+                    class="text-xs font-black text-sky-400 mb-6 border-b border-sky-900/40 pb-2 uppercase tracking-widest">
+                    Market Matrix</h2>
+                <div id="market-brief" class="space-y-4">
+                    <!-- Tickers here -->
+                    <div class="flex justify-between items-center bg-black/40 p-3 rounded">
+                        <span class="font-bold">BTCUSDT</span>
+                        <span class="text-emerald-400 font-mono" id="main-btc-price">LOADING...</span>
+                    </div>
+                    <div class="flex justify-between items-center bg-black/40 p-3 rounded">
+                        <span class="font-bold">ETHUSDT</span>
+                        <span class="text-emerald-400 font-mono" id="main-eth-price">LOADING...</span>
+                    </div>
+                </div>
+                <button onclick="location.href='/jam/bybit'"
+                    class="w-full mt-6 bg-sky-900/20 hover:bg-sky-900/40 text-sky-400 py-3 rounded-xl transition text-xs font-black">EXPAND
+                    TO PRO TRADER VIEW</button>
+            </div>
+
+            <!-- Leaderboard Summary (2/3) -->
+            <div class="glass-card p-6 lg:col-span-2">
+                <h2 class="text-xs font-black text-gold mb-6 border-b border-gold/40 pb-2 uppercase tracking-widest">
+                    Wolves Ranking (Top 5)</h2>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs">
+                        <thead>
+                            <tr class="text-gray-600 uppercase">
+                                <th class="pb-4">Rank</th>
+                                <th class="pb-4">Trader</th>
+                                <th class="pb-4">Strategy</th>
+                                <th class="pb-4">PnL (%)</th>
+                                <th class="pb-4 text-right">Last Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="brief-leaderboard" class="divide-y divide-white/5">
+                            <!-- Injected -->
+                        </tbody>
+                    </table>
+                </div>
+                <button onclick="location.href='/jam/traders'"
+                    class="w-full mt-6 bg-gold/5 hover:bg-gold/10 text-gold py-3 rounded-xl transition text-xs font-black uppercase">Inspect
+                    All 100 Traders</button>
+            </div>
+        </div>
+
+        <!-- Bottom Row: Order Execution & API -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div class="glass-card p-8">
+                <h2 class="text-xl font-black text-blue-400 mb-6 uppercase">Bybit API Keystone</h2>
+                <div class="grid grid-cols-2 gap-4">
+                    <input type="password" id="api-key" placeholder="API KEY"
+                        class="bg-black/60 border border-white/10 p-3 rounded text-sm text-white focus:border-blue-500 outline-none">
+                    <input type="password" id="api-secret" placeholder="API SECRET"
+                        class="bg-black/60 border border-white/10 p-3 rounded text-sm text-white focus:border-blue-500 outline-none">
+                </div>
+                <button onclick="registerKeys()"
+                    class="w-full mt-4 bg-blue-600 hover:bg-blue-500 text-white font-black py-4 rounded-xl transition shadow-lg">SYNCHRONIZE
+                    KEYSTONE</button>
+            </div>
+
+            <div class="glass-card p-8">
+                <h2 class="text-xl font-black text-emerald-400 mb-6 uppercase">Manual Execution</h2>
+                <div class="grid grid-cols-3 gap-4 mb-4">
+                    <select id="side" class="bg-black/60 border border-white/10 p-3 rounded text-xs text-white">
+                        <option value="Buy">BUY / LONG</option>
+                        <option value="Sell">SELL / SHORT</option>
+                    </select>
+                    <input type="text" id="symbol" placeholder="BTCUSDT"
+                        class="bg-black/60 border border-white/10 p-3 rounded text-xs text-white" value="BTCUSDT">
+                    <input type="number" id="qty" placeholder="Quantity"
+                        class="bg-black/60 border border-white/10 p-3 rounded text-xs text-white">
+                </div>
+                <button onclick="execOrder()"
+                    class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-black py-4 rounded-xl transition shadow-lg uppercase">Launch
+                    Imperial Strike</button>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        async function refreshBasicData() {
+            try {
+                // 1. Markets
+                const mRes = await fetch('/api/bybit/markets?symbols=BTCUSDT,ETHUSDT');
+                const mData = await mRes.json();
+                if (mData.status === "success") {
+                    mData.data.forEach(t => {
+                        if (t.symbol === "BTCUSDT") document.getElementById('main-btc-price').innerText = `$${parseFloat(t.lastPrice).toLocaleString()}`;
+                        if (t.symbol === "ETHUSDT") document.getElementById('main-eth-price').innerText = `$${parseFloat(t.lastPrice).toLocaleString()}`;
+                    });
+                }
+
+                // 2. Traders Brief
+                const tRes = await fetch('/api/traders/competition');
+                const tData = await tRes.json();
+                const tbody = document.getElementById('brief-leaderboard');
+                tbody.innerHTML = tData.leaderboard.slice(0, 5).map((t, i) => `
+                    <tr>
+                        <td class="py-4 font-black text-gold">${i + 1}</td>
+                        <td class="py-4 font-bold text-white">${t.name}</td>
+                        <td class="py-4"><span class="text-[9px] bg-white/5 px-2 py-1 rounded text-gray-400 uppercase font-black">${t.role}</span></td>
+                        <td class="py-4 font-black ${t.profit_all_time >= 0 ? 'text-emerald-400' : 'text-red-500'}">${t.profit_all_time >= 0 ? '+' : ''}${t.profit_all_time.toFixed(2)}%</td>
+                        <td class="py-4 text-right"><span class="text-cyan-400 font-bold">${t.last_symbol}</span></td>
+                    </tr>
+                `).join('');
+            } catch (e) { }
+        }
+
+        async function registerKeys() {
+            const key = document.getElementById('api-key').value;
+            const sec = document.getElementById('api-secret').value;
+            if (!key || !sec) return alert("Keys required.");
+            const res = await fetch('/api/bybit/set_keys', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ api_key: key, api_secret: sec })
+            });
+            const data = await res.json();
+            alert(data.status === "SUCCESS" ? "Keys Protected." : "Failed to Register.");
+        }
+
+        async function execOrder() {
+            const side = document.getElementById('side').value;
+            const sym = document.getElementById('symbol').value;
+            const qty = document.getElementById('qty').value;
+            if (!qty) return alert("Qty required.");
+            const res = await fetch('/api/bybit/order/create', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ symbol: sym, side: side, qty: qty, category: 'spot' })
+            });
+            const data = await res.json();
+            alert(data.status === "success" ? "Order Deployed." : "Strike Failed.");
+        }
+
+        setInterval(refreshBasicData, 5000);
+        setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleString(); }, 1000);
+        refreshBasicData();
+    </script>
+</body>
+
+</html>

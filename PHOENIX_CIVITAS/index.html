@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>PHOENIX EMPIRE - COMMAND CENTER</title>
+    <style>
+        body { background: #0a0a0a; color: #00ff41; font-family: 'Courier New', Courier, monospace; display: flex; flex-direction: column; align-items: center; }
+        .grid { display: grid; grid-template-columns: repeat(3, 300px); gap: 20px; margin-top: 50px; }
+        .card { border: 1px solid #00ff41; padding: 20px; text-align: center; box-shadow: 0 0 10px #00ff41; }
+        .value { font-size: 2em; font-weight: bold; margin-top: 10px; }
+        h1 { text-shadow: 0 0 20px #00ff41; margin-top: 30px; }
+        .status-on { color: #00ff41; animation: blink 1s infinite; }
+        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
+    </style>
+</head>
+<body>
+    <h1>🏛️ PHOENIX EMPIRE COMMAND CENTER</h1>
+    <div class="grid">
+        <div class="card"><div>현재 시세 (BTC)</div><div id="price" class="value">$0</div></div>
+        <div class="card"><div>RSI 지표</div><div id="rsi" class="value">0</div></div>
+        <div class="card"><div>엔진 상태</div><div id="status" class="value status-on">OFFLINE</div></div>
+        <div class="card"><div>누적 거래 수</div><div id="trades" class="value">0</div></div>
+        <div class="card"><div>활성 잼(JAM)</div><div id="jams" class="value">15</div></div>
+        <div class="card"><div>보안 레벨</div><div id="security" class="value">MAX</div></div>
+    </div>
+
+    <script>
+        function updateDashboard() {
+            // data/dashboard_data.json 파일을 읽어와서 화면 갱신
+            fetch('../data/dashboard_data.json')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('price').innerText = '$' + data.price.toLocaleString();
+                    document.getElementById('rsi').innerText = data.rsi.toFixed(2);
+                    document.getElementById('status').innerText = data.status;
+                    document.getElementById('trades').innerText = data.trades;
+                })
+                .catch(error => console.log('데이터 대기 중...'));
+        }
+        setInterval(updateDashboard, 1000); // 1초마다 갱신
+    </script>
+</body>
+</html>

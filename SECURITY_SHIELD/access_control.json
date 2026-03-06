@@ -1,0 +1,12 @@
+{
+    "system_owner": [
+        "loves"
+    ],
+    "security_level": "MAXIMUM_ENCRYPTED",
+    "permissions": {
+        "loves": "주군_전체권한",
+        "maestro": "디자인_수정권한",
+        "quantum_core": "매매_판단권한"
+    },
+    "blocked_ips": []
+}

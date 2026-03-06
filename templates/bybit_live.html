@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PHOENIX EMPIRE | BYBIT PRO TRADER VIEW</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700;900&family=JetBrains+Mono:wght@700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --gold: #D4AF37;
+            --bg-dark: #05070a;
+        }
+
+        body {
+            background: var(--bg-dark);
+            color: #fff;
+            font-family: 'Rajdhani', sans-serif;
+        }
+
+        .glass-panel {
+            background: rgba(10, 15, 25, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 12px;
+        }
+
+        .terminal-box {
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid var(--gold);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: #10b981;
+            overflow-y: auto;
+        }
+
+        .status-pulse {
+            width: 10px;
+            height: 10px;
+            background: #10b981;
+            border-radius: 50%;
+            display: inline-block;
+            box-shadow: 0 0 10px #10b981;
+            animation: pulse-green 2s infinite;
+        }
+
+        @keyframes pulse-green {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            50% {
+                transform: scale(1.5);
+                opacity: 0.5;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+
+<body class="p-4 pt-20">
+    {% with page_title="Bybit Live", page_subtitle="PRO TRADER VIEW" %}
+    {% include 'PHOENIX_MASTER/imperial_nav.html' %}
+    {% endwith %}
+
+    <div class="max-w-[1600px] mx-auto">
+        <header class="flex justify-between items-center mb-6 border-b border-gold/30 pb-4">
+            <div>
+                <h1 class="text-3xl font-black text-gold tracking-tighter uppercase">🔭 BYBIT PRO TRADER VIEW</h1>
+                <p class="text-[10px] tracking-[0.3em] text-gray-500 uppercase">Realtime Speculation Matrix v7.2</p>
+            </div>
+            <div class="flex gap-4 items-center">
+                <div class="text-right">
+                    <div class="text-[10px] text-emerald-400 font-bold"><span class="status-pulse mr-1"></span> LIVE
+                        FEED</div>
+                    <div id="clock" class="text-xs font-mono text-gray-400">SYNCING...</div>
+                </div>
+            </div>
+        </header>
+
+        <div class="grid grid-cols-12 gap-6">
+            <!-- Order Book -->
+            <div class="col-span-12 lg:col-span-3 glass-panel p-4 h-[800px] flex flex-col">
+                <div
+                    class="text-xs font-black text-sky-400 mb-4 border-b border-sky-900/40 pb-2 uppercase tracking-widest">
+                    Order Depth</div>
+                <div id="ob-asks" class="flex-1 overflow-hidden font-mono text-[11px] space-y-1"></div>
+                <div id="live-price-center"
+                    class="text-3xl font-black text-center py-6 border-y border-white/5 my-4 gold-glow">---</div>
+                <div id="ob-bids" class="flex-1 overflow-hidden font-mono text-[11px] space-y-1 text-right"></div>
+            </div>
+
+            <!-- Chart & Tape -->
+            <div class="col-span-12 lg:col-span-6 space-y-6">
+                <div class="glass-panel p-6 h-[500px] relative">
+                    <h2 class="text-2xl font-black text-white mb-1" id="active-symbol">BYBIT: BTCUSDT</h2>
+                    <div class="grid grid-cols-3 gap-4 mt-6">
+                        <div class="bg-black/60 p-4 border border-white/5 rounded text-center">
+                            <div class="text-[10px] text-gray-500 uppercase">24H High</div>
+                            <div class="text-xl font-bold text-white" id="stat-high">$---</div>
+                        </div>
+                        <div class="bg-black/60 p-4 border border-white/5 rounded text-center">
+                            <div class="text-[10px] text-gray-500 uppercase">24H Low</div>
+                            <div class="text-xl font-bold text-white" id="stat-low">$---</div>
+                        </div>
+                        <div class="bg-black/60 p-4 border border-white/5 rounded text-center">
+                            <div class="text-[10px] text-gray-500 uppercase">24H Volume</div>
+                            <div class="text-xl font-bold text-sky-400" id="stat-vol">---</div>
+                        </div>
+                    </div>
+                    <!-- Placeholder for actual tradingview chart or similar if we had it -->
+                    <div
+                        class="mt-10 border border-white/5 bg-black/20 rounded-xl h-48 flex items-center justify-center italic text-gray-600">
+                        Visualizing Market Flux... [TradingView Link Recommended]
+                    </div>
+                </div>
+
+                <div class="glass-panel p-6">
+                    <div class="text-xs font-black text-gray-500 mb-4 uppercase tracking-[0.2em]">🏹 Recent Global
+                        Executions (Tape)</div>
+                    <div class="terminal-box h-[240px] p-4 font-mono text-xs" id="live-tape"></div>
+                </div>
+            </div>
+
+            <!-- Master Traders -->
+            <div class="col-span-12 lg:col-span-3 glass-panel p-4 flex flex-col h-[800px]">
+                <div class="text-xs font-black text-gold mb-4 border-b border-gold/40 pb-2 uppercase tracking-widest">
+                    Elite Wolves Ranking</div>
+                <div id="master-traders" class="flex-1 overflow-y-auto space-y-3 pr-2 shadow-inner"></div>
+                <button onclick="location.href='/jam/traders'"
+                    class="w-full mt-4 bg-gold hover:bg-yellow-600 text-black font-black py-3 rounded-xl transition text-xs shadow-lg shadow-gold/20">VIEW
+                    ALL 100 RANKINGS</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function updateLiveView() {
+            try {
+                const res = await fetch('/api/bybit/live_trade_view');
+                const data = await res.json();
+                if (data.status === "loading") return;
+
+                // 1. Order Book
+                const asks = data.orderbook.asks.slice(0, 15).reverse();
+                const bids = data.orderbook.bids.slice(0, 15);
+
+                document.getElementById('ob-asks').innerHTML = asks.map(a => `
+                    <div class="flex justify-between items-center text-red-400 hover:bg-red-400/10 px-2 py-0.5 rounded transition">
+                        <span>$${parseFloat(a[0]).toFixed(1)}</span>
+                        <span class="text-gray-500">${parseFloat(a[1]).toFixed(3)}</span>
+                    </div>
+                `).join('');
+
+                document.getElementById('ob-bids').innerHTML = bids.map(b => `
+                    <div class="flex justify-between items-center text-emerald-400 hover:bg-emerald-400/10 px-2 py-0.5 rounded transition">
+                        <span class="text-gray-500">${parseFloat(b[1]).toFixed(3)}</span>
+                        <span>$${parseFloat(b[0]).toFixed(1)}</span>
+                    </div>
+                `).join('');
+
+                const lastPrice = asks.length > 0 ? asks[asks.length - 1][0] : '---';
+                document.getElementById('live-price-center').innerText = `$${parseFloat(lastPrice).toLocaleString()}`;
+                document.getElementById('live-price-center').className = `text-4xl font-black text-center py-6 border-y border-white/5 my-4 ${Math.random() > 0.5 ? 'text-emerald-400' : 'text-red-400'}`;
+
+                // 2. Tickers (Stats)
+                const t = data.ticker || {};
+                document.getElementById('stat-high').innerText = t.highPrice24h ? `$${parseFloat(t.highPrice24h).toLocaleString()}` : '$---';
+                document.getElementById('stat-low').innerText = t.lowPrice24h ? `$${parseFloat(t.lowPrice24h).toLocaleString()}` : '$---';
+                document.getElementById('stat-vol').innerText = t.volume24h ? parseFloat(t.volume24h).toFixed(2) : '---';
+
+                // 3. Live Tape
+                const tape = document.getElementById('live-tape');
+                const lastTapeCount = tape.children.length;
+                data.trades.slice(0, 15).forEach(tr => {
+                    const row = document.createElement('div');
+                    row.className = `flex justify-between py-1 border-b border-white/5 ${tr.side === 'Buy' ? 'text-emerald-400' : 'text-red-400'}`;
+                    row.innerHTML = `<span>${tr.side.toUpperCase()}</span> <span>$${parseFloat(tr.price).toFixed(1)}</span> <span>${tr.size}</span> <span>${new Date(parseInt(tr.time)).toLocaleTimeString()}</span>`;
+                    tape.prepend(row);
+                });
+                while (tape.children.length > 50) tape.removeChild(tape.lastChild);
+
+                // 4. Master Traders (Leaders)
+                document.getElementById('master-traders').innerHTML = data.leaders.map((l, i) => `
+                    <div class="flex items-center justify-between p-3 bg-white/5 rounded-xl border border-white/5 hover:border-gold/30 transition group">
+                        <div class="flex items-center gap-3">
+                            <span class="text-[10px] font-black w-4 h-4 flex items-center justify-center rounded bg-gray-800 text-gray-500 group-hover:bg-gold group-hover:text-black transition">${i + 1}</span>
+                            <div class="flex flex-col">
+                                <span class="font-bold text-sm text-white">${l.name}</span>
+                                <span class="text-[8px] text-gray-500 font-mono tracking-tighter uppercase">${l.role}</span>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-xs font-black ${l.profit_all_time >= 0 ? 'text-emerald-400' : 'text-red-500'}">${l.profit_all_time >= 0 ? '+' : ''}${l.profit_all_time.toFixed(2)}%</div>
+                            <div class="text-[8px] text-gray-600 font-mono">${l.last_symbol}</div>
+                        </div>
+                    </div>
+                `).join('');
+
+            } catch (e) { }
+        }
+
+        setInterval(updateLiveView, 3000);
+        setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleString(); }, 1000);
+        updateLiveView();
+    </script>
+</body>
+
+</html>

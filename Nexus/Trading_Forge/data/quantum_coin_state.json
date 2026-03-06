@@ -1,0 +1,22 @@
+{
+    "total_supply": 1000000000.0,
+    "circulating_supply": 0.0,
+    "burned_supply": 0.0,
+    "network_speed": 1.0,
+    "wallets": {
+        "EMPIRE_TREASURY": {
+            "balance": 1000000000.0,
+            "address": "PX-V336-B3E7-436E-5CED"
+        }
+    },
+    "address_book": {
+        "PX-V336-B3E7-436E-5CED": "EMPIRE_TREASURY"
+    },
+    "mining_history": {
+        "by_minute": {},
+        "by_hour": {},
+        "total_mined_today": 0.0,
+        "last_mined_amount": 0.0
+    },
+    "transactions": []
+}

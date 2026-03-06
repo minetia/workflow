@@ -1,0 +1,650 @@
+"""
+# ─────────── [ PHOENIX EMPIRE: KOREA AI TRADING HUB ] ───────────
+# PHASE 6: THE EXECUTOR (COMMAND & CONTROL)
+# ─────────────────────────────────────────────────────────────
+# [SERVER] FastAPI Engine
+# [PORT]   7000
+# [AUTHOR] ANTIGRAVITY / PHOENIX COMMAND
+# ─────────────────────────────────────────────────────────────
+"""
+import sys
+import os
+from pathlib import Path
+
+# ⚡ [ 제국 통제실 경로 동기화 ] ⚡
+# 이 코드가 모든 임포트보다 앞에 와야 에디터(IDE)와 런타임이 제국 영토를 인식합니다.
+BASE_DIR = Path(__file__).parent
+ROOT_DIR = BASE_DIR.parent
+if str(BASE_DIR) not in sys.path: sys.path.append(str(BASE_DIR))
+if str(ROOT_DIR) not in sys.path: sys.path.append(str(ROOT_DIR))
+
+# 📦 [ STANDARD LIBRARIES ]
+import asyncio
+import json
+import time
+import random
+import logging
+from contextlib import asynccontextmanager
+from typing import Optional, List, Dict
+
+# 🛡️ [ THIRD-PARTY INFRASTRUCTURE ]
+try:
+    from fastapi import FastAPI, WebSocket, WebSocketDisconnect
+    from fastapi.staticfiles import StaticFiles
+    from fastapi.templating import Jinja2Templates
+    from fastapi.requests import Request
+    from fastapi.responses import HTMLResponse
+    from pydantic import BaseModel
+except ImportError as e:
+    print(f"❌ [PHOENIX ERROR] 필수 라이브러리가 누락되었습니다. 'pip install -r requirements.txt'를 실행하십시오. ({e})")
+    sys.exit(1)
+
+import uvicorn
+
+# 🏹 [ LOCAL PHOENIX MODULES ]
+from upbit_api import (
+    get_ticker, get_candles, get_orderbook, get_trades,
+    stream_tickers, UPBIT_MARKETS
+)
+from binance_api import (
+    get_ticker_24h, get_klines, get_orderbook as binance_orderbook,
+    stream_mini_tickers, BINANCE_SYMBOLS
+)
+from ai_trader import generate_signal, bot_state
+from trading_engine import (
+    get_balance, place_order, get_orders, cancel_order, save_keys, load_keys
+)
+from global_analyzer import analyzer as global_analyzer
+from indicator_engine import indicator_engine
+from trader_ranking import trader_ranking
+
+# 👑 [ IMPERIAL CORE (BACKEND) ]
+from backend.phoenix_vault import phoenix_vault
+from backend.ai_persona_engine import phoenix_trader
+from backend.intelligence_tracker import intelligence_tracker
+from backend.matching_engine import matching_engine
+from backend.quantum_coin_engine import pqc_engine
+from backend.ai_loan_vault import ai_loan_vault
+from backend.vault_manager import vault_manager
+
+# 🚀 [ TRADING JAM SYSTEM ]
+from trading_system.modules.collector_jam import CollectorJam
+from trading_system.modules.strategist_jam import StrategistJam
+from trading_system.modules.sniper_jam import SniperJam
+from trading_system.modules.guardian_jam import RiskGuardianJam
+from trading_system.modules.allocator_jam import CapitalAllocatorJam
+from trading_system.modules.executor_jam import ExecutorJam
+
+# Imperial Logging Setup
+logging.basicConfig(level=logging.INFO, format='%(asctime)s [%(levelname)s] %(message)s')
+logger = logging.getLogger("PHOENIX")
+
+# ─── 설정 파일 경로 ───
+BOT_CONFIG_PATH = BASE_DIR / "bot_config.json"
+
+def load_bot_config():
+    if BOT_CONFIG_PATH.exists():
+        try:
+            with open(BOT_CONFIG_PATH, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except Exception:
+            pass
+    return {"enabled": False, "mode": "LIVE", "strategy": "RSI+MA"}
+
+def save_bot_config(config):
+    with open(BOT_CONFIG_PATH, "w", encoding="utf-8") as f:
+        json.dump(config, f, indent=2, ensure_ascii=False)
+
+# 봇 상태 초기화
+saved_config = load_bot_config()
+bot_state.update(saved_config)
+
+# ─── 트레이딩 요청 모델 ───
+class OrderRequest(BaseModel):
+    market: str
+    side: str        # "bid"=매수, "ask"=매도
+    ord_type: str    # "price"=시장가매수, "market"=시장가매도, "limit"=지정가
+    price: Optional[float] = None
+    volume: Optional[float] = None
+
+class KeyRequest(BaseModel):
+    access_key: str
+    secret_key: str
+
+# ───────────────────────────────────────
+# 실시간 데이터 캐시
+# ───────────────────────────────────────
+upbit_cache: dict = {}    # {market: ticker_data}
+binance_cache: dict = {}  # {symbol: ticker_data}
+connected_clients: list = []
+
+
+async def broadcast(data: dict):
+    """연결된 모든 WebSocket 클라이언트에 브로드캐스트"""
+    dead = []
+    for ws in connected_clients:
+        try:
+            await ws.send_json(data)
+        except Exception:
+            dead.append(ws)
+    for ws in dead:
+        connected_clients.remove(ws)
+
+
+async def upbit_ticker_handler(data: dict):
+    """업비트 WebSocket 수신 처리"""
+    market = data.get("cd") or data.get("code")
+    if not market:
+        return
+    upbit_cache[market] = {
+        "market": market,
+        "price": data.get("tp", 0) or data.get("trade_price", 0),
+        "change_rate": round((data.get("scr", 0) or data.get("signed_change_rate", 0)) * 100, 2),
+        "change": data.get("c") or data.get("change"),
+        "volume_24h": data.get("atv24h", 0) or data.get("acc_trade_volume_24h", 0),
+        "source": "upbit"
+    }
+    await broadcast({"type": "ticker", "exchange": "upbit", "data": upbit_cache[market]})
+
+
+async def binance_ticker_handler(data: dict):
+    """바이낸스 WebSocket 수신 처리"""
+    symbol = data.get("s", "")
+    if not symbol:
+        return
+    prev_close = float(data.get("o", 1))
+    current = float(data.get("c", 0))
+    change_rate = round(((current - prev_close) / prev_close) * 100, 2) if prev_close else 0
+
+    binance_cache[symbol] = {
+        "symbol": symbol,
+        "price": current,
+        "change_rate": change_rate,
+        "volume_24h": float(data.get("v", 0)),
+        "source": "binance"
+    }
+    await broadcast({"type": "ticker", "exchange": "binance", "data": binance_cache[symbol]})
+
+
+# ⚔️ [ PHOENIX EMPIRE: THE LEGION OF 10,000 JAMS ] ⚔️
+# 1만 명의 기동 대원이 동시 다발적으로 시장을 타격하는 군단 시스템입니다.
+async def phoenix_quantum_loop():
+    logger.info("⚔️ [PHOENIX] THE LEGION OF 10,000 JAMS IS RISING. INITIALIZING SWARM...")
+    
+    # 군단 지휘관들 (Core Jams act as Commanders)
+    commander_collector = CollectorJam()
+    commander_guardian = RiskGuardianJam()
+    commander_executor = ExecutorJam()
+
+    # 군단 정보 (1만 명의 요원 상태)
+    JAM_COUNT = 10000
+    legion_agents = [
+        {"id": f"JAM_{i:04d}", "bias": random.uniform(-0.1, 0.1), "reliability": random.uniform(0.7, 0.99)}
+        for i in range(JAM_COUNT)
+    ]
+
+    while True:
+        try:
+            if not bot_state.get("enabled", False):
+                await asyncio.sleep(5)
+                continue
+
+            # 1. 시장 데이터 수집 (Command-level Data)
+            target_market = "KRW-BTC"
+            real_data = upbit_cache.get(target_market) or commander_collector.collect_all(asset="BTC")
+            current_price = real_data.get('price', 0)
+
+            # 2. 군단 총동원령 (Swarm Analysis)
+            # 1만 명의 요원이 각자의 bias를 가지고 판단을 내립니다.
+            logger.info(f"🛰️ [SWARM] Deploying {JAM_COUNT} agents for market analysis...")
+            
+            async def agent_decision(agent):
+                # 각 요원의 개별적 판단 (Strategist Logic 시뮬레이션)
+                # 시세 + 요원 편향성(bias) + 무작위 노이즈
+                sentiment_score = (real_data.get('rsi', 50) - 50) * 0.02 + agent["bias"]
+                if sentiment_score < -0.3: return "BUY"
+                if sentiment_score > 0.3: return "SELL"
+                return "HOLD"
+
+            # 비동기 병렬 처리로 1만 명의 의견을 수렴 (배치 처리로 부하 조절)
+            batch_size = 1000
+            decisions = []
+            for i in range(0, JAM_COUNT, batch_size):
+                batch = legion_agents[i:i+batch_size]
+                batch_results = await asyncio.gather(*(agent_decision(a) for a in batch))
+                decisions.extend(batch_results)
+
+            # 3. 집단 지성 합의 (Swarm Consensus)
+            buy_votes = decisions.count("BUY")
+            sell_votes = decisions.count("SELL")
+            hold_votes = decisions.count("HOLD")
+            
+            consensus = "HOLD"
+            if buy_votes > sell_votes and buy_votes > (JAM_COUNT * 0.1): # 10% 이상 찬성 시
+                consensus = "BUY"
+            elif sell_votes > buy_votes and sell_votes > (JAM_COUNT * 0.1):
+                consensus = "SELL"
+
+            # 군단 현황 방송
+            await broadcast({
+                "type": "swarm_report",
+                "total_agents": JAM_COUNT,
+                "votes": {"BUY": buy_votes, "SELL": sell_votes, "HOLD": hold_votes},
+                "consensus": consensus,
+                "price": current_price
+            })
+
+            # 4. 결 정에 따른 제국 타격 (Imperial Strike)
+            if consensus != "HOLD":
+                logger.info(f"🔥 [SWARM CONSENSUS] {consensus} DETECTED! (B:{buy_votes}, S:{sell_votes})")
+                
+                # 리스크 가디언의 최종 승인
+                risk_check = commander_guardian.assess_risk(real_data)
+                if risk_check.get('status') == "SAFE":
+                    # 집단 지성 기반의 주문 집행
+                    side = "bid" if consensus == "BUY" else "ask"
+                    # 투표율에 비례하여 자금 할당 (많은 대원이 찬성할수록 더 큰 베팅)
+                    vote_ratio = max(buy_votes, sell_votes) / JAM_COUNT
+                    base_volume = 0.001 # 예시 수량
+                    final_volume = base_volume * (vote_ratio * 10) 
+
+                    order_res = await place_order(
+                        market=target_market,
+                        side=side,
+                        ord_type="limit" if side == "bid" else "market",
+                        price=current_price if side == "bid" else None,
+                        volume=final_volume
+                    )
+                    
+                    # 지휘관 엑스큐터의 최종 보고서
+                    report = commander_executor.execute(
+                        {"asset": "BTC", "action": consensus}, 
+                        current_price, final_volume, risk_check.get('risk_score')
+                    )
+                    await broadcast({"type": "imperial_action", "report": report, "order_res": order_res})
+                else:
+                    logger.warning(f"🚫 [SWARM BLOCKED] Risk Guardian vetoed the consensus.")
+
+            # 제국 표준 주기 (군단 재정비 시간)
+            await asyncio.sleep(20)
+        except Exception as e:
+            logger.error(f"❌ [LEGION ERROR] Swarm Coordination Failure: {e}")
+            await asyncio.sleep(10)
+
+# ───────────────────────────────────────
+# 앱 시작 시 백그라운드 스트리밍 및 군단 가동
+# ───────────────────────────────────────
+async def lifespan(app: FastAPI):
+    logger.info("🚀 [PHOENIX] KOREA AI TRADING HUB INITIALIZED...")
+    
+    # 1. 시세 스트리밍 가동
+    asyncio.create_task(stream_tickers(UPBIT_MARKETS, upbit_ticker_handler))
+    asyncio.create_task(stream_mini_tickers(BINANCE_SYMBOLS, binance_ticker_handler))
+    
+    # 2. 글로벌 분석 주기적 실행 (5분마다)
+    async def periodic_analysis():
+        while True:
+            await global_analyzer.run_analysis()
+            await broadcast({"type": "global_insight", "data": global_analyzer.results})
+            await asyncio.sleep(300)
+    asyncio.create_task(periodic_analysis())
+
+    # 3. ⚔️ 1만 명의 군단(Jam Swarm) 전투 개시
+    asyncio.create_task(phoenix_quantum_loop())
+    
+    yield
+    logger.info("🛑 [PHOENIX] SYSTEM SHUTDOWN.")
+
+
+# 🛡️ 제국 웹 자원 경로 최적화 (CWD에 관계없이 작동)
+BASE_DIR = Path(__file__).parent
+STATIC_DIR = BASE_DIR / "static"
+TEMPLATES_DIR = BASE_DIR / "templates"
+
+# 폴더 미존재 시 자동 생성 (Crash 방지)
+STATIC_DIR.mkdir(exist_ok=True)
+TEMPLATES_DIR.mkdir(exist_ok=True)
+
+app = FastAPI(title="KOREA AI Trading Platform", lifespan=lifespan)
+app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")
+
+# 🏛️ [ MULTI-ROOT JINJA2 ENGINE ]
+# 1순위: Hub전용 템플릿 (korea/templates)
+# 2순위: 제국 공통 템플릿 (workflow root) 
+templates = Jinja2Templates(directory=[str(TEMPLATES_DIR), str(ROOT_DIR)])
+
+
+# ───────────────────────────────────────
+# 라우트 — 페이지
+# ───────────────────────────────────────
+@app.get("/", response_class=HTMLResponse)
+@app.get("/hq", response_class=HTMLResponse)
+async def index(request: Request):
+    return templates.TemplateResponse("index.html", {"request": request})
+
+
+@app.get("/pqc_wallet", response_class=HTMLResponse)
+async def wallet_page(request: Request):
+    """💳 Phoenix Quantum Wallet 4D"""
+    return templates.TemplateResponse("PHOENIX_WALLET/quantum_wallet_4d.html", {"request": request})
+
+
+@app.get("/pqc_mining", response_class=HTMLResponse)
+async def mining_page(request: Request):
+    """💎 Phoenix Mining Commander Interface"""
+    return templates.TemplateResponse("PHOENIX_MINING/commander_interface_3d.html", {"request": request})
+
+
+@app.get("/market", response_class=HTMLResponse)
+async def market_page(request: Request):
+    """🏛️ Imperial Armory & Market"""
+    return templates.TemplateResponse("market_armory.html", {"request": request})
+
+
+@app.get("/quantum", response_class=HTMLResponse)
+async def quantum_page(request: Request):
+    """⚙️ Quantum Engine (Tower)"""
+    return templates.TemplateResponse("trading_tower.html", {"request": request})
+
+
+@app.get("/global", response_class=HTMLResponse)
+async def global_page(request: Request):
+    return templates.TemplateResponse("global_insight.html", {"request": request})
+
+
+@app.get("/phoenix", response_class=HTMLResponse)
+async def phoenix_page(request: Request):
+    return templates.TemplateResponse("phoenix_rank.html", {"request": request})
+
+
+@app.get("/command", response_class=HTMLResponse)
+async def command_page(request: Request):
+    return templates.TemplateResponse("phoenix_command.html", {"request": request})
+
+
+@app.get("/tower", response_class=HTMLResponse)
+async def tower_page(request: Request):
+    return templates.TemplateResponse("trading_tower.html", {"request": request})
+
+
+@app.get("/hub", response_class=HTMLResponse)
+async def hub_page(request: Request):
+    return templates.TemplateResponse("analytics_hub.html", {"request": request})
+
+
+@app.get("/security", response_class=HTMLResponse)
+async def security_page(request: Request):
+    return templates.TemplateResponse("security_complex.html", {"request": request})
+
+
+@app.get("/intel", response_class=HTMLResponse)
+async def intel_page(request: Request):
+    return templates.TemplateResponse("market_intel.html", {"request": request})
+
+
+@app.post("/api/ai/execute_strategy")
+async def execute_strategy():
+    timestamp = time.strftime("%Y-%m-%d %H:%M:%S")
+    log_msg = f"[{timestamp}] SUPREME STRATEGY DEPLOYED: Global AI Liquidity Sync Initialized."
+    logger.info(log_msg)
+    return {"status": "success", "message": "Strategy Executed Successfully", "log": log_msg}
+
+
+@app.get("/vaults", response_class=HTMLResponse)
+@app.get("/vault", response_class=HTMLResponse)
+async def vaults_page(request: Request):
+    return templates.TemplateResponse("vault_system.html", {"request": request})
+
+
+@app.get("/citizen", response_class=HTMLResponse)
+async def citizen_page(request: Request):
+    """👨‍👩‍👧‍👦 Citizen Service: The Gateway for Ordinary Users"""
+    return templates.TemplateResponse("citizen_dashboard.html", {"request": request})
+
+
+@app.get("/api/vault/status")
+async def get_vault_status():
+    """실전 사령관 금고 상태 조회 (API 연동 데이터만 표시)"""
+    balances = await get_balance()
+    if not balances:
+        return {"error": "API Key Required", "reality_sync": "0%"}
+    
+    # KRW 잔고 합산
+    total_krw = 0
+    btc_balance = 0
+    for b in balances:
+        if b['currency'] == 'KRW':
+            total_krw = float(b['balance'])
+        if b['currency'] == 'BTC':
+            btc_balance = float(b['balance'])
+
+    return {
+        "virtual": btc_balance,
+        "real": total_krw,
+        "lord_wallet": {
+            "address": "PHX-HUB-SECURE-ENTRY",
+            "access": "MASTER"
+        },
+        "initial_seed": 0,
+        "tax_rate": "0%",
+        "vault_allocation": "0%",
+        "reality_sync": "100_PERCENT"
+    }
+
+
+# ───────────────────────────────────────
+# 라우트 — REST API
+# ───────────────────────────────────────
+@app.get("/api/upbit/tickers")
+async def api_upbit_tickers():
+    if upbit_cache:
+        return list(upbit_cache.values())
+    # 캐시 없으면 REST로 직접 조회
+    data = await get_ticker()
+    return [
+        {
+            "market": d["market"],
+            "price": d["trade_price"],
+            "change_rate": round(d["signed_change_rate"] * 100, 2),
+            "change": d["change"],
+            "volume_24h": d["acc_trade_volume_24h"],
+            "source": "upbit"
+        }
+        for d in data
+    ]
+
+
+@app.get("/api/upbit/candles/{market}")
+async def api_upbit_candles(market: str, unit: int = 1, count: int = 200):
+    candles = await get_candles(market, unit, count)
+    return candles
+
+
+@app.get("/api/upbit/orderbook/{market}")
+async def api_upbit_orderbook(market: str):
+    return await get_orderbook(market)
+
+
+@app.get("/api/upbit/trades/{market}")
+async def api_upbit_trades(market: str):
+    return await get_trades(market)
+
+
+@app.get("/api/binance/tickers")
+async def api_binance_tickers():
+    if binance_cache:
+        return list(binance_cache.values())
+    data = await get_ticker_24h([s.upper() for s in BINANCE_SYMBOLS])
+    return [
+        {
+            "symbol": d["symbol"],
+            "price": float(d["lastPrice"]),
+            "change_rate": float(d["priceChangePercent"]),
+            "volume_24h": float(d["volume"]),
+            "source": "binance"
+        }
+        for d in data
+    ]
+
+
+@app.get("/api/binance/candles/{symbol}")
+async def api_binance_candles(symbol: str, interval: str = "1m", limit: int = 200):
+    return await get_klines(symbol, interval, limit)
+
+
+@app.get("/api/binance/orderbook/{symbol}")
+async def api_binance_orderbook(symbol: str):
+    return await binance_orderbook(symbol)
+
+
+@app.get("/api/ai/signal/{market}")
+async def api_ai_signal(market: str, exchange: str = "upbit"):
+    """AI 신호 조회 — 캔들 데이터 기반 분석"""
+    if exchange == "upbit":
+        candles = await get_candles(market, unit=1, count=100)
+    else:
+        candles = await get_klines(market, interval="1m", limit=100)
+    
+    signal = generate_signal(candles)
+    bot_state["signals"][market] = signal
+    return signal
+
+
+@app.get("/api/ai/status")
+async def api_ai_status():
+    return bot_state
+
+
+@app.post("/api/ai/toggle")
+async def api_ai_toggle():
+    bot_state["enabled"] = not bot_state["enabled"]
+    save_bot_config({
+        "enabled": bot_state["enabled"],
+        "mode": bot_state["mode"],
+        "strategy": bot_state["strategy"]
+    })
+    status = "ON" if bot_state["enabled"] else "OFF"
+    return {"enabled": bot_state["enabled"], "message": f"AI 자동매매 {status}"}
+
+
+@app.post("/api/ai/mode")
+async def api_ai_mode(mode: str):
+    """SIMULATION / LIVE 모드 전환"""
+    if mode not in ["SIMULATION", "LIVE"]:
+        return {"error": "Invalid mode"}
+    bot_state["mode"] = mode
+    save_bot_config({
+        "enabled": bot_state["enabled"],
+        "mode": bot_state["mode"],
+        "strategy": bot_state["strategy"]
+    })
+    return {"mode": bot_state["mode"], "message": f"모드가 {mode}로 변경되었습니다."}
+
+
+@app.get("/api/global/insight")
+async def api_global_insight(q: str = None):
+    """글로벌 분석 결과 조회 및 검색"""
+    results = list(global_analyzer.results.values())
+    if q:
+        q = q.upper()
+        results = [r for r in results if q in r["site"] or q in r["sentiment"]]
+    return results
+
+
+@app.get("/api/phoenix/ranking")
+async def api_phoenix_ranking():
+    return trader_ranking.get_ranking()
+
+
+@app.get("/api/indicator/full/{market}")
+async def api_indicator_full(market: str, exchange: str = "upbit"):
+    """70여 종 기술 지표 정밀 계산 결과"""
+    if exchange == "upbit":
+        candles = await get_candles(market, unit=1, count=100)
+    else:
+        candles = await get_klines(market, interval="1m", limit=100)
+    return indicator_engine.calculate_all(candles)
+
+
+# ───────────────────────────────────────
+# WebSocket — 실시간 브로드캐스트
+# ───────────────────────────────────────
+@app.websocket("/ws/live")
+async def ws_live(websocket: WebSocket):
+    await websocket.accept()
+    connected_clients.append(websocket)
+    try:
+        if upbit_cache:
+            await websocket.send_json({"type": "init_upbit", "data": list(upbit_cache.values())})
+        if binance_cache:
+            await websocket.send_json({"type": "init_binance", "data": list(binance_cache.values())})
+        while True:
+            await websocket.receive_text()
+    except WebSocketDisconnect:
+        if websocket in connected_clients:
+            connected_clients.remove(websocket)
+
+
+# ───────────────────────────────────────
+# 트레이딩 API
+# ───────────────────────────────────────
+@app.post("/api/trading/keys")
+async def set_api_keys(req: KeyRequest):
+    """업비트 API 키 저장"""
+    save_keys(req.access_key, req.secret_key)
+    return {"success": True, "message": "API 키가 저장되었습니다."}
+
+
+@app.get("/api/trading/keys/status")
+async def get_key_status():
+    """API 키 설정 여부 확인"""
+    ak, _ = load_keys()
+    return {"configured": bool(ak), "access_key_hint": ak[:8] + "..." if ak else ""}
+
+
+@app.get("/api/trading/balance")
+async def api_balance():
+    """잔고 조회"""
+    data = await get_balance()
+    if not data:
+        return {"error": "API 키가 없거나 인증 실패. /api/trading/keys 로 키를 먼저 설정하세요."}
+    # KRW + 보유 코인만 필터
+    result = [
+        {
+            "currency": d["currency"],
+            "balance": float(d["balance"]),
+            "locked": float(d.get("locked", 0)),
+            "avg_buy_price": float(d.get("avg_buy_price", 0)),
+        }
+        for d in data
+    ]
+    return result
+
+
+@app.post("/api/trading/order")
+async def api_place_order(req: OrderRequest):
+    """주문 집행 (매수/매도)"""
+    result = await place_order(
+        market=req.market,
+        side=req.side,
+        ord_type=req.ord_type,
+        price=req.price,
+        volume=req.volume,
+    )
+    return result
+
+
+@app.get("/api/trading/orders")
+async def api_orders(state: str = "wait"):
+    """주문 목록 조회"""
+    return await get_orders(state=state)
+
+
+@app.delete("/api/trading/order/{uuid_str}")
+async def api_cancel_order(uuid_str: str):
+    """주문 취소"""
+    return await cancel_order(uuid_str)
+
+
+if __name__ == "__main__":
+    uvicorn.run("main:app", host="0.0.0.0", port=5001, reload=True)

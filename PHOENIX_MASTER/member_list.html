@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PQC MEMBER DIRECTORY - PHOENIX EMPIRE</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: #020604;
+            color: #e2e8f0;
+            margin: 0;
+            min-height: 100vh;
+        }
+
+        .glass-panel {
+            background: rgba(13, 17, 23, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+            border-radius: 16px;
+        }
+
+        .gold-text {
+            color: #ffd700;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+
+        .member-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .member-card:hover {
+            border-color: rgba(255, 215, 0, 0.3);
+            background: rgba(255, 215, 0, 0.05);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+
+<body class="p-6 md:p-12">
+
+    {% include 'PHOENIX_MASTER/imperial_nav.html' %}
+
+    <div class="mt-20 w-full max-w-6xl mx-auto">
+        <div class="mb-10 text-center">
+            <h1 class="text-4xl font-black gold-text tracking-tighter uppercase">Member Directory</h1>
+            <p class="text-gray-500 font-bold tracking-widest text-xs mt-1 uppercase">Registered Phoenix Wallet Holders
+            </p>
+        </div>
+
+        <div id="member-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Loaded via JS -->
+            <div
+                class="col-span-full py-20 text-center text-gray-600 font-black uppercase tracking-widest animate-pulse">
+                Synchronizing Quantum Registry...
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function loadMembers() {
+            try {
+                const response = await fetch('/api/quantum/members');
+                const data = await response.json();
+
+                const grid = document.getElementById('member-grid');
+                grid.innerHTML = '';
+
+                if (!data.members || data.members.length === 0) {
+                    grid.innerHTML = '<div class="col-span-full py-20 text-center text-gray-500 font-black uppercase tracking-widest">No members found in registry</div>';
+                    return;
+                }
+
+                data.members.forEach(member => {
+                    const card = document.createElement('div');
+                    card.className = 'member-card flex flex-col justify-between';
+                    card.innerHTML = `
+                        <div>
+                            <div class="flex justify-between items-start mb-4">
+                                <span class="bg-yellow-500/10 text-yellow-500 text-[10px] font-black px-2 py-1 rounded border border-yellow-500/20 uppercase">${member.status || 'ACTIVE'}</span>
+                                <span class="text-white font-black text-lg">${member.name}</span>
+                            </div>
+                            <div class="mb-4">
+                                <span class="text-[10px] text-gray-500 font-black uppercase tracking-widest block mb-1">PX Address</span>
+                                <code class="text-[10px] text-green-400 font-bold break-all">${member.address}</code>
+                            </div>
+                        </div>
+                        <div class="flex justify-between items-end mt-4 pt-4 border-t border-white/5">
+                            <div>
+                                <span class="text-[10px] text-gray-500 font-black uppercase tracking-widest block">Balance</span>
+                                <span class="text-sm font-black text-white">${member.balance.toLocaleString()} <span class="text-[10px] text-yellow-500">PQC</span></span>
+                            </div>
+                            <button onclick="copyAddr('${member.address}')" class="text-[10px] text-gray-400 hover:text-white font-black uppercase transition-all">Copy</button>
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                });
+
+            } catch (e) {
+                console.error(e);
+                document.getElementById('member-grid').innerHTML = '<div class="col-span-full py-20 text-center text-red-500 font-black uppercase tracking-widest">Quantum Link Failed</div>';
+            }
+        }
+
+        function copyAddr(addr) {
+            navigator.clipboard.writeText(addr);
+            // Assuming showToast is available or handled via parents/nav
+            alert("Address copied: " + addr);
+        }
+
+        loadMembers();
+    </script>
+</body>
+
+</html>

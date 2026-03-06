@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IMPERIAL SUPREME COURT · Phoenix Empire</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --gold: #ffd700;
+            --gold-glow: rgba(255, 215, 0, 0.3);
+            --bg: #050810;
+            --card-bg: rgba(255, 255, 255, 0.04);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'SF Pro Display', 'Pretendard', sans-serif;
+            background: var(--bg);
+            color: #fff;
+            min-height: 100vh;
+        }
+
+        /* Background */
+        .judiciary-bg {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background: radial-gradient(ellipse at 30% 20%, rgba(100, 70, 0, 0.15) 0%, transparent 60%),
+                radial-gradient(ellipse at 70% 80%, rgba(60, 0, 0, 0.12) 0%, transparent 60%),
+                linear-gradient(180deg, #050810, #0a0c10);
+        }
+
+        /* Header */
+        .court-header {
+            text-align: center;
+            padding: 100px 20px 40px;
+            position: relative;
+        }
+
+        .court-seal {
+            font-size: 64px;
+            display: block;
+            margin-bottom: 16px;
+            filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.5));
+            animation: sealPulse 4s ease-in-out infinite;
+        }
+
+        @keyframes sealPulse {
+
+            0%,
+            100% {
+                filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.4));
+            }
+
+            50% {
+                filter: drop-shadow(0 0 40px rgba(255, 215, 0, 0.8));
+            }
+        }
+
+        .court-title {
+            font-size: clamp(28px, 5vw, 52px);
+            font-weight: 900;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            background: linear-gradient(135deg, #ffd700, #fff8dc, #ffd700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+        }
+
+        .court-subtitle {
+            font-size: 13px;
+            color: rgba(255, 215, 0, 0.5);
+            letter-spacing: 4px;
+            text-transform: uppercase;
+        }
+
+        /* Divider */
+        .divider {
+            width: 200px;
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--gold), transparent);
+            margin: 24px auto;
+            opacity: 0.4;
+        }
+
+        /* Stats Bar */
+        .stats-bar {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin: 0 auto 40px;
+            max-width: 800px;
+            padding: 0 20px;
+        }
+
+        .stat-chip {
+            background: rgba(255, 215, 0, 0.05);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            border-radius: 8px;
+            padding: 12px 20px;
+            text-align: center;
+            min-width: 120px;
+        }
+
+        .stat-chip-val {
+            font-size: 22px;
+            font-weight: 900;
+            color: var(--gold);
+        }
+
+        .stat-chip-lbl {
+            font-size: 9px;
+            color: #666;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-top: 2px;
+        }
+
+        /* Case Grid */
+        .case-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px 60px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 16px;
+        }
+
+        .case-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            border-radius: 16px;
+            padding: 20px;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .case-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 3px;
+            height: 100%;
+            background: var(--status-color, #333);
+            border-radius: 16px 0 0 16px;
+        }
+
+        .case-card:hover {
+            border-color: rgba(255, 215, 0, 0.3);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .case-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+
+        .case-id {
+            font-size: 9px;
+            letter-spacing: 2px;
+            color: rgba(255, 255, 255, 0.3);
+            text-transform: uppercase;
+        }
+
+        .case-badge {
+            font-size: 8px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            padding: 3px 8px;
+            border-radius: 4px;
+            background: var(--badge-bg, rgba(255, 255, 255, 0.05));
+            color: var(--badge-col, #888);
+            border: 1px solid var(--badge-bdr, rgba(255, 255, 255, 0.1));
+        }
+
+        .case-title {
+            font-size: 15px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .case-desc {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.45);
+            line-height: 1.6;
+        }
+
+        .case-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 14px;
+            padding-top: 12px;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .case-date {
+            font-size: 9px;
+            color: rgba(255, 255, 255, 0.25);
+            letter-spacing: 1px;
+        }
+
+        .case-judge {
+            font-size: 10px;
+            color: rgba(255, 215, 0, 0.5);
+        }
+
+        /* Verdict Panel */
+        .verdict-panel {
+            max-width: 700px;
+            margin: 0 auto 40px;
+            padding: 0 20px;
+        }
+
+        .verdict-card {
+            background: rgba(255, 215, 0, 0.04);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            border-radius: 16px;
+            padding: 24px;
+        }
+
+        .verdict-label {
+            font-size: 9px;
+            letter-spacing: 3px;
+            color: rgba(255, 215, 0, 0.5);
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+
+        .verdict-text {
+            font-size: 13px;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.6);
+            font-style: italic;
+        }
+
+        .btn-submit {
+            display: block;
+            width: 100%;
+            margin-top: 16px;
+            padding: 12px;
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 215, 0, 0.2));
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-radius: 10px;
+            color: var(--gold);
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+
+        .btn-submit:hover {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 215, 0, 0.35));
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
+        }
+
+        /* Section Title */
+        .section-title {
+            text-align: center;
+            font-size: 10px;
+            letter-spacing: 4px;
+            color: rgba(255, 255, 255, 0.25);
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body class="pt-24">
+    <div class="judiciary-bg"></div>
+
+    {% with page_title="Imperial Judiciary", page_subtitle="SUPREME COURT HUB" %}
+    {% include 'PHOENIX_MASTER/imperial_nav.html' %}
+    {% endwith %}
+
+    <!-- Header -->
+    <div class="court-header">
+        <span class="court-seal">⚖️</span>
+        <div class="court-title">Imperial Supreme Court</div>
+        <div class="court-subtitle">Phoenix Empire · Judicial Branch · 최고 법원</div>
+        <div class="divider"></div>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-bar">
+        <div class="stat-chip">
+            <div class="stat-chip-val" id="active-cases">—</div>
+            <div class="stat-chip-lbl">활성 사건</div>
+        </div>
+        <div class="stat-chip">
+            <div class="stat-chip-val" id="resolved-cases">—</div>
+            <div class="stat-chip-lbl">판결 완료</div>
+        </div>
+        <div class="stat-chip">
+            <div class="stat-chip-val" id="pending-cases">—</div>
+            <div class="stat-chip-lbl">심리 대기</div>
+        </div>
+        <div class="stat-chip">
+            <div class="stat-chip-val">OPEN</div>
+            <div class="stat-chip-lbl">현재 상태</div>
+        </div>
+    </div>
+
+    <!-- Case Log -->
+    <p class="section-title">⚔️ 사건 목록 · Case Registry</p>
+    <div class="case-container">
+
+        <!-- GUILTY -->
+        <div class="case-card"
+            style="--status-color:#ff4d4d; --badge-bg:rgba(255,77,77,0.1); --badge-col:#ff4d4d; --badge-bdr:rgba(255,77,77,0.3);">
+            <div class="case-header">
+                <span class="case-id">CASE-2026-001</span>
+                <span class="case-badge">유죄 판결</span>
+            </div>
+            <div class="case-title">제국 자산 횡령 혐의</div>
+            <div class="case-desc">사령부 금고에서 412,000 PQC 무단 이체 시도. 보안 시스템 회피 기록 확인.</div>
+            <div class="case-footer">
+                <span class="case-date">2026.02.14</span>
+                <span class="case-judge">⚖️ 수석 재판관</span>
+            </div>
+        </div>
+
+        <!-- PENDING -->
+        <div class="case-card"
+            style="--status-color:#ffd700; --badge-bg:rgba(255,215,0,0.1); --badge-col:#ffd700; --badge-bdr:rgba(255,215,0,0.3);">
+            <div class="case-header">
+                <span class="case-id">CASE-2026-002</span>
+                <span class="case-badge">심리 중</span>
+            </div>
+            <div class="case-title">레벨 위장 및 시스템 접근 위반</div>
+            <div class="case-desc">허가되지 않은 레벨 3 구역 접근 반복 시도. 보안 로그 분석 진행 중.</div>
+            <div class="case-footer">
+                <span class="case-date">2026.02.28</span>
+                <span class="case-judge">⚖️ 부 재판관</span>
+            </div>
+        </div>
+
+        <!-- ACQUITTED -->
+        <div class="case-card"
+            style="--status-color:#00f3ff; --badge-bg:rgba(0,243,255,0.08); --badge-col:#00f3ff; --badge-bdr:rgba(0,243,255,0.25);">
+            <div class="case-header">
+                <span class="case-id">CASE-2026-003</span>
+                <span class="case-badge">무죄 방면</span>
+            </div>
+            <div class="case-title">허위 거래 보고 혐의</div>
+            <div class="case-desc">거래 기록 불일치 제보. 감사 결과 시스템 오류로 확인, 피의자 해제.</div>
+            <div class="case-footer">
+                <span class="case-date">2026.03.01</span>
+                <span class="case-judge">⚖️ 수석 재판관</span>
+            </div>
+        </div>
+
+        <!-- UNDER REVIEW -->
+        <div class="case-card"
+            style="--status-color:#a855f7; --badge-bg:rgba(168,85,247,0.1); --badge-col:#a855f7; --badge-bdr:rgba(168,85,247,0.3);">
+            <div class="case-header">
+                <span class="case-id">CASE-2026-004</span>
+                <span class="case-badge">항소 검토</span>
+            </div>
+            <div class="case-title">NFT 위변조 및 자산 사기</div>
+            <div class="case-desc">볼트 내 NFT 코드 변조 의심. 체인 해시 비교 분석 요청.</div>
+            <div class="case-footer">
+                <span class="case-date">2026.03.02</span>
+                <span class="case-judge">⚖️ 특별 재판부</span>
+            </div>
+        </div>
+
+        <!-- NEW -->
+        <div class="case-card"
+            style="--status-color:#22c55e; --badge-bg:rgba(34,197,94,0.1); --badge-col:#22c55e; --badge-bdr:rgba(34,197,94,0.3);">
+            <div class="case-header">
+                <span class="case-id">CASE-2026-005</span>
+                <span class="case-badge">신규 접수</span>
+            </div>
+            <div class="case-title">정보 유출 및 기밀 접근</div>
+            <div class="case-desc">내부 API 키 유출 의심. 보안국 이관 후 법원 접수 완료.</div>
+            <div class="case-footer">
+                <span class="case-date">2026.03.02</span>
+                <span class="case-judge">⚖️ 접수 대기</span>
+            </div>
+        </div>
+
+        <!-- DISMISSED -->
+        <div class="case-card"
+            style="--status-color:#888; --badge-bg:rgba(128,128,128,0.1); --badge-col:#aaa; --badge-bdr:rgba(128,128,128,0.2);">
+            <div class="case-header">
+                <span class="case-id">CASE-2026-006</span>
+                <span class="case-badge">각하</span>
+            </div>
+            <div class="case-title">무단 시민권 취득 혐의</div>
+            <div class="case-desc">증거 불충분으로 각하. 재심 청구 기간 30일 이내.</div>
+            <div class="case-footer">
+                <span class="case-date">2026.02.20</span>
+                <span class="case-judge">⚖️ 부 재판관</span>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Verdict Submission -->
+    <div class="verdict-panel">
+        <p class="section-title">📜 판결 선언 · Imperial Verdict</p>
+        <div class="verdict-card">
+            <div class="verdict-label">⚖️ 최고 법원 직인 · Supreme Court Seal</div>
+            <div class="verdict-text">
+                "피닉스 제국 최고 법원은 제국법 제1조에 의거, 모든 사건을 공정하고 엄정하게 심리하며 제국의 질서와 정의를 수호함을 선언한다. 어떠한 권력도 법 앞에 예외가 없다."
+            </div>
+            <button class="btn-submit" onclick="alert('사건 접수 기능은 준비 중입니다.')">
+                + 사건 접수 / File a Case
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Simulated stats
+        document.getElementById('active-cases').innerText = '3';
+        document.getElementById('resolved-cases').innerText = '2';
+        document.getElementById('pending-cases').innerText = '1';
+    </script>
+</body>
+
+</html>

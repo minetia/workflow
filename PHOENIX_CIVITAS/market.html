@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PHOENIX PLAZA - Market & Entertainment</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: #0a0505;
+            color: #e2e8f0;
+            margin: 0;
+        }
+
+        .market-card {
+            background: rgba(30, 10, 10, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 69, 0, 0.1);
+            border-radius: 16px;
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        .market-card:hover {
+            border-color: rgba(255, 69, 0, 0.5);
+            transform: scale(1.02);
+        }
+
+        .red-hot {
+            color: #ff4500;
+            text-shadow: 0 0 10px rgba(255, 69, 0, 0.3);
+        }
+
+        .btn-pqc {
+            background: #ff4500;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 900;
+            transition: all 0.2s;
+        }
+
+        .btn-pqc:hover {
+            background: #ff6347;
+            box-shadow: 0 0 20px rgba(255, 69, 0, 0.4);
+        }
+    </style>
+</head>
+
+<body class="p-6 md:p-12">
+    {% include 'PHOENIX_MASTER/imperial_nav.html' %}
+
+    <div class="mt-20 max-w-6xl mx-auto">
+        <header class="mb-12 flex justify-between items-end">
+            <div>
+                <h1 class="text-5xl font-black red-hot tracking-tighter uppercase mb-2">Phoenix Plaza</h1>
+                <p class="text-gray-500 font-bold tracking-widest text-xs uppercase">Food • Entertainment • Luxury • PQC
+                    Economy</p>
+            </div>
+            <div class="text-right">
+                <span class="text-gray-600 font-black text-[10px] uppercase tracking-widest block mb-1">Your PQC
+                    Wallet</span>
+                <span class="text-2xl font-black text-white" id="pqc-val">---</span> <span
+                    class="text-xs text-yellow-500">PQC</span>
+            </div>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Item 1: Imperial Feast -->
+            <div class="market-card">
+                <div class="h-48 bg-gray-900 flex items-center justify-center text-6xl">🍖</div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold mb-2 text-white">Imperial Feast Box</h3>
+                    <p class="text-gray-400 text-sm mb-6">A curated selection of high-protein rations for elite
+                        citizens.</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-lg font-black text-white">500 <span
+                                class="text-xs text-yellow-500">PQC</span></span>
+                        <button onclick="purchase('Imperial Feast Box', 500)"
+                            class="btn-pqc text-xs uppercase">Order</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 2: Quantum Theater Pass -->
+            <div class="market-card">
+                <div class="h-48 bg-gray-900 flex items-center justify-center text-6xl">📽️</div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold mb-2 text-white">Quantum Theater Pass</h3>
+                    <p class="text-gray-400 text-sm mb-6">24h access to the Imperial Archive and neural holograms.</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-lg font-black text-white">1,200 <span
+                                class="text-xs text-yellow-500">PQC</span></span>
+                        <button onclick="purchase('Quantum Theater Pass', 1200)"
+                            class="btn-pqc text-xs uppercase">Order</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 3: Golden Phoenix Elixir -->
+            <div class="market-card">
+                <div class="h-48 bg-gray-900 flex items-center justify-center text-6xl">🍹</div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold mb-2 text-white">Golden Phoenix Elixir</h3>
+                    <p class="text-gray-400 text-sm mb-6">Premium energy booster for prolonged market sessions.</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-lg font-black text-white">350 <span
+                                class="text-xs text-yellow-500">PQC</span></span>
+                        <button onclick="purchase('Golden Phoenix Elixir', 350)"
+                            class="btn-pqc text-xs uppercase">Order</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function purchase(item, price) {
+            if (!confirm(`${item}을(를) ${price} PQC로 주문하시겠습니까?`)) return;
+
+            try {
+                const res = await fetch('/api/civitas/purchase', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ item, price })
+                });
+                const data = await res.json();
+                if (data.status === 'SUCCESS') {
+                    alert(`${item} 주문이 완료되었습니다. 남은 잔액: ${data.balance} PQC`);
+                    location.reload();
+                } else {
+                    alert(data.message || '구매 실패');
+                }
+            } catch (e) {
+                alert('연계 네트워크 오류');
+            }
+        }
+
+        async function fetchBalance() {
+            try {
+                const res = await fetch('/api/quantum/wallet/PQC_USER');
+                const data = await res.json();
+                document.getElementById('pqc-val').innerText = data.balance.toLocaleString();
+            } catch (e) { }
+        }
+        fetchBalance();
+    </script>
+</body>
+
+</html>

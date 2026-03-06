@@ -1,0 +1,83 @@
+[
+    {
+        "cycle": "2026-03",
+        "winner": "Core",
+        "scouted": "JAM_ELITE_Core_584",
+        "stats": [
+            {
+                "castle": "Core",
+                "score": 54.92,
+                "profit": 39.750613343684876
+            },
+            {
+                "castle": "Nexus",
+                "score": 54.05,
+                "profit": 44.98669149122864
+            },
+            {
+                "castle": "Zion",
+                "score": 39.9,
+                "profit": 16.780911893960834
+            },
+            {
+                "castle": "Alpha",
+                "score": 36.87,
+                "profit": 14.063527550442231
+            }
+        ]
+    },
+    {
+        "cycle": "2026-03",
+        "winner": "Core",
+        "scouted": "JAM_ELITE_Core_231",
+        "stats": [
+            {
+                "castle": "Core",
+                "score": 51.15,
+                "profit": 36.78032460650272
+            },
+            {
+                "castle": "Alpha",
+                "score": 43.05,
+                "profit": 28.48732873374339
+            },
+            {
+                "castle": "Nexus",
+                "score": 37.55,
+                "profit": 23.090584218488964
+            },
+            {
+                "castle": "Zion",
+                "score": 36.82,
+                "profit": 14.916475896445318
+            }
+        ]
+    },
+    {
+        "cycle": "2026-03",
+        "winner": "Core",
+        "scouted": "JAM_ELITE_Core_995",
+        "stats": [
+            {
+                "castle": "Core",
+                "score": 95.74,
+                "profit": 105.19437051761213
+            },
+            {
+                "castle": "Zion",
+                "score": 94.01,
+                "profit": 101.97598532296078
+            },
+            {
+                "castle": "Nexus",
+                "score": 87.06,
+                "profit": 86.18772571719036
+            },
+            {
+                "castle": "Alpha",
+                "score": 54.63,
+                "profit": 47.63301141290327
+            }
+        ]
+    }
+]

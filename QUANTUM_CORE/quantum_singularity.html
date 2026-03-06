@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PHOENIX EMPIRE - QUANTUM SINGULARITY DASHBOARD</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700;900&family=JetBrains+Mono&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --gold: #ffd700;
+            --emerald: #10b981;
+            --void: #020617;
+            --glass: rgba(15, 23, 42, 0.8);
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: radial-gradient(circle at 50% 50%, #0f172a 0%, #020617 100%);
+            color: #f8fafc;
+            margin: 0;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        .glass-panel {
+            background: var(--glass);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
+            border-radius: 1rem;
+        }
+
+        .neon-text-gold {
+            color: var(--gold);
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+
+        .neon-text-emerald {
+            color: var(--emerald);
+            text-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+        }
+
+        .quantum-pulse {
+            animation: pulse 2s infinite ease-in-out;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 0.3;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1.1);
+            }
+        }
+
+        .scanning-line {
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            position: absolute;
+            top: 0;
+            animation: scan 4s linear infinite;
+        }
+
+        @keyframes scan {
+            0% {
+                top: 0%;
+                opacity: 0;
+            }
+
+            5% {
+                opacity: 1;
+            }
+
+            95% {
+                opacity: 1;
+            }
+
+            100% {
+                top: 100%;
+                opacity: 0;
+            }
+        }
+
+        .mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+    </style>
+</head>
+
+<body class="p-6 md:p-12 pt-24">
+    {% with page_title="Quantum Singularity", page_subtitle="IMPERIAL NODE: PHOENIX-V10-PRIMARY" %}
+    {% include 'PHOENIX_MASTER/imperial_nav.html' %}
+    {% endwith %}
+
+    <!-- Header Section -->
+    <header class="mb-8 flex flex-col md:flex-row justify-between items-center gap-4 mt-12">
+        <div class="flex gap-4">
+            <div class="glass-panel px-6 py-3 text-center">
+                <p class="text-[0.6rem] uppercase text-gray-400 mb-1">PQC Price Index</p>
+                <p class="text-xl font-bold mono neon-text-emerald">₩<span id="pqc-price">1,000.00</span></p>
+            </div>
+            <div class="glass-panel p-4 border-l-4 border-emerald-500">
+                <p class="text-[0.6rem] text-gray-400 uppercase font-bold mb-1">Network Throughput (V12)</p>
+                <p class="text-2xl font-black mono text-emerald-400">102,451 <span class="text-xs">TPS</span></p>
+            </div>
+            <div class="glass-panel p-4 border-l-4 border-yellow-500">
+                <p class="text-[0.6rem] text-gray-400 uppercase font-bold mb-1">Shard Synchronization</p>
+                <p class="text-2xl font-black mono text-yellow-500">64/64 <span class="text-xs">ACTIVE</span></p>
+            </div>
+            <div class="glass-panel px-6 py-3 text-center">
+                <p class="text-[0.6rem] uppercase text-gray-400 mb-1">Network Speed</p>
+                <p class="text-xl font-bold mono text-blue-400"><span id="net-speed">1.00</span>x</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Grid -->
+    <main class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+        <!-- Center Visualization -->
+        <div class="lg:col-span-2 glass-panel p-6 relative overflow-hidden h-[500px]">
+            <div class="scanning-line"></div>
+            <h2 class="text-sm font-bold uppercase tracking-widest text-gray-500 mb-4 flex items-center gap-2">
+                <span class="w-2 h-2 bg-emerald-500 rounded-full"></span>
+                Real-time Probability Density (QMC)
+            </h2>
+            <div class="h-[400px]">
+                <canvas id="qmcChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Sidebar Stats -->
+        <div class="flex flex-col gap-6">
+
+            <!-- Security Status -->
+            <div class="glass-panel p-6">
+                <h3 class="text-xs font-bold uppercase text-gray-400 mb-4 tracking-widest">Quantum Security Matrix</h3>
+                <div class="space-y-4">
+                    <div class="flex justify-between items-center">
+                        <span class="text-sm font-medium">Lattice Signature</span>
+                        <span
+                            class="px-2 py-1 bg-emerald-900/40 text-emerald-400 text-[0.6rem] rounded-full border border-emerald-500/30">ENFORCED</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-sm font-medium">Entanglement Ping</span>
+                        <span class="text-sm mono text-blue-400">0.0008ms</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-sm font-medium">Shor-Resistance</span>
+                        <span class="text-sm text-yellow-500">OPTIMAL</span>
+                    </div>
+                    <div class="w-full bg-gray-800 h-1 rounded-full overflow-hidden mt-4">
+                        <div
+                            class="bg-gradient-to-r from-yellow-500 to-emerald-500 h-full w-[98%] shadow-[0_0_10px_rgba(255,215,0,0.4)]">
+                        </div>
+                    </div>
+                    <p class="text-[0.6rem] text-center text-gray-500 italic mt-2">Integrity Level: 99.9997%</p>
+                </div>
+            </div>
+
+            <!-- Treasury Stats -->
+            <div class="glass-panel p-6 border-l-4 border-emerald-500">
+                <h3 class="text-xs font-bold uppercase text-gray-400 mb-4 tracking-widest">Imperial Treasury Support
+                </h3>
+                <div class="flex items-center gap-4 mb-4">
+                    <div class="text-4xl">🏛️</div>
+                    <div>
+                        <p class="text-sm font-bold text-gray-300">Stability Fund</p>
+                        <p class="text-2xl font-black mono text-emerald-400">₩1.2T+</p>
+                    </div>
+                </div>
+                <div class="p-3 bg-black/40 rounded border border-gray-700">
+                    <p class="text-[0.65rem] text-gray-400 leading-relaxed uppercase">
+                        Floor defense active at <span class="text-yellow-500">₩950.00</span>.
+                        Target stabilization at <span class="text-emerald-500">₩1,000.00</span>.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Recent Activity -->
+            <div class="glass-panel p-6 flex-grow">
+                <h3 class="text-xs font-bold uppercase text-gray-400 mb-4 tracking-widest">Imperial Log</h3>
+                <div id="log-container" class="space-y-3 mono text-[0.65rem]">
+                    <p class="text-emerald-400">● [SYSTEM] Quantum Core synchronized.</p>
+                    <p class="text-blue-400">● [AUTH] Lattice-based signature verified.</p>
+                    <p class="text-gray-500">● [PQC] Minting cycle 1442 initialized.</p>
+                    <p class="text-yellow-500">● [STRAT] QMC path projection: BULLISH (74%).</p>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer Stats -->
+    <footer class="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="glass-panel p-4 text-center">
+            <p class="text-[0.6rem] text-gray-500 mb-1 uppercase">Circulating Supply</p>
+            <p class="text-lg font-bold mono">8.2M PQC</p>
+        </div>
+        <div class="glass-panel p-4 text-center">
+            <p class="text-[0.6rem] text-gray-500 mb-1 uppercase">Total Burned</p>
+            <p class="text-lg font-bold mono text-red-400">1.4M PQC</p>
+        </div>
+        <div class="glass-panel p-4 text-center">
+            <p class="text-[0.6rem] text-gray-500 mb-1 uppercase">Quantum Density</p>
+            <p class="text-lg font-bold mono text-purple-400">1024 Qubits</p>
+        </div>
+        <div class="glass-panel p-4 text-center">
+            <p class="text-[0.6rem] text-gray-500 mb-1 uppercase">Empire Status</p>
+            <p class="text-lg font-bold mono text-yellow-500">SOVEREIGN</p>
+        </div>
+    </footer>
+
+    <script>
+        // QMC Chart Initialization
+        const ctx = document.getElementById('qmcChart').getContext('2d');
+        const qmcChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: Array.from({ length: 24 }, (_, i) => `${i}h`),
+                datasets: [{
+                    label: 'Expected Price Path',
+                    data: Array.from({ length: 24 }, () => 1000 + Math.random() * 50 - 25),
+                    borderColor: '#ffd700',
+                    backgroundColor: 'rgba(255, 215, 0, 0.1)',
+                    borderWidth: 3,
+                    tension: 0.4,
+                    fill: true,
+                    pointRadius: 0
+                },
+                {
+                    label: 'Confidence Interval (95%)',
+                    data: Array.from({ length: 24 }, () => 1000 + 40),
+                    borderColor: 'rgba(16, 185, 129, 0.3)',
+                    borderDash: [5, 5],
+                    pointRadius: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        grid: { color: 'rgba(255,255,255,0.05)' },
+                        ticks: { color: '#64748b', font: { family: 'JetBrains Mono' } }
+                    },
+                    x: {
+                        grid: { display: false },
+                        ticks: { color: '#64748b', font: { family: 'JetBrains Mono' } }
+                    }
+                },
+                plugins: {
+                    legend: { display: false }
+                }
+            }
+        });
+
+        // Real-time updates simulation
+        setInterval(() => {
+            const price = 998 + Math.random() * 5;
+            document.getElementById('pqc-price').innerText = price.toFixed(2);
+
+            const speed = 0.9 + Math.random() * 0.2;
+            document.getElementById('net-speed').innerText = speed.toFixed(2);
+
+            // Update chart data randomly
+            qmcChart.data.datasets[0].data = qmcChart.data.datasets[0].data.map(v => v + (Math.random() - 0.5) * 5);
+            qmcChart.update('none');
+        }, 2000);
+
+        // Random Log Generator
+        setInterval(() => {
+            const logs = [
+                "Lattice Verification Success",
+                "Node 4 Synchronization Perfect",
+                "Treasury Liquidity Reinforced",
+                "Quantum Interference Filtered",
+                "Decree Execution Confirmed"
+            ];
+            const container = document.getElementById('log-container');
+            const p = document.createElement('p');
+            p.className = (Math.random() > 0.5) ? 'text-gray-400' : 'text-emerald-400';
+            p.innerText = `● [${new Date().toLocaleTimeString()}] ${logs[Math.floor(Math.random() * logs.length)]}`;
+            container.prepend(p);
+            if (container.children.length > 8) container.lastElementChild.remove();
+        }, 3000);
+    </script>
+</body>
+
+</html>

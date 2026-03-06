@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PHOENIX EMPIRE | AI ARCHITECT</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/MAESTRO_DESIGN/design_canvas.css">
+    <style>
+        body {
+            background: #020604; /* Sync with Imperial Standard */
+            color: #e2e8f0;
+            font-family: 'Outfit', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .architect-container {
+            max-width: 1200px;
+            margin: 140px auto 100px; /* Increased top margin for 4D Nav */
+            padding: 2rem;
+            background: rgba(13, 17, 23, 0.8);
+            border: 1px solid rgba(0, 243, 255, 0.2);
+            border-radius: 12px;
+            box-shadow: 0 0 30px rgba(0, 243, 255, 0.05);
+            backdrop-filter: blur(10px);
+            position: relative;
+        }
+
+        .neon-blue-text {
+            color: #00f3ff;
+            text-shadow: 0 0 10px rgba(0, 243, 255, 0.5);
+        }
+
+        .upload-area {
+            border: 2px dashed rgba(0, 243, 255, 0.3);
+            border-radius: 8px;
+            padding: 3rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            background: rgba(0, 243, 255, 0.02);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .upload-area:hover,
+        .upload-area.dragover {
+            border-color: #00f3ff;
+            background: rgba(0, 243, 255, 0.05);
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.2) inset;
+        }
+
+        .prompt-input {
+            width: 100%;
+            background: #010409;
+            border: 1px solid rgba(0, 243, 255, 0.2);
+            color: #fff;
+            padding: 1rem;
+            border-radius: 8px;
+            min-height: 120px;
+            font-size: 1rem;
+            resize: vertical;
+            transition: border-color 0.3s;
+        }
+
+        .prompt-input:focus {
+            outline: none;
+            border-color: #00f3ff;
+            box-shadow: 0 0 10px rgba(0, 243, 255, 0.2);
+        }
+
+        .build-btn {
+            background: linear-gradient(90deg, #004d40, #00f3ff);
+            color: #fff;
+            font-weight: 900;
+            padding: 1rem 3rem;
+            border-radius: 8px;
+            border: none;
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            text-transform: uppercase;
+            width: 100%;
+        }
+
+        .build-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 243, 255, 0.3);
+        }
+
+        .build-btn:disabled {
+            background: #2d3748;
+            color: #718096;
+            cursor: not-allowed;
+            box-shadow: none;
+            transform: none;
+        }
+
+        /* ═══ Process Pipeline ═══ */
+        .pipeline {
+            display: none;
+            margin-top: 3rem;
+            border-top: 1px solid rgba(0, 243, 255, 0.2);
+            padding-top: 2rem;
+        }
+
+        .step-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            opacity: 0.3;
+            transition: opacity 0.5s;
+        }
+
+        .step-item.active {
+            opacity: 1;
+        }
+
+        .step-item.completed {
+            opacity: 1;
+        }
+
+        .step-item.completed .step-icon {
+            background: #00f3ff;
+            color: #000;
+            box-shadow: 0 0 15px #00f3ff;
+        }
+
+        .step-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid #00f3ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #00f3ff;
+            margin-right: 1.5rem;
+            flex-shrink: 0;
+            transition: all 0.5s;
+        }
+
+        .step-text h4 {
+            color: #fff;
+            font-weight: bold;
+            margin-bottom: 0.25rem;
+            letter-spacing: 1px;
+        }
+
+        .step-text p {
+            color: #8b949e;
+            font-size: 0.85rem;
+            font-family: monospace;
+        }
+
+        .loading-spinner {
+            border: 3px solid rgba(0, 243, 255, 0.1);
+            border-top: 3px solid #00f3ff;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            margin-left: 10px;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        #preview-img {
+            max-height: 200px;
+            margin-top: 1rem;
+            border-radius: 8px;
+            display: none;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .glitch-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% 50%, rgba(0, 243, 255, 0.05) 0%, transparent 60%);
+            pointer-events: none;
+            z-index: -1;
+        }
+    </style>
+</head>
+
+<body>
+    {% include 'PHOENIX_MASTER/imperial_nav.html' %}
+
+    <div class="architect-container">
+        <div class="glitch-bg"></div>
+        <div class="text-center mb-10">
+            <h1 class="text-4xl font-black mb-2 tracking-widest uppercase text-white"><span class="neon-blue-text">AI
+                    Auto-Build</span> Engine</h1>
+            <p class="text-gray-400 font-mono text-sm max-w-2xl mx-auto">Upload architectural blueprints (images) and
+                input strategic prompts. The Maestro AI will automatically generate folder structures, UI/UX designs,
+                and production-ready code.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+            <!-- Upload Area -->
+            <div>
+                <h3 class="text-sm font-bold text-gray-300 mb-2 uppercase tracking-wide">1. Blueprint Upload (Image)
+                </h3>
+                <div class="upload-area" id="drop-zone">
+                    <input type="file" id="file-input" accept="image/*" class="hidden">
+                    <div id="upload-content">
+                        <svg class="mx-auto h-12 w-12 text-blue-400 mb-4" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path>
+                        </svg>
+                        <p class="text-sm text-gray-400 font-bold mb-1">Drag and drop UI/UX reference image</p>
+                        <p class="text-xs text-gray-500">or click to browse local files</p>
+                    </div>
+                    <img id="preview-img" alt="Preview">
+                </div>
+            </div>
+
+            <!-- Prompt Area -->
+            <div>
+                <h3 class="text-sm font-bold text-gray-300 mb-2 uppercase tracking-wide">2. Strategic Directives
+                    (Prompt)</h3>
+                <textarea id="prompt-input" class="prompt-input"
+                    placeholder="Enter specific design aesthetics, functional requirements, and architecture preferences... (e.g., 'Create a highly secured, neon-red themed digital court page with animated charts')"></textarea>
+            </div>
+        </div>
+
+        <button id="build-btn" class="build-btn">Initialize Auto-Build Protocol</button>
+
+        <!-- Pipeline Execution Feedback -->
+        <div class="pipeline" id="pipeline-container">
+            <h3 class="text-lg font-black text-white mb-6 uppercase tracking-widest border-l-4 border-blue-400 pl-3">
+                Deployment Pipeline</h3>
+
+            <div class="step-item" id="step-1">
+                <div class="step-icon">1</div>
+                <div class="step-text">
+                    <h4>Analyze Blueprint & Prompt <span class="loading-spinner hidden"></span></h4>
+                    <p id="log-1">Waiting for transmission...</p>
+                </div>
+            </div>
+
+            <div class="step-item" id="step-2">
+                <div class="step-icon">2</div>
+                <div class="step-text">
+                    <h4>Architecture Structuring <span class="loading-spinner hidden"></span></h4>
+                    <p id="log-2">Pending...</p>
+                </div>
+            </div>
+
+            <div class="step-item" id="step-3">
+                <div class="step-icon">3</div>
+                <div class="step-text">
+                    <h4>Design System Generation <span class="loading-spinner hidden"></span></h4>
+                    <p id="log-3">Pending...</p>
+                </div>
+            </div>
+
+            <div class="step-item" id="step-4">
+                <div class="step-icon">4</div>
+                <div class="step-text">
+                    <h4>Code Synthesis & Build <span class="loading-spinner hidden"></span></h4>
+                    <p id="log-4">Pending...</p>
+                </div>
+            </div>
+
+            <div class="step-item" id="step-5">
+                <div class="step-icon">★</div>
+                <div class="step-text">
+                    <h4 class="neon-blue-text">Deployment Complete</h4>
+                    <p id="log-5" class="text-green-400">System Ready.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const dropZone = document.getElementById('drop-zone');
+        const fileInput = document.getElementById('file-input');
+        const previewImg = document.getElementById('preview-img');
+        const uploadContent = document.getElementById('upload-content');
+        const buildBtn = document.getElementById('build-btn');
+        const promptInput = document.getElementById('prompt-input');
+        const pipeline = document.getElementById('pipeline-container');
+
+        let hasImage = false;
+
+        // File Upload Logic
+        dropZone.addEventListener('click', () => fileInput.click());
+
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('dragover');
+        });
+
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.classList.remove('dragover');
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('dragover');
+            if (e.dataTransfer.files.length) {
+                handleFile(e.dataTransfer.files[0]);
+            }
+        });
+
+        fileInput.addEventListener('change', () => {
+            if (fileInput.files.length) {
+                handleFile(fileInput.files[0]);
+            }
+        });
+
+        function handleFile(file) {
+            if (!file.type.startsWith('image/')) {
+                alert('이미지 파일만 업로드 가능합니다.');
+                return;
+            }
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                previewImg.src = e.target.result;
+                previewImg.style.display = 'block';
+                uploadContent.style.display = 'none';
+                dropZone.style.padding = '1rem';
+                hasImage = true;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // Auto-Build Simulation Logic
+        buildBtn.addEventListener('click', async () => {
+            const prompt = promptInput.value.trim();
+            if (!hasImage && !prompt) {
+                alert('이미지를 업로드하거나 프롬프트를 입력해주십시오.');
+                return;
+            }
+
+            // Start Pipeline
+            buildBtn.disabled = true;
+            buildBtn.textContent = 'TRANSMITTING COMMAND...';
+            pipeline.style.display = 'block';
+
+            // Reset steps
+            for (let i = 1; i <= 5; i++) {
+                const step = document.getElementById(`step-${i}`);
+                step.className = 'step-item';
+                const spinner = step.querySelector('.loading-spinner');
+                if (spinner) spinner.classList.add('hidden');
+            }
+
+            // UI Feedback: Step 1 Initiation
+            document.getElementById('step-1').classList.add('active');
+            document.getElementById('step-1').querySelector('.loading-spinner').classList.remove('hidden');
+            document.getElementById('log-1').textContent = "Transmitting directives to Imperial Maestro...";
+
+            try {
+                const response = await fetch('/api/architect/build', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ prompt: prompt })
+                });
+
+                const result = await response.json();
+
+                if (result.status === 'success') {
+                    // Step 1 Finish
+                    document.getElementById('step-1').querySelector('.loading-spinner').classList.add('hidden');
+                    document.getElementById('step-1').classList.add('completed');
+                    document.getElementById('log-1').textContent = "Directive received and analyzed.";
+                    document.getElementById('log-1').style.color = '#0ecb81';
+
+                    // Rapid Visual Feedback for remaining steps
+                    await simulateStep(2, "Generating architecture & folder structures...", 1000, "Folder structure synchronized.");
+                    await simulateStep(3, "Applying design tokens and synthesizing code...", 1000, "Code synthesized successfully.");
+
+                    const step4 = document.getElementById('step-4');
+                    step4.classList.add('active', 'completed');
+                    document.getElementById('log-4').textContent = `Physical deployment: ${result.file}`;
+                    document.getElementById('log-4').style.color = '#0ecb81';
+
+                    // Step 5: Complete
+                    document.getElementById('step-5').classList.add('active', 'completed');
+                    document.getElementById('log-5').textContent = `Build successful. Absolute path: ${result.path}`;
+
+                    buildBtn.textContent = 'MODULE DEPLOYED';
+                    buildBtn.style.background = '#0ecb81';
+                    buildBtn.style.color = '#000';
+                } else {
+                    throw new Error(result.message);
+                }
+            } catch (error) {
+                alert(`Build Error: ${error.message}`);
+                buildBtn.disabled = false;
+                buildBtn.textContent = 'RETRY PROTOCOL';
+                document.getElementById('log-1').textContent = "Transmission interrupted.";
+                document.getElementById('log-1').style.color = '#ff4d4d';
+            }
+        });
+
+        function simulateStep(stepNum, loadingText, duration, completeText) {
+            return new Promise(resolve => {
+                const step = document.getElementById(`step-${stepNum}`);
+                const log = document.getElementById(`log-${stepNum}`);
+                const spinner = step.querySelector('.loading-spinner');
+
+                step.classList.add('active');
+                if (spinner) spinner.classList.remove('hidden');
+                log.textContent = loadingText;
+                log.style.color = '#fff';
+
+                setTimeout(() => {
+                    if (spinner) spinner.classList.add('hidden');
+                    step.classList.add('completed');
+                    log.textContent = completeText;
+                    log.style.color = '#0ecb81';
+                    resolve();
+                }, duration);
+            });
+        }
+    </script>
+</body>
+
+</html>

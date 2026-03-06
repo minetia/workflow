@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Analytics & AI Hub | Phoenix Research</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --quantum-purple: #bf00ff;
+            --quantum-magenta: #ff00ff;
+            --quantum-blue: #00d4ff;
+            --bg-deep: #050010;
+            --glass-bg: rgba(20, 0, 40, 0.6);
+        }
+
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            background: var(--bg-deep);
+            color: white;
+            font-family: 'Inter', sans-serif;
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        /* ═══ Quantum Atmosphere ═══ */
+        .hub-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at center, #10002b 0%, #050010 100%);
+        }
+
+        .matrix-rain {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0.1;
+            background-image: repeating-linear-gradient(0deg, transparent, transparent 1px, var(--quantum-purple) 1px, var(--quantum-purple) 2px);
+            background-size: 100% 3px;
+            animation: rain 20s linear infinite;
+        }
+
+        @keyframes rain {
+            from {
+                background-position: 0 0;
+            }
+
+            to {
+                background-position: 0 1000px;
+            }
+        }
+
+        /* ═══ Top HUD: Observation Deck ═══ */
+        .observation-deck {
+            height: 60px;
+            display: flex;
+            box-sizing: border-box;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            border-bottom: 1px solid var(--quantum-purple);
+            background: rgba(191, 0, 255, 0.05);
+            backdrop-filter: blur(10px);
+        }
+
+        .deck-badge {
+            font-size: 10px;
+            color: var(--quantum-magenta);
+            border: 1px solid var(--quantum-magenta);
+            padding: 2px 8px;
+            border-radius: 10px;
+            text-transform: uppercase;
+        }
+
+        /* ═══ Main Lab Layout ═══ */
+        .hub-container {
+            display: grid;
+            grid-template-columns: 400px 1fr;
+            grid-template-rows: 1fr 300px;
+            gap: 20px;
+            padding: 20px;
+            height: calc(100vh - 60px);
+            box-sizing: border-box;
+        }
+
+        /* ═══ Analytics Lab (Image 13) ═══ */
+        .analytics-lab {
+            background: var(--glass-bg);
+            border-radius: 15px;
+            border: 1px solid rgba(191, 0, 255, 0.2);
+            padding: 20px;
+            overflow-y: auto;
+            box-shadow: 0 0 30px rgba(191, 0, 255, 0.1);
+        }
+
+        .lab-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--quantum-purple);
+            padding-left: 10px;
+        }
+
+        /* ═══ Neural Visualization (Image 14) ═══ */
+        .neural-chamber {
+            background: black;
+            border-radius: 15px;
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .node-canvas {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .hologram-ui {
+            position: absolute;
+            pointer-events: none;
+            z-index: 5;
+            text-align: center;
+        }
+
+        /* ═══ Quantum Processing (Image 12) ═══ */
+        .processing-hall {
+            grid-column: span 2;
+            background: var(--glass-bg);
+            border: 1px solid rgba(255, 0, 255, 0.2);
+            border-radius: 15px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            padding: 20px;
+        }
+
+        .q-unit {
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .q-label {
+            font-size: 10px;
+            opacity: 0.6;
+        }
+
+        .q-bar {
+            height: 4px;
+            background: #2d3748;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .q-progress {
+            height: 100%;
+            background: var(--quantum-magenta);
+            width: 0%;
+            transition: 1s;
+        }
+
+        /* ═══ Visual Sprinkles ═══ */
+        .data-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            margin-bottom: 8px;
+            padding-bottom: 4px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .val-glow {
+            color: var(--quantum-blue);
+            text-shadow: 0 0 8px var(--quantum-blue);
+        }
+
+        .btn-portal {
+            background: transparent;
+            border: 1px solid var(--quantum-purple);
+            color: var(--quantum-purple);
+            padding: 6px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: 0.3s;
+        }
+
+        .btn-portal:hover {
+            background: var(--quantum-purple);
+            color: white;
+            box-shadow: 0 0 15px var(--quantum-purple);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="hub-bg">
+        <div class="matrix-rain"></div>
+    </div>
+
+    <div class="hub-container"
+        style="padding-top: 96px; height: 100vh; overflow: hidden; display: flex; flex-direction: column;">
+        <link rel="stylesheet" href="/static/css/style.css">
+        {% with page_title="ANALYTICS", page_subtitle="HUB CENTER" %}
+        {% include 'PHOENIX_MASTER/imperial_nav.html' %}
+        {% endwith %}
+
+        <header class="observation-deck" style="margin-top: 0px; border-bottom: none; background: transparent;">
+            <div style="display: flex; align-items: center; gap: 20px;">
+                <div style="font-size: 18px; font-weight: 200; letter-spacing: 5px;">ANALYTICS HUB</div>
+            </div>
+        </header>
+
+        <div class="hub-container" style="flex: 1; padding: 10px; box-sizing: border-box;">
+
+            <!-- ANALYTICS LAB -->
+            <aside class="analytics-lab">
+                <div class="lab-title">MARKET INTELLIGENCE LAB</div>
+                <div id="analytics-data">
+                    <div class="data-row"><span>Global Sentiment Alpha</span> <span class="val-glow">0.824</span></div>
+                    <div class="data-row"><span>Statistical Arbitrage Prob</span> <span class="val-glow">68.2%</span>
+                    </div>
+                    <div class="data-row"><span>Vector Distance (BTC/ETH)</span> <span class="val-glow">0.021</span>
+                    </div>
+                    <div class="data-row"><span>Fractal Dimension (1h)</span> <span class="val-glow">1.44</span></div>
+                </div>
+
+                <div style="margin-top: 30px;">
+                    <div style="font-size: 11px; margin-bottom: 10px; color: var(--quantum-purple);">ACTIVE RESEARCH
+                        THREADS
+                    </div>
+                    <div id="threads-list" style="font-family: monospace; font-size: 10px; color: #718096;">
+                        [RUNNING] Harmonic Pattern Scan...<br>
+                        [RUNNING] Sentiment NLP v4.2...<br>
+                        [RUNNING] Whale Wallet Tracker...
+                    </div>
+                </div>
+            </aside>
+
+            <!-- NEURAL CHAMBER -->
+            <main class="neural-chamber">
+                <canvas id="neural-canvas" class="node-canvas"></canvas>
+                <div class="hologram-ui">
+                    <div style="font-size: 12px; opacity: 0.5;">AI COGNITION MATRIX</div>
+                    <div id="neural-status"
+                        style="font-size: 24px; color: var(--quantum-magenta); text-shadow: 0 0 15px var(--quantum-magenta);">
+                        NEURAL BRIDGE ACTIVE</div>
+                </div>
+            </main>
+
+            <!-- QUANTUM PROCESSING HALL -->
+            <section class="processing-hall">
+                <div class="q-unit">
+                    <div class="q-label">QUANTUM CORE ALPHA</div>
+                    <div>82.1 TFlops</div>
+                    <div class="q-bar">
+                        <div class="q-progress" id="qp-1"></div>
+                    </div>
+                </div>
+                <div class="q-unit">
+                    <div class="q-label">SYCAMORE V2 SYNC</div>
+                    <div>94.2% Stability</div>
+                    <div class="q-bar">
+                        <div class="q-progress" id="qp-2" style="background: var(--quantum-blue);"></div>
+                    </div>
+                </div>
+                <div class="q-unit">
+                    <div class="q-label">ENTANGLEMENT RATIO</div>
+                    <div>0.9997</div>
+                    <div class="q-bar">
+                        <div class="q-progress" id="qp-3"></div>
+                    </div>
+                </div>
+                <div class="q-unit">
+                    <div class="q-label">ERROR CORRECTION</div>
+                    <div>ACTIVE (Level 4)</div>
+                    <div class="q-bar">
+                        <div class="q-progress" id="qp-4" style="background: var(--quantum-blue);"></div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <script>
+            // Progress Bars Animation
+            setTimeout(() => {
+                document.getElementById('qp-1').style.width = '82%';
+                document.getElementById('qp-2').style.width = '94%';
+                document.getElementById('qp-3').style.width = '99%';
+                document.getElementById('qp-4').style.width = '75%';
+            }, 500);
+
+            // Simple Neural Matrix Animation
+            const canvas = document.getElementById('neural-canvas');
+            const ctx = canvas.getContext('2d');
+            let width, height, particles;
+
+            function init() {
+                width = canvas.width = canvas.offsetWidth;
+                height = canvas.height = canvas.offsetHeight;
+                particles = [];
+                for (let i = 0; i < 50; i++) {
+                    particles.push({
+                        x: Math.random() * width,
+                        y: Math.random() * height,
+                        vx: (Math.random() - 0.5) * 1,
+                        vy: (Math.random() - 0.5) * 1
+                    });
+                }
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, width, height);
+                ctx.fillStyle = '#bf00ff22';
+                ctx.strokeStyle = '#bf00ff44';
+
+                particles.forEach((p, i) => {
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    if (p.x < 0 || p.x > width) p.vx *= -1;
+                    if (p.y < 0 || p.y > height) p.vy *= -1;
+
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, 2, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    for (let j = i + 1; j < particles.length; j++) {
+                        const p2 = particles[j];
+                        const dist = Math.hypot(p.x - p2.x, p.y - p2.y);
+                        if (dist < 100) {
+                            ctx.beginPath();
+                            ctx.moveTo(p.x, p.y);
+                            ctx.lineTo(p2.x, p2.y);
+                            ctx.stroke();
+                        }
+                    }
+                });
+                requestAnimationFrame(animate);
+            }
+
+            window.onresize = init;
+            init();
+            animate();
+
+            function toggleSidebar() {
+                if (typeof toggleImperialDrawer === 'function') {
+                    toggleImperialDrawer('left');
+                }
+            }
+        </script>
+</body>
+
+</html>

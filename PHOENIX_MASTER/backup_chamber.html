@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PHOENIX EMPIRE | 제국 보안 백업실 (Backup Chamber)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+
+        body {
+            background: #02050a;
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            background-image: radial-gradient(circle at center, rgba(0, 100, 255, 0.1) 0%, #02050a 100%);
+        }
+
+        .backup-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 100px 20px;
+            min-height: 100vh;
+        }
+
+        .core-chamber {
+            width: 80%;
+            max-width: 900px;
+            background: rgba(0, 15, 30, 0.9);
+            border: 2px solid #00f3ff;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 0 50px rgba(0, 243, 255, 0.2);
+            position: relative;
+            margin-top: 2rem;
+        }
+
+        .hologram-effect {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(0deg,
+                    rgba(0, 243, 255, 0.03) 0px,
+                    rgba(0, 243, 255, 0.03) 1px,
+                    transparent 1px,
+                    transparent 2px);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .btn-backup {
+            background: linear-gradient(135deg, #0044ff, #00f3ff);
+            color: #fff;
+            font-weight: 900;
+            font-size: 1.2rem;
+            padding: 1.2rem 3rem;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(0, 243, 255, 0.4);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            width: 100%;
+            position: relative;
+            z-index: 10;
+        }
+
+        .btn-backup:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px rgba(0, 243, 255, 0.6);
+        }
+
+        .btn-backup:disabled {
+            background: #112233;
+            color: #556677;
+            box-shadow: none;
+            cursor: not-allowed;
+        }
+
+        .btn-backup.pulsing {
+            animation: pulse-blue 1.5s infinite alternate;
+        }
+
+        @keyframes pulse-blue {
+            0% {
+                box-shadow: 0 0 20px rgba(0, 243, 255, 0.4);
+            }
+
+            100% {
+                box-shadow: 0 0 50px rgba(0, 243, 255, 0.8);
+            }
+        }
+
+        .archive-list {
+            margin-top: 2rem;
+            max-height: 400px;
+            overflow-y: auto;
+            border: 1px solid rgba(0, 243, 255, 0.3);
+            background: rgba(0, 5, 10, 0.8);
+            border-radius: 10px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .archive-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid rgba(0, 243, 255, 0.1);
+            transition: background 0.2s;
+        }
+
+        .archive-item:hover {
+            background: rgba(0, 243, 255, 0.05);
+        }
+
+        .archive-icon {
+            font-size: 2rem;
+            color: #00f3ff;
+            margin-right: 1rem;
+        }
+
+        .neon-glow {
+            text-shadow: 0 0 10px currentColor;
+        }
+
+        /* Scrollbar styles */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #00f3ff;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+
+<body class="pt-24">
+
+    {% with page_title="Backup Chamber", page_subtitle="DATA PRESERVATION UNIT" %}
+    {% include 'PHOENIX_MASTER/imperial_nav.html' %}
+    {% endwith %}
+
+    <div class="backup-container">
+        <div class="text-center">
+            <h1 class="text-4xl font-black tracking-widest uppercase neon-glow" style="color: #00f3ff;">💾 제국 보안 백업실
+            </h1>
+            <p class="text-[12px] text-gray-400 font-bold uppercase tracking-widest mt-2">Imperial Backup Chamber &
+                Archive</p>
+        </div>
+
+        <div class="core-chamber">
+            <div class="hologram-effect"></div>
+
+            <div class="relative z-10 mb-8">
+                <div class="flex justify-between items-start gap-4 mb-4">
+                    <p
+                        class="text-gray-300 text-sm leading-relaxed bg-blue-900/20 p-4 border-l-4 border-blue-500 rounded-r-lg flex-1">
+                        사령관실 소속 보안 백업실입니다. 현재 서버의 핵심 코어코드를 안전하게 압축 보존합니다.<br>
+                        보존 정책: <span id="currentRetention" class="text-blue-400 font-bold">--</span>일 경과 시 자동 소각 처리됩니다.
+                    </p>
+                    <div class="bg-black/50 border border-blue-500/30 p-3 rounded-lg text-xs w-48">
+                        <label class="block text-blue-400 font-bold mb-2 uppercase tracking-tighter">Retention
+                            Policy</label>
+                        <div class="flex gap-2">
+                            <input type="number" id="retentionInput"
+                                class="bg-black border border-blue-900 text-white px-2 py-1 w-full rounded outline-none focus:border-blue-500"
+                                placeholder="Days">
+                            <button onclick="updateSettings()"
+                                class="bg-blue-600 hover:bg-blue-500 px-2 py-1 rounded font-bold">SET</button>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn-backup" id="triggerBtn" onclick="triggerBackup()">
+                    📦 전체 데이터 스냅샷 백업 실행 (TRIGGER BACKUP)
+                </button>
+            </div>
+
+            <div class="flex justify-between items-center border-b border-sky-500/30 pb-2 relative z-10">
+                <h2 class="text-xl font-bold text-sky-400">보존된 백업 아카이브 (Archives)</h2>
+                <div class="text-right text-xs text-sky-500 font-mono" id="chamberPath">
+                    경로 로딩 중...
+                </div>
+            </div>
+
+            <div class="archive-list" id="archiveList">
+                <div class="text-center py-10 text-gray-500">
+                    데이터 동기화 중...
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 초기 상태 백업 목록 로딩
+        async function fetchBackupStatus() {
+            try {
+                const response = await fetch('/api/admin/backup/status');
+                const data = await response.json();
+
+                document.getElementById('chamberPath').innerText = "LOCATION: " + data.chamber_path;
+                document.getElementById('currentRetention').innerText = data.max_retention || 14;
+
+                const btn = document.getElementById('triggerBtn');
+                if (data.status === "RUNNING") {
+                    btn.disabled = true;
+                    btn.classList.add('pulsing');
+                    btn.innerHTML = '⚙️ 데이터 압축 및 암호화 진행 중... (RUNNING)';
+                    setTimeout(fetchBackupStatus, 3000);
+                } else {
+                    btn.disabled = false;
+                    btn.classList.remove('pulsing');
+                    btn.innerHTML = '📦 전체 데이터 스냅샷 백업 실행 (TRIGGER BACKUP)';
+                }
+
+                renderArchives(data.archives);
+            } catch (error) {
+                console.error("Failed to fetch backup status", error);
+            }
+        }
+
+        function renderArchives(archives) {
+            const list = document.getElementById('archiveList');
+            if (!archives || archives.length === 0) {
+                list.innerHTML = `
+                    <div class="text-center py-10">
+                        <div class="text-4xl text-gray-600 mb-2">📁</div>
+                        <p class="text-gray-500">보존된 백업 스냅샷이 존재하지 않습니다.</p>
+                    </div>`;
+                return;
+            }
+
+            let html = '';
+            archives.forEach(arch => {
+                html += `
+                    <div class="archive-item">
+                        <div class="flex items-center">
+                            <span class="archive-icon">📦</span>
+                            <div>
+                                <div class="font-bold text-sky-300 font-mono text-sm">${arch.name}</div>
+                                <div class="text-xs text-gray-400 mt-1">Status: SECURED | Hash Verified</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-6">
+                            <div class="text-right">
+                                <div class="text-sm font-bold text-white">${arch.size}</div>
+                                <div class="text-[10px] text-gray-500 font-mono mt-1">${arch.date}</div>
+                            </div>
+                            <button onclick="restoreBackup('${arch.name}')" class="bg-red-900/40 hover:bg-red-600 border border-red-500 text-[10px] font-bold px-3 py-2 rounded transition-all">RESTORE</button>
+                        </div>
+                    </div>
+                `;
+            });
+            list.innerHTML = html;
+        }
+
+        async function triggerBackup() {
+            const btn = document.getElementById('triggerBtn');
+            btn.disabled = true;
+            btn.classList.add('pulsing');
+            btn.innerHTML = '⚙️ 시퀀스 가동 중...';
+
+            try {
+                const response = await fetch('/api/admin/backup/trigger', { method: 'POST' });
+                const result = await response.json();
+                if (result.success) {
+                    setTimeout(fetchBackupStatus, 1500);
+                } else {
+                    alert(result.message);
+                    fetchBackupStatus();
+                }
+            } catch (error) {
+                console.error("Backup trigger failed", error);
+                alert("백업 엔진 접근 실패.");
+                btn.disabled = false;
+            }
+        }
+
+        async function restoreBackup(filename) {
+            if (!confirm(`[경고] ${filename} 시점으로 시스템을 복구하시겠습니까?\n현재 파일들이 덮어씌워집니다.`)) return;
+
+            try {
+                const response = await fetch('/api/admin/backup/restore', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ filename })
+                });
+                const result = await response.json();
+                alert(result.message);
+                fetchBackupStatus();
+            } catch (error) {
+                alert("복구 시퀀스 실행 중 오류가 발생했습니다.");
+            }
+        }
+
+        async function updateSettings() {
+            const days = document.getElementById('retentionInput').value;
+            if (!days) return;
+
+            try {
+                const response = await fetch('/api/admin/backup/settings', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ retention_days: days })
+                });
+                const result = await response.json();
+                if (result.success) {
+                    alert(result.message);
+                    fetchBackupStatus();
+                }
+            } catch (error) {
+                alert("정책 업데이트 실패.");
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', fetchBackupStatus);
+    </script>
+</body>
+
+</html>

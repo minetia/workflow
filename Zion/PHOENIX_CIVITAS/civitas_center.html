@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PHOENIX CIVITAS - Imperial Life Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: #050a08;
+            color: #e2e8f0;
+            margin: 0;
+        }
+
+        .glass-card {
+            background: rgba(13, 20, 18, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 255, 128, 0.1);
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .glass-card:hover {
+            border-color: rgba(0, 255, 128, 0.4);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 255, 128, 0.1);
+        }
+
+        .emerald-text {
+            color: #00ff80;
+            text-shadow: 0 0 10px rgba(0, 255, 128, 0.3);
+        }
+    </style>
+</head>
+
+<body class="p-6 md:p-12">
+    {% include 'PHOENIX_MASTER/imperial_nav.html' %}
+
+    <div class="mt-20 max-w-7xl mx-auto">
+        <header class="mb-16 text-center">
+            <h1 class="text-6xl font-black emerald-text tracking-tighter uppercase mb-2">Phoenix Civitas</h1>
+            <p class="text-gray-500 font-bold tracking-widest text-sm uppercase">The Heart of Imperial Citizen Life</p>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <!-- Park & Education -->
+            <a href="/civitas/park" class="glass-card p-8 flex flex-col items-center text-center">
+                <div class="text-5xl mb-6">🌳</div>
+                <h3 class="text-xl font-bold mb-2 text-white">Imperial Park</h3>
+                <p class="text-gray-400 text-sm mb-4">Relaxation, meditation, and quantum education academies.</p>
+                <span class="mt-auto text-[10px] font-black tracking-widest text-emerald-500 uppercase">Enter
+                    Zone</span>
+            </a>
+
+            <!-- Market & Entertainment -->
+            <a href="/civitas/market" class="glass-card p-8 flex flex-col items-center text-center">
+                <div class="text-5xl mb-6">🎭</div>
+                <h3 class="text-xl font-bold mb-2 text-white">Phoenix Plaza</h3>
+                <p class="text-gray-400 text-sm mb-4">Gourmet dining, entertainment, and luxury shopping via PQC.</p>
+                <span class="mt-auto text-[10px] font-black tracking-widest text-emerald-500 uppercase">Enter
+                    Zone</span>
+            </a>
+
+            <!-- Finance -->
+            <a href="/civitas/bank" class="glass-card p-8 flex flex-col items-center text-center">
+                <div class="text-5xl mb-6">🏦</div>
+                <h3 class="text-xl font-bold mb-2 text-white">Quantum Finance</h3>
+                <p class="text-gray-400 text-sm mb-4">Manage your personal PQC asset growth and spending logs.</p>
+                <span class="mt-auto text-[10px] font-black tracking-widest text-emerald-500 uppercase">Enter
+                    Zone</span>
+            </a>
+
+            <!-- Housing -->
+            <a href="/civitas/estate" class="glass-card p-8 flex flex-col items-center text-center">
+                <div class="text-5xl mb-6">🏰</div>
+                <h3 class="text-xl font-bold mb-2 text-white">Imperial Estate</h3>
+                <p class="text-gray-400 text-sm mb-4">Premium housing and collective rest zones for loyal citizens.</p>
+                <span class="mt-auto text-[10px] font-black tracking-widest text-emerald-500 uppercase">Enter
+                    Zone</span>
+            </a>
+        </div>
+
+        <div class="mt-16 grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Quantum Infra Dashboard -->
+            <div class="glass-card p-10">
+                <div class="flex justify-between items-center mb-8">
+                    <h2 class="text-2xl font-black text-white uppercase tracking-tighter">Quantum Infrastructure</h2>
+                    <div class="px-4 py-1 bg-emerald-500/10 border border-emerald-500/30 rounded-full">
+                        <span class="text-[10px] font-black emerald-text uppercase tracking-widest animate-pulse">Synced
+                            With Core</span>
+                    </div>
+                </div>
+                <div id="infra-list" class="space-y-6"></div>
+            </div>
+
+            <!-- Comfort & PQC Summary -->
+            <div class="flex flex-col gap-8">
+                <div class="glass-card p-10 flex-1 flex flex-col justify-center items-center text-center">
+                    <p class="text-[10px] font-black text-gray-500 uppercase tracking-[0.4em] mb-4">Imperial Comfort
+                        Index</p>
+                    <div class="text-7xl font-black emerald-text mb-2" id="comfort-index">--.-</div>
+                    <p class="text-xs font-bold text-emerald-500/50 uppercase tracking-widest">Optimized by Quantum
+                        Logic</p>
+                </div>
+
+                <div class="glass-card p-10 flex-1">
+                    <h2 class="text-xl font-black text-white mb-6 uppercase tracking-tighter">Your Imperial Standing
+                    </h2>
+                    <div class="flex flex-col gap-6">
+                        <div>
+                            <span
+                                class="text-gray-500 text-[10px] font-black uppercase tracking-widest block mb-1">Available
+                                Balance</span>
+                            <div class="flex items-end gap-2">
+                                <span class="text-4xl font-black emerald-text" id="pqc-balance">---</span>
+                                <span class="text-xs text-yellow-500 font-bold uppercase mb-2">PQC</span>
+                            </div>
+                        </div>
+                        <div class="h-[1px] bg-white/5"></div>
+                        <div>
+                            <span
+                                class="text-gray-500 text-[10px] font-black uppercase tracking-widest block mb-1">Citizen
+                                Grade</span>
+                            <span class="text-2xl font-black text-white uppercase tracking-tight">Vanguard Legion</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const infraList = document.getElementById('infra-list');
+        const comfortIndexElem = document.getElementById('comfort-index');
+        const balanceElem = document.getElementById('pqc-balance');
+
+        async function updateCivitasData() {
+            try {
+                const res = await fetch('/api/admin/civitas/infra/status');
+                const data = await res.json();
+                comfortIndexElem.innerText = data.comfort_index;
+                infraList.innerHTML = Object.entries(data.infrastructures).map(([key, info]) => `
+                    <div class="flex justify-between items-center group">
+                        <div>
+                            <p class="text-xs font-black text-gray-500 uppercase tracking-widest">${key.replace('_', ' ')}</p>
+                            <p class="text-sm font-bold text-white group-hover:text-emerald-400 transition-colors">${info.name}</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-sm font-black text-emerald-500">${info.efficiency}</p>
+                            <p class="text-[8px] font-mono text-gray-600 uppercase">${info.status} | SYNC: ${info.last_sync}</p>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (e) { }
+        }
+
+        async function fetchBalance() {
+            try {
+                const res = await fetch('/api/quantum/wallet/PQC_USER');
+                const data = await res.json();
+                balanceElem.innerText = data.balance.toLocaleString();
+            } catch (e) {
+                balanceElem.innerText = '0';
+            }
+        }
+
+        setInterval(updateCivitasData, 3000);
+        updateCivitasData();
+        fetchBalance();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,916 @@
+<!-- [PHOENIX_MASTER] Dual Hamburger Imperial Navigation v3 -->
+<style>
+    :root {
+        --gold: #ffd700;
+        --gold-glow: rgba(255, 215, 0, 0.4);
+        --cyan: #00f3ff;
+        --cyan-glow: rgba(0, 243, 255, 0.4);
+        --quantum-green: #10b981;
+        --quantum-bg: rgba(5, 7, 10, 0.9);
+    }
+
+    /* ══════════ TOP BAR ══════════ */
+    .quantum-top-bar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 60px;
+        background: var(--quantum-bg);
+        backdrop-filter: blur(25px);
+        border-bottom: 2px solid rgba(255, 215, 0, 0.3);
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 20px;
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+        overflow: hidden;
+    }
+
+    .nav-lattice {
+        position: absolute;
+        inset: 0;
+        background-image:
+            linear-gradient(rgba(16, 185, 129, 0.1) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(16, 185, 129, 0.1) 1px, transparent 1px);
+        background-size: 20px 20px;
+        opacity: 0.2;
+        pointer-events: none;
+        z-index: -1;
+    }
+
+    .nav-left-group {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        gap: 12px;
+        flex-shrink: 0;
+        z-index: 10;
+    }
+
+    .nav-right-group {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        gap: 12px;
+        flex-shrink: 0;
+    }
+
+    /* ══════════ LOGO ══════════ */
+    .quantum-logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        cursor: pointer;
+        transition: transform 0.3s;
+    }
+
+    .quantum-logo:hover {
+        transform: scale(1.05);
+    }
+
+    .phoenix-crown {
+        color: var(--gold);
+        filter: drop-shadow(0 0 10px var(--gold));
+        font-size: 20px;
+        animation: crown-pulse 3s infinite;
+    }
+
+    @keyframes crown-pulse {
+
+        0%,
+        100% {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        50% {
+            opacity: 0.7;
+            transform: scale(1.1);
+        }
+    }
+
+    /* ══════════ BREADCRUMB CENTER ══════════ */
+    .nav-breadcrumb {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2px;
+        flex: 1;
+        min-width: 0;
+        padding: 0 12px;
+    }
+
+    .nav-bc-category {
+        font-size: 7px;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        color: rgba(255, 215, 0, 0.45);
+        font-weight: 700;
+        white-space: nowrap;
+    }
+
+    .nav-bc-page {
+        font-size: 13px;
+        font-weight: 900;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: #e2e8f0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 340px;
+    }
+
+    .nav-bc-page .bc-sep {
+        color: rgba(255, 215, 0, 0.3);
+        margin: 0 6px;
+        font-weight: 300;
+    }
+
+    @media (max-width: 640px) {
+        .nav-bc-page {
+            font-size: 10px;
+            max-width: 160px;
+        }
+
+        .nav-bc-category {
+            display: none;
+        }
+    }
+
+    /* ══════════ HAMBURGER BUTTONS ══════════ */
+    .ham-btn {
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        padding: 10px;
+        transition: all 0.3s;
+        z-index: 10002;
+        background: transparent;
+        border: none;
+    }
+
+    .ham-btn span {
+        display: block;
+        width: 24px;
+        height: 2px;
+        transition: all 0.3s;
+        border-radius: 2px;
+    }
+
+    /* Gold hamburger (left) */
+    #ham-left span {
+        background: var(--gold);
+        box-shadow: 0 0 6px var(--gold-glow);
+    }
+
+    /* Cyan hamburger (right) */
+    #ham-right span {
+        background: var(--cyan);
+        box-shadow: 0 0 6px var(--cyan-glow);
+    }
+
+    .ham-btn.active span:nth-child(1) {
+        transform: translateY(7px) rotate(45deg);
+    }
+
+    .ham-btn.active span:nth-child(2) {
+        opacity: 0;
+    }
+
+    .ham-btn.active span:nth-child(3) {
+        transform: translateY(-7px) rotate(-45deg);
+    }
+
+    /* Ham labels */
+    .ham-label {
+        font-size: 6px;
+        font-weight: 900;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        text-align: center;
+        margin-top: 2px;
+    }
+
+    #ham-left-wrap .ham-label {
+        color: var(--gold);
+    }
+
+    #ham-right-wrap .ham-label {
+        color: var(--cyan);
+    }
+
+    .ham-wrap {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        cursor: pointer;
+        position: relative;
+        z-index: 10005;
+        pointer-events: auto;
+    }
+
+    /* ══════════ SIDEBAR OVERLAYS ══════════ */
+    .sidebar-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.75);
+        z-index: 10000;
+        display: none;
+        backdrop-filter: blur(8px);
+    }
+
+    .sidebar-overlay.active {
+        display: block;
+    }
+
+    html.drawer-open,
+    body.drawer-open {
+        overflow: hidden !important;
+    }
+
+    /* ══════════ DRAWER BASE ══════════ */
+    .imperial-drawer {
+        position: fixed;
+        top: 0;
+        height: 100vh;
+        width: 300px;
+        background: rgba(3, 5, 10, 0.96);
+        backdrop-filter: blur(25px);
+        z-index: 10001;
+        transition: transform 0.7s cubic-bezier(0.19, 1, 0.22, 1);
+        padding: 70px 0 80px 0;
+        display: flex;
+        flex-direction: column;
+        overflow-y: auto;
+        overflow-x: hidden;
+        scrollbar-width: none;
+        /* Firefox */
+        -ms-overflow-style: none;
+        /* IE/Edge */
+    }
+
+    .imperial-drawer::-webkit-scrollbar {
+        display: none;
+        /* Chrome/Safari */
+    }
+
+    /* LEFT DRAWER (gold) */
+    #drawer-left {
+        left: 0;
+        border-right: 1px solid rgba(255, 215, 0, 0.2);
+        transform: translateX(-100%);
+        box-shadow: 4px 0 60px rgba(255, 215, 0, 0.05);
+    }
+
+    #drawer-left.open {
+        transform: translateX(0);
+        box-shadow: 80px 0 120px rgba(0, 0, 0, 0.8);
+    }
+
+    /* RIGHT DRAWER (cyan) */
+    #drawer-right {
+        right: 0;
+        border-left: 1px solid rgba(0, 243, 255, 0.2);
+        transform: translateX(100%);
+        box-shadow: -4px 0 60px rgba(0, 243, 255, 0.05);
+    }
+
+    #drawer-right.open {
+        transform: translateX(0);
+        box-shadow: -80px 0 120px rgba(0, 0, 0, 0.8);
+    }
+
+    /* Drawer top accent line */
+    .drawer-accent {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+    }
+
+    #drawer-left .drawer-accent {
+        background: linear-gradient(90deg, var(--gold), transparent);
+    }
+
+    #drawer-right .drawer-accent {
+        background: linear-gradient(90deg, transparent, var(--cyan));
+    }
+
+    /* ══════════ DRAWER HEADER ══════════ */
+    .drawer-header {
+        padding: 0 20px 16px 20px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        margin-bottom: 8px;
+    }
+
+    .drawer-title {
+        font-size: 11px;
+        font-weight: 900;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        font-style: italic;
+    }
+
+    #drawer-left .drawer-title {
+        color: var(--gold);
+    }
+
+    #drawer-right .drawer-title {
+        color: var(--cyan);
+    }
+
+    .drawer-sub {
+        font-size: 8px;
+        opacity: 0.35;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        margin-top: 3px;
+    }
+
+    /* ══════════ CATEGORY / ITEMS ══════════ */
+    .drawer-body {
+        flex: 1;
+        padding: 0 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    .nav-category {
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    .category-trigger {
+        padding: 10px 14px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        cursor: pointer;
+        transition: all 0.25s;
+        border-radius: 10px;
+    }
+
+    #drawer-left .category-trigger {
+        background: rgba(255, 215, 0, 0.04);
+        border: 1px solid rgba(255, 215, 0, 0.08);
+    }
+
+    #drawer-left .category-trigger:hover {
+        background: rgba(255, 215, 0, 0.1);
+        border-color: var(--gold);
+    }
+
+    #drawer-right .category-trigger {
+        background: rgba(0, 243, 255, 0.04);
+        border: 1px solid rgba(0, 243, 255, 0.08);
+    }
+
+    #drawer-right .category-trigger:hover {
+        background: rgba(0, 243, 255, 0.1);
+        border-color: var(--cyan);
+    }
+
+    .category-label {
+        font-size: 9px;
+        font-weight: 900;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+    }
+
+    #drawer-left .category-label {
+        color: var(--gold);
+    }
+
+    #drawer-right .category-label {
+        color: var(--cyan);
+    }
+
+    .chevron {
+        font-size: 7px;
+        transition: transform 0.3s;
+    }
+
+    #drawer-left .chevron {
+        color: var(--gold);
+    }
+
+    #drawer-right .chevron {
+        color: var(--cyan);
+    }
+
+    .nav-category.open .chevron {
+        transform: rotate(180deg);
+    }
+
+    .category-content {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+        display: flex;
+        flex-direction: column;
+        padding: 0 4px;
+    }
+
+    .nav-category.open .category-content {
+        max-height: 600px;
+        margin-top: 4px;
+    }
+
+    .drawer-item {
+        padding: 10px 14px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        color: #94a3b8;
+        text-decoration: none;
+        font-size: 10px;
+        font-weight: 800;
+        text-transform: uppercase;
+        transition: all 0.25s;
+        letter-spacing: 0.5px;
+        border-left: 2px solid transparent;
+    }
+
+    #drawer-left .drawer-item:hover {
+        background: rgba(255, 215, 0, 0.06);
+        color: #fff;
+        border-left-color: var(--gold);
+        padding-left: 20px;
+    }
+
+    #drawer-right .drawer-item:hover {
+        background: rgba(0, 243, 255, 0.06);
+        color: #fff;
+        border-left-color: var(--cyan);
+        padding-left: 20px;
+    }
+
+    .drawer-item-icon {
+        font-size: 14px;
+        width: 20px;
+        text-align: center;
+        flex-shrink: 0;
+    }
+
+    /* Logout special style */
+    .drawer-item.danger {
+        color: #ff4d4d !important;
+        border-left-color: transparent;
+    }
+
+    #drawer-left .drawer-item.active {
+        background: rgba(255, 215, 0, 0.15);
+        color: #fff;
+        border-left: 3px solid var(--gold);
+        box-shadow: inset 5px 0 15px rgba(255, 215, 0, 0.1);
+        padding-left: 20px;
+    }
+
+    #drawer-right .drawer-item.active {
+        background: rgba(0, 243, 255, 0.15);
+        color: #fff;
+        border-left: 3px solid var(--cyan);
+        box-shadow: inset 5px 0 15px rgba(0, 243, 255, 0.1);
+        padding-left: 20px;
+    }
+
+    .drawer-item.danger:hover {
+        background: rgba(255, 77, 77, 0.08);
+        border-left-color: #ff4d4d;
+    }
+
+    /* ══════════ DRAWER FOOTER ══════════ */
+    .drawer-footer {
+        padding: 12px 20px 0 20px;
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
+        margin-top: auto;
+        text-align: center;
+    }
+
+    #drawer-left .drawer-footer-text {
+        color: rgba(255, 215, 0, 0.4);
+    }
+
+    #drawer-right .drawer-footer-text {
+        color: rgba(0, 243, 255, 0.4);
+    }
+
+    .drawer-footer-text {
+        font-size: 7px;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+    }
+
+    /* ══════════ PNL STATUS ══════════ */
+    .nav-pnl-wrap {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+    }
+
+    .nav-pnl-label {
+        font-size: 7px;
+        color: #6b7280;
+        font-weight: 900;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+    }
+
+    #nav-pnl {
+        font-size: 11px;
+        color: #34d399;
+        font-weight: 900;
+    }
+</style>
+
+<!-- ══════════════════════════════════ TOP BAR ══════════════════════════════════ -->
+<nav class="quantum-top-bar" id="mainNav">
+    <div class="nav-lattice"></div>
+
+    <!-- LEFT GROUP: Gold Hamburger + Logo -->
+    <div class="nav-left-group">
+        <div class="ham-wrap" id="ham-left-wrap" onclick="toggleImperialDrawer('left')">
+            <button class="ham-btn" id="ham-left" aria-label="사령관 메뉴">
+                <span></span><span></span><span></span>
+            </button>
+            <div class="ham-label">사령관</div>
+        </div>
+
+        {% if page_title %}
+        <div style="display:flex; flex-direction:column; line-height:1.2; padding-top:4px;">
+            <span
+                style="font-size:11px; color:#c5a059; letter-spacing:3px; font-weight:900; text-transform:uppercase;">{{
+                page_title }}</span>
+            <span
+                style="font-size:8px; color:rgba(255,255,255,0.35); letter-spacing:1.5px; text-transform:uppercase;">{{
+                page_subtitle or 'EMPIRE COMMAND UNIT' }}</span>
+        </div>
+        {% else %}
+        <div class="quantum-logo" onclick="window.location.href='/gateway'">
+            <span class="phoenix-crown">👑</span>
+            <div style="display:flex; flex-direction:column; line-height:1;">
+                <span
+                    style="font-size:9px; color:#eab308; letter-spacing:4px; font-weight:900; text-transform:uppercase;">Phoenix</span>
+                <span style="font-size:18px; font-weight:900; font-style:italic; color:white;">EMPIRE</span>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- CENTER: Breadcrumb (URL 기반 카테고리/메뉴명) -->
+    <div class="nav-breadcrumb" id="nav-breadcrumb">
+        <div class="nav-bc-category" id="bc-category">Phoenix Empire</div>
+        <div class="nav-bc-page" id="bc-page">—</div>
+    </div>
+
+    <!-- RIGHT GROUP: PNL + Cyan Hamburger -->
+    <div class="nav-right-group">
+        <button onclick="window.location.href='https://www.google.com'"
+            style="background:rgba(239, 68, 68, 0.1); border:1px solid #ef4444; color:#ef4444; font-size:9px; font-weight:900; padding:4px 8px; border-radius:6px; cursor:pointer; text-transform:uppercase; letter-spacing:1px;"
+            title="IMMEDIATE ESCAPE (PANIC)">
+            PANIC
+        </button>
+        <div class="nav-pnl-wrap">
+            <div class="nav-pnl-label">Global Status</div>
+            <div id="nav-pnl">+0.00%</div>
+        </div>
+        <div class="ham-wrap" id="ham-right-wrap" onclick="toggleImperialDrawer('right')">
+            <button class="ham-btn" id="ham-right" aria-label="시스템 메뉴">
+                <span></span><span></span><span></span>
+            </button>
+            <div class="ham-label">시스템</div>
+        </div>
+    </div>
+</nav>
+
+<!-- ══════════════════════════════════ OVERLAY ══════════════════════════════════ -->
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="closeAllImperialDrawers()"></div>
+
+<!-- ══════════════════════════════════ LEFT DRAWER (골드 · 사령관) ══════════════════════════════════ -->
+<aside id="drawer-left" class="imperial-drawer">
+    <div class="drawer-accent"></div>
+
+    <div class="drawer-header">
+        <div class="drawer-title">⚔️ 사령관 관제</div>
+        <div class="drawer-sub">Commander Control Menu</div>
+    </div>
+
+    <div class="drawer-body">
+
+        <!-- COMMANDER MANAGEMENT -->
+        <div class="nav-category open">
+            <div class="category-trigger" onclick="toggleImperialCat(this)">
+                <span class="category-label">🛰️ 제국 통합 지휘부</span>
+                <span class="chevron">▼</span>
+            </div>
+            <div class="category-content">
+                <a href="/supreme_tower" class="drawer-item"
+                    style="border-left:2px solid var(--gold); background:rgba(255, 215, 0, 0.15);"><span
+                        class="drawer-item-icon">🔱</span> 최고사령부 타워 (Sovereign)</a>
+                <a href="/jam/nexus" class="drawer-item"><span class="drawer-item-icon">🌌</span> 임페리얼 넥서스 (Hub)</a>
+                <a href="/jam/commander_center" class="drawer-item"><span class="drawer-item-icon">🛰️</span> 커맨더 센터
+                    (대시보드)</a>
+                <a href="/master_console" class="drawer-item"><span class="drawer-item-icon">⚡</span> 마스터 콘솔 (터미널)</a>
+                <a href="/jam/bybit" class="drawer-item"><span class="drawer-item-icon">📊</span> 바이비트 라이브 트레이딩</a>
+                <a href="/jam/grid" class="drawer-item"><span class="drawer-item-icon">🕸️</span> 양자 거미줄 (그리드봇)</a>
+                <a href="/jam/traders" class="drawer-item"><span class="drawer-item-icon">👑</span> 트레이더 그랑프리 (랭킹)</a>
+                <a href="/jam/gemini2" class="drawer-item"><span class="drawer-item-icon">🧠</span> 아키텍트 (Gemini
+                    2.0)</a>
+                <hr class="border-white/5 my-2">
+                <a href="/hq" class="drawer-item"><span class="drawer-item-icon">🏠</span> 구형 메인 허브 (HQ)</a>
+            </div>
+        </div>
+
+        <!-- FINANCE & WALLET -->
+        <div class="nav-category">
+            <div class="category-trigger" onclick="toggleImperialCat(this)">
+                <span class="category-label">💰 재무 & 지갑</span>
+                <span class="chevron">▼</span>
+            </div>
+            <div class="category-content">
+                <a href="/pqc_mining" class="drawer-item"><span class="drawer-item-icon">💎</span> PQC 채굴장</a>
+                <a href="/pqc_wallet" class="drawer-item"><span class="drawer-item-icon">👛</span> PQC 지갑</a>
+                <a href="/quantum" class="drawer-item"><span class="drawer-item-icon">⚙️</span> 퀀텀 트레이딩</a>
+                <a href="/vault" class="drawer-item"><span class="drawer-item-icon">💰</span> 제국 금고 (Vault)</a>
+                <a href="/vault_analytics" class="drawer-item"><span class="drawer-item-icon">📊</span> 금고 정밀 분석</a>
+            </div>
+        </div>
+
+        <!-- IMPERIAL CIVITAS -->
+        <div class="nav-category">
+            <div class="category-trigger" onclick="toggleImperialCat(this)">
+                <span class="category-label">🏛️ 제국 시민 구역</span>
+                <span class="chevron">▼</span>
+            </div>
+            <div class="category-content">
+                <a href="/civitas" class="drawer-item"><span class="drawer-item-icon">🏙️</span> 피닉스 시비타스</a>
+                <a href="/colosseum" class="drawer-item"><span class="drawer-item-icon">💀</span> 콜로세움 (Agent PvP)</a>
+                <a href="/community" class="drawer-item"><span class="drawer-item-icon">🤝</span> 커뮤니티</a>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="drawer-footer">
+        <div class="drawer-footer-text">PHOENIX EMPIRE · Commander</div>
+    </div>
+</aside>
+
+<!-- ══════════════════════════════════ RIGHT DRAWER (시안 · 시스템) ══════════════════════════════════ -->
+<aside id="drawer-right" class="imperial-drawer">
+    <div class="drawer-accent"></div>
+
+    <div class="drawer-header">
+        <div class="drawer-title">🔧 시스템 자원</div>
+        <div class="drawer-sub">System & Admin Resources</div>
+    </div>
+
+    <div class="drawer-body">
+
+        <!-- ADMIN -->
+        <div class="nav-category open">
+            <div class="category-trigger" onclick="toggleImperialCat(this)">
+                <span class="category-label">🔐 감찰 & 보안</span>
+                <span class="chevron">▼</span>
+            </div>
+            <div class="category-content">
+                <a href="/admin" class="drawer-item"><span class="drawer-item-icon">⚔️</span> 비리 감찰국 (Admin)</a>
+                <a href="/market" class="drawer-item"><span class="drawer-item-icon">🗡️</span> 제국 무기고 (Market)</a>
+                <a href="/judiciary" class="drawer-item"><span class="drawer-item-icon">⚖️</span> 최고 법원</a>
+                <a href="/dungeon" class="drawer-item" style="border-left:2px solid rgba(139,26,26,0.6);"><span
+                        class="drawer-item-icon">⛓️</span> 지하 감옥 (Dungeon)</a>
+                <a href="/shield" class="drawer-item"><span class="drawer-item-icon">🛡️</span> 리스크 실드</a>
+                <a href="/monitor" class="drawer-item"><span class="drawer-item-icon">📡</span> 시스템 모니터</a>
+            </div>
+        </div>
+
+        <!-- NETWORK DIVISION (감찰부 산하) -->
+        <div class="nav-category open"> <!-- 신설 부서 강조를 위해 기본 열림 -->
+            <div class="category-trigger" onclick="toggleImperialCat(this)">
+                <span class="category-label">📡 네트워크부 (Network Div.)</span>
+                <span class="chevron">▼</span>
+            </div>
+            <div class="category-content">
+                <a href="/hub_center" class="drawer-item" style="border-left:2px solid var(--cyan);"><span
+                        class="drawer-item-icon">🌐</span> 1분과: 글로벌 거래소 감시</a>
+                <a href="/api_monitor" class="drawer-item" style="border-left:2px solid #eab308;"><span
+                        class="drawer-item-icon">📡</span> 2분과: 내부 API 무결성</a>
+                <a href="/quantum_telemetry" class="drawer-item" style="border-left:2px solid #a855f7;"><span
+                        class="drawer-item-icon">⚛️</span> 3분과: 양자 영동 텔레메트리</a>
+                <a href="/network_trace" class="drawer-item" style="border-left:2px solid #ef4444;"><span
+                        class="drawer-item-icon">🔍</span> 4분과: 보안 추적 및 봉쇄</a>
+                <a href="/trading_permit" class="drawer-item" style="border-left:2px solid #10b981;"><span
+                        class="drawer-item-icon">🤖</span> 5분과: AI 트레이딩 허가</a>
+                <a href="/trading_4d" class="drawer-item" style="border-left:2px solid #06b6d4;"><span
+                        class="drawer-item-icon">💎</span> 4D 실시간 트레이딩실</a>
+                <hr class="border-white/5 my-2">
+                <a href="/hub" class="drawer-item opacity-60"><span class="drawer-item-icon">🛡️</span> AI 분석 허브</a>
+            </div>
+        </div>
+
+        <!-- STANDALONE (단독 실행망) -->
+        <div class="nav-category">
+            <div class="category-trigger" onclick="toggleImperialCat(this)">
+                <span class="category-label">💠 단독 실행망 (Standalone)</span>
+                <span class="chevron">▼</span>
+            </div>
+            <div class="category-content">
+                <a href="/standalone/hq.html" class="drawer-item"><span class="drawer-item-icon">🏠</span> HQ (지휘
+                    본부)</a>
+                <a href="/standalone/arena.html" class="drawer-item" style="border-left:2px solid var(--gold);"><span
+                        class="drawer-item-icon">⚔️</span> 100인 군단 (Arena)</a>
+                <a href="/standalone/commander.html" class="drawer-item"><span class="drawer-item-icon">🎖️</span> 지휘소
+                    (Commander)</a>
+                <a href="/standalone/trading.html" class="drawer-item"><span class="drawer-item-icon">📈</span> 트레이딩
+                    (Trading)</a>
+                <a href="/standalone/vault.html" class="drawer-item"><span class="drawer-item-icon">🏦</span> 제국 금고
+                    (Vault)</a>
+                <a href="/standalone/security.html" class="drawer-item"><span class="drawer-item-icon">🛡️</span> 보안
+                    (Security)</a>
+                <a href="/standalone/global.html" class="drawer-item"><span class="drawer-item-icon">🌐</span> 글로벌
+                    (Global)</a>
+            </div>
+        </div>
+
+        <!-- SYSTEM -->
+        <div class="nav-category">
+            <div class="category-trigger" onclick="toggleImperialCat(this)">
+                <span class="category-label">⚙️ 시스템 관리</span>
+                <span class="chevron">▼</span>
+            </div>
+            <div class="category-content">
+                <a href="/master_control" class="drawer-item"><span class="drawer-item-icon">⚡</span> 마스터 통제실</a>
+                <a href="/map" class="drawer-item" style="border-left:2px solid var(--cyan);"><span
+                        class="drawer-item-icon">🗺️</span> 제국 지도 시스템 (Map)</a>
+                <a href="/incinerator" class="drawer-item" style="border-left:2px solid #ef4444;"><span
+                        class="drawer-item-icon">🔥</span> 제국 정화실 (Incinerator)</a>
+                <a href="/backup_chamber" class="drawer-item" style="border-left:2px solid #3b82f6;"><span
+                        class="drawer-item-icon">💾</span> 보안 백업실 (Backup)</a>
+                <a href="/gateway" class="drawer-item"><span class="drawer-item-icon">🏯</span> 임페리얼 게이트웨이</a>
+                <a href="/tree" class="drawer-item"><span class="drawer-item-icon">🌳</span> 임페리얼 계층 트리</a>
+                <a href="/server" class="drawer-item"><span class="drawer-item-icon">🖥️</span> 서버 관리</a>
+                <a href="/sentinel" class="drawer-item" style="border-left:2px solid rgba(239,68,68,0.5);"><span
+                        class="drawer-item-icon">🔴</span> 파일 감시 (Sentinel)</a>
+                <a href="/api/auth/logout" class="drawer-item danger"><span class="drawer-item-icon">🚪</span> 로그아웃
+                    (Exit)</a>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="drawer-footer">
+        <div class="drawer-footer-text">PHOENIX EMPIRE · System v5.1</div>
+    </div>
+</aside>
+
+<script>
+    // ── Drawer Toggle ──
+    function toggleImperialDrawer(side) {
+        const drawerId = side === 'left' ? 'drawer-left' : 'drawer-right';
+        const hamId = side === 'left' ? 'ham-left' : 'ham-right';
+        const drawer = document.getElementById(drawerId);
+        const ham = document.getElementById(hamId);
+        const overlay = document.getElementById('sidebarOverlay');
+        const otherDrawer = document.getElementById(side === 'left' ? 'drawer-right' : 'drawer-left');
+        const otherHam = document.getElementById(side === 'left' ? 'ham-right' : 'ham-left');
+
+        // Close other drawer first
+        if (otherDrawer) otherDrawer.classList.remove('open');
+        if (otherHam) otherHam.classList.remove('active');
+
+        const isOpen = drawer.classList.toggle('open');
+        ham.classList.toggle('active', isOpen);
+        overlay.classList.toggle('active', isOpen);
+
+        if (isOpen) {
+            document.body.classList.add('drawer-open');
+            document.documentElement.classList.add('drawer-open');
+        } else {
+            document.body.classList.remove('drawer-open');
+            document.documentElement.classList.remove('drawer-open');
+        }
+    }
+
+    function closeAllImperialDrawers() {
+        ['drawer-left', 'drawer-right'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.classList.remove('open');
+        });
+        ['ham-left', 'ham-right'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.classList.remove('active');
+        });
+        const overlay = document.getElementById('sidebarOverlay');
+        if (overlay) overlay.classList.remove('active');
+        document.body.classList.remove('drawer-open');
+        document.documentElement.classList.remove('drawer-open');
+    }
+
+    // ESC key closes drawers
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeAllImperialDrawers(); });
+
+    // ── Category Toggle ──
+    function toggleImperialCat(trigger) {
+        const cat = trigger.parentElement;
+        const wasOpen = cat.classList.contains('open');
+        // Close siblings in same drawer
+        const drawer = cat.closest('.imperial-drawer');
+        drawer.querySelectorAll('.nav-category').forEach(c => c.classList.remove('open'));
+        if (!wasOpen) cat.classList.add('open');
+    }
+
+    // ── Real-time PNL ──
+    async function updateNavTelemetry() {
+        try {
+            const res = await fetch('/api/bybit/account/balance');
+            const data = await res.json();
+            if (data && data.retCode === 0 && data.result?.list?.length > 0) {
+                const bal = parseFloat(data.result.list[0].totalEquity || data.result.list[0].totalWalletBalance || 0);
+                document.getElementById('nav-pnl').innerText = `$${bal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+                document.getElementById('nav-pnl').style.color = '#00ff88'; // Make it look active
+            } else if (data && data.status === 'error') {
+                document.getElementById('nav-pnl').innerText = 'KEY ERR';
+            }
+        } catch (e) { }
+    }
+
+    // ── Breadcrumb Logic ──
+    function updateBreadcrumb() {
+        const path = window.location.pathname;
+        const bcPage = document.getElementById('bc-page');
+        const bcCat = document.getElementById('bc-category');
+
+        const MAP = {
+            '/jam/nexus': ['EMPIRE', 'IMPERIAL NEXUS'],
+            '/jam/commander_center': ['COMMANDER', 'COMMANDER CENTER'],
+            '/jam/bybit': ['TRADING', 'BYBIT LIVE VIEW'],
+            '/jam/grid': ['TRADING', 'QUANTUM GRID'],
+            '/jam/traders': ['RANKING', 'TRADER G-PRIX'],
+            '/jam/gemini2': ['INTELLIGENCE', 'GEMINI ARCHITECT'],
+            '/master_console': ['SYSTEM', 'MASTER CONSOLE'],
+            '/hq': ['COMMANDER', 'IMPERIAL HQ'],
+            '/pqc_mining': ['RESOURCES', 'QUANTUM MINING'],
+            '/pqc_wallet': ['RESOURCES', 'QUANTUM WALLET'],
+            '/quantum': ['RESOURCES', 'QUANTUM TRADING'],
+            '/vault': ['FINANCE', 'IMPERIAL VAULT'],
+            '/vault_analytics': ['FINANCE', 'VAULT ANALYTICS'],
+            '/distribution': ['FINANCE', 'WEALTH DISTRIBUTION'],
+            '/member_list': ['COMMANDER', 'MEMBER LIST'],
+            '/analytics': ['FINANCE', 'GLOBAL ANALYTICS'],
+            '/civitas': ['CIVILIAN', 'PHOENIX CIVITAS'],
+            '/colosseum': ['SECURITY', 'QUANTUM COLOSSEUM'],
+            '/community': ['CIVILIAN', 'COMMUNITY HUB'],
+            '/forum': ['CIVILIAN', 'PUBLIC FORUM'],
+            '/api_monitor': ['SECURITY', 'API INTEGRITY MONITOR'],
+            '/backup_chamber': ['SYSTEM', 'BACKUP CHAMBER'],
+            '/incinerator': ['RESOURCES', 'INCINERATOR'],
+            '/quantum_telemetry': ['SECURITY', 'QUANTUM TELEMETRY'],
+            '/sentinel': ['SECURITY', 'SENTINEL MONITOR'],
+            '/admin': ['SECURITY', 'ADMIN DASHBOARD'],
+            '/command': ['SECURITY', 'MASTER CONTROL'],
+            '/judiciary': ['SECURITY', 'SUPREME COURT'],
+            '/dungeon': ['SECURITY', 'IMPERIAL DUNGEON'],
+            '/map': ['SYSTEM', 'IMPERIAL MAP'],
+            '/tree': ['SYSTEM', 'IMPERIAL TREE'],
+            '/server': ['SYSTEM', 'SERVER MONITOR'],
+            '/gateway': ['SYSTEM', 'GATEWAY'],
+            '/master_control': ['SYSTEM', 'STRATEGIC DASHBOARD'],
+            '/hub': ['SYSTEM', 'ANALYTICS HUB'],
+            '/monitor': ['SECURITY', 'SYSTEM MONITOR'],
+            '/shield': ['SECURITY', 'RISK MANAGEMENT'],
+            '/executor': ['FINANCE', 'GLOBAL EXECUTOR'],
+            '/architect': ['INTELLIGENCE', 'AI ARCHITECT']
+        };
+
+        const entry = MAP[path] || ['PHOENIX EMPIRE', 'COMMAND UNIT'];
+        bcCat.innerText = entry[0];
+        bcPage.innerText = entry[1];
+
+        // ── Active Item Highlighting ──
+        document.querySelectorAll('.drawer-item').forEach(item => {
+            const href = item.getAttribute('href');
+            if (href === path || (path === '/' && href === '/gateway')) {
+                item.classList.add('active');
+
+                // Auto-expand category
+                const cat = item.closest('.nav-category');
+                if (cat) {
+                    cat.classList.add('open');
+                }
+            } else {
+                item.classList.remove('active');
+            }
+        });
+    }
+
+    setInterval(updateNavTelemetry, 5000);
+    updateNavTelemetry();
+    updateBreadcrumb();
+</script>

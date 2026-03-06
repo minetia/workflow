@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PHOENIX EMPIRE | IMPERIAL ENTRANCE</title>
+    <style>
+        :root {
+            --gold: #ffd700;
+            --gold-glow: rgba(255, 215, 0, 0.6);
+            --red: #ff3b30;
+            --red-glow: rgba(255, 59, 48, 0.6);
+            --blue: #00f3ff;
+            --purple: #bf00ff;
+            --green: #0ecb81;
+            --bg: #00040a;
+        }
+
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            background-color: var(--bg);
+            color: white;
+            font-family: 'Segoe UI', 'Malgun Gothic', sans-serif;
+            overflow-x: hidden;
+            overflow-y: scroll;
+            scroll-behavior: smooth;
+        }
+
+        /* Scroll Progress Bar */
+        #progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--gold), var(--blue));
+            z-index: 9999;
+            transition: width 0.1s linear;
+        }
+
+        /* Full-page Sections */
+        .scene {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            padding: 120px 40px 80px;
+            box-sizing: border-box;
+        }
+
+        .scene-intro {
+            background: radial-gradient(circle at 50% 40%, #080e1a 0%, #000 100%);
+        }
+
+        .scene-castle {
+            background: radial-gradient(circle at 50% 50%, #0a100f 0%, #000 100%);
+        }
+
+        .scene-portal {
+            background: radial-gradient(circle at 50% 70%, #100a15 0%, #000 100%);
+        }
+
+        /* Section Dividers */
+        .section-divider {
+            width: 80%;
+            max-width: 600px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.3), transparent);
+            margin: 0 auto;
+        }
+
+        /* Scroll Down Hint */
+        .scroll-hint {
+            position: absolute;
+            bottom: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            opacity: 0.4;
+            animation: fadeHint 2s infinite;
+        }
+
+        @keyframes fadeHint {
+
+            0%,
+            100% {
+                opacity: 0.3;
+                transform: translateY(0);
+            }
+
+            50% {
+                opacity: 0.8;
+                transform: translateY(8px);
+            }
+        }
+
+        .scroll-hint span {
+            font-size: 10px;
+            letter-spacing: 3px;
+            color: var(--gold);
+            font-weight: bold;
+        }
+
+        /* Portal Section */
+        .portal-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            max-width: 900px;
+            width: 100%;
+        }
+
+        .portal-link {
+            background: rgba(255, 215, 0, 0.04);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            padding: 24px 20px;
+            border-radius: 14px;
+            text-decoration: none;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .portal-link:hover {
+            border-color: var(--gold);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.15);
+            transform: translateY(-4px);
+        }
+
+        .portal-link .portal-icon {
+            font-size: 28px;
+        }
+
+        .portal-link .portal-name {
+            font-size: 11px;
+            font-weight: 900;
+            letter-spacing: 2px;
+            color: var(--gold);
+        }
+
+        .portal-link .portal-desc {
+            font-size: 10px;
+            color: #888;
+        }
+
+        /* 🌌 Cosmic Background */
+        .universe {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, #0a1020 0%, #000 100%);
+            z-index: -2;
+        }
+
+        .stars {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image:
+                radial-gradient(1px 1px at 20px 30px, #fff, rgba(0, 0, 0, 0)),
+                radial-gradient(1px 1px at 40px 70px, #fff, rgba(0, 0, 0, 0)),
+                radial-gradient(2px 2px at 50px 160px, #ddd, rgba(0, 0, 0, 0)),
+                radial-gradient(2px 2px at 90px 40px, #fff, rgba(0, 0, 0, 0)),
+                radial-gradient(1px 1px at 130px 80px, #fff, rgba(0, 0, 0, 0)),
+                radial-gradient(1px 1px at 160px 120px, #ddd, rgba(0, 0, 0, 0));
+            background-repeat: repeat;
+            background-size: 200px 200px;
+            opacity: 0.3;
+            animation: twinkle 10s infinite linear;
+        }
+
+        @keyframes twinkle {
+            from {
+                transform: translateY(0);
+            }
+
+            to {
+                transform: translateY(-200px);
+            }
+        }
+
+        /* 🐙 Radiant Sky Bridges (Octopus Legs) */
+        .sky-bridge-container {
+            position: absolute;
+            width: 800px;
+            height: 800px;
+            z-index: -1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .leg {
+            position: absolute;
+            width: 400px;
+            height: 2px;
+            background: linear-gradient(90deg, var(--gold), transparent);
+            transform-origin: left center;
+            opacity: 0.4;
+            box-shadow: 0 0 10px var(--gold-glow);
+            animation: pulse-leg 3s infinite alternate;
+        }
+
+        @keyframes pulse-leg {
+            from {
+                opacity: 0.2;
+                box-shadow: 0 0 5px var(--gold-glow);
+            }
+
+            to {
+                opacity: 0.6;
+                box-shadow: 0 0 20px var(--gold-glow);
+            }
+        }
+
+        /* 🏰 Castle System */
+        .imperial-system {
+            position: relative;
+            width: 600px;
+            height: 600px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .castle {
+            position: absolute;
+            width: 140px;
+            height: 140px;
+            cursor: pointer;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            border-radius: 20px;
+            background: rgba(10, 20, 40, 0.5);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            user-select: none;
+        }
+
+        .castle:hover {
+            transform: scale(1.1);
+            z-index: 10;
+            border-color: var(--neon-color);
+            box-shadow: 0 0 30px var(--neon-color);
+        }
+
+        /* 👑 Commander's Citadel (Center) */
+        .commander-citadel {
+            width: 180px;
+            height: 180px;
+            border: 3px solid var(--gold);
+            box-shadow: 0 0 50px var(--gold-glow);
+            z-index: 5;
+            animation: flow-citadel 5s infinite;
+        }
+
+        @keyframes flow-citadel {
+
+            0%,
+            100% {
+                box-shadow: 0 0 40px var(--gold-glow);
+                transform: scale(1);
+            }
+
+            50% {
+                box-shadow: 0 0 80px var(--gold-glow);
+                transform: scale(1.02);
+            }
+        }
+
+        .castle-icon {
+            font-size: 36px;
+            margin-bottom: 8px;
+        }
+
+        .castle-name {
+            font-weight: 900;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-size: 12px;
+        }
+
+        .castle-manager {
+            font-size: 9px;
+            color: #888;
+            margin-top: 5px;
+            font-style: italic;
+        }
+
+        /* Positions - adaptive for scene layout */
+        .north {
+            top: 0;
+            --neon-color: var(--blue);
+        }
+
+        .east {
+            right: 0;
+            --neon-color: var(--purple);
+        }
+
+        .south {
+            bottom: 0;
+            --neon-color: var(--green);
+        }
+
+        .west {
+            left: 0;
+            --neon-color: var(--red);
+        }
+
+        /* 💎 Security Level Badge */
+        .security-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 6px 16px;
+            border: 1px solid var(--red);
+            color: var(--red);
+            font-weight: bold;
+            font-size: 10px;
+            letter-spacing: 3px;
+            background: rgba(255, 0, 0, 0.08);
+            border-radius: 4px;
+            animation: blink 2s infinite;
+            margin-bottom: 24px;
+        }
+
+        @keyframes blink {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        /* 👑 4D Phoenix Emblem */
+        .phoenix-4d-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            perspective: 1000px;
+            z-index: 2;
+            /* Below Citadel but above bridges */
+            pointer-events: none;
+        }
+
+        .phoenix-4d-logo {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            box-shadow: 0 0 50px rgba(255, 215, 0, 0.4), inset 0 0 20px rgba(255, 59, 48, 0.3);
+            animation: rotate4D 10s infinite linear;
+            transform-style: preserve-3d;
+            border: 2px solid rgba(255, 215, 0, 0.5);
+            opacity: 0.3;
+            /* Acts as a watermark/background for the citadel */
+        }
+
+        @keyframes rotate4D {
+            0% {
+                transform: rotateY(0deg) rotateX(10deg);
+            }
+
+            50% {
+                transform: rotateY(180deg) rotateX(-10deg);
+            }
+
+            100% {
+                transform: rotateY(360deg) rotateX(10deg);
+            }
+        }
+
+        .text-4d-glow {
+            position: absolute;
+            top: 20px;
+            width: 100%;
+            text-align: center;
+            font-size: 32px;
+            font-weight: 900;
+            color: #fff;
+            letter-spacing: 10px;
+            animation: textPulse4D 3s infinite alternate;
+            z-index: 10;
+        }
+
+        @keyframes textPulse4D {
+            0% {
+                text-shadow: 0 0 10px #ffd700, 0 0 20px #ff3b30;
+            }
+
+            100% {
+                text-shadow: 0 0 30px #ffd700, 0 0 60px #ff3b30, 0 0 90px #00f3ff;
+                transform: scale(1.05);
+            }
+        }
+
+        /* 📜 Modal System */
+        #desc-modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 500px;
+            background: rgba(0, 5, 15, 0.95);
+            border: 2px solid var(--modal-color, var(--gold));
+            box-shadow: 0 0 50px rgba(0, 0, 0, 1);
+            z-index: 100;
+            padding: 40px;
+            border-radius: 10px;
+        }
+
+        .modal-header {
+            font-size: 24px;
+            font-weight: 900;
+            color: var(--modal-color);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+            letter-spacing: 5px;
+        }
+
+        .modal-body {
+            line-height: 1.8;
+            color: #ccc;
+            font-size: 14px;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            cursor: pointer;
+            color: #555;
+            font-weight: bold;
+        }
+
+        .close-btn:hover {
+            color: white;
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 90;
+        }
+
+        /* Forbidden Alert */
+        .forbidden-msg {
+            color: var(--red);
+            font-weight: bold;
+            text-align: center;
+            margin-top: 20px;
+            font-size: 18px;
+            text-shadow: 0 0 10px var(--red);
+        }
+    </style>
+</head>
+
+<body class="pt-24">
+    {% with page_title="Imperial Entrance", page_subtitle="GATEWAY TO THE EMPIRE" %}
+    {% include 'PHOENIX_MASTER/imperial_nav.html' %}
+    {% endwith %}
+    <div id="progress-bar"></div>
+
+    <!-- === SCENE 1: Imperial Introduction === -->
+    <div class="scene scene-intro">
+        <div class="universe">
+            <div class="stars"></div>
+        </div>
+
+        <div class="text-4d-glow">PHOENIX EMPIRE</div>
+
+        <div style="margin-top: 80px; text-align: center;">
+            <div class="security-badge">🔒 SECURITY LEVEL 10 // PHOENIX INTERNAL ONLY</div>
+            <h2
+                style="font-size: 48px; font-weight: 900; letter-spacing: 6px; color: var(--gold); text-shadow: 0 0 30px rgba(255,215,0,0.4); margin: 0;">
+                IMPERIAL ENTRANCE</h2>
+            <p style="color: #6b7a8d; font-size: 13px; letter-spacing: 3px; margin-top: 12px;">ENTER THE SOVEREIGN
+                COMMAND ECOSYSTEM</p>
+        </div>
+
+        <div class="scroll-hint">
+            <div style="width: 1px; height: 40px; background: linear-gradient(to bottom, var(--gold), transparent);">
+            </div>
+            <span>SCROLL</span>
+        </div>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <!-- === SCENE 2: Castle System === -->
+    <div class="scene scene-castle">
+        <p style="font-size:10px; letter-spacing:4px; color: #556; font-weight:900; margin-bottom: 20px;">IMPERIAL
+            COMMAND GRID</p>
+
+        <div class="sky-bridge-container" id="bridges"></div>
+
+        <div class="imperial-system">
+            <div class="phoenix-4d-container">
+                <img src="/api/quantum/emblem" alt="Phoenix Imperial Emblem" class="phoenix-4d-logo">
+            </div>
+
+            <div class="castle north" onclick="showCastle('north')">
+                <div class="castle-icon">🗼</div>
+                <div class="castle-name">Phoenix Tower</div>
+                <div class="castle-manager">AI ASSISTANT 관할</div>
+            </div>
+
+            <div class="castle east" onclick="showCastle('east')">
+                <div class="castle-icon">🛰️</div>
+                <div class="castle-name">Strategic Hub</div>
+                <div class="castle-manager">MAESTRO / MAGICIAN 관할</div>
+            </div>
+
+            <div class="castle south" onclick="showCastle('south')">
+                <div class="castle-icon">🏛️</div>
+                <div class="castle-name">Grand Atrium</div>
+                <div class="castle-manager">THE COLLECTOR 관할</div>
+            </div>
+
+            <div class="castle west" onclick="showCastle('west')">
+                <div class="castle-icon">🧠</div>
+                <div class="castle-name">Control Core</div>
+                <div class="castle-manager">RISK GUARDIAN 관할</div>
+            </div>
+
+            <div class="castle commander-citadel" onclick="accessCommander()">
+                <div class="castle-icon">👑</div>
+                <div class="castle-name" style="color: var(--gold); font-size: 18px;">Commander's Citadel</div>
+                <div class="castle-manager" style="color: var(--gold);">THE LORD (SUPREME)</div>
+                <div style="font-size: 8px; margin-top: 10px; color: rgba(255,255,255,0.3);">UNTOUCHABLE SANCTUARY</div>
+            </div>
+        </div>
+
+        <div class="scroll-hint">
+            <div style="width: 1px; height: 40px; background: linear-gradient(to bottom, var(--blue), transparent);">
+            </div>
+            <span style="color: var(--blue);">PROCEED</span>
+        </div>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <!-- === SCENE 3: Imperial Entry Portal === -->
+    <div class="scene scene-portal">
+        <p style="font-size:10px; letter-spacing:4px; color: #556; font-weight:900; margin-bottom: 30px;">SELECT YOUR
+            COMMAND MODULE</p>
+        <div class="portal-grid">
+            <a href="/strategic_dashboard" class="portal-link">
+                <span class="portal-icon">⚡</span>
+                <span class="portal-name">STRATEGIC DASHBOARD</span>
+                <span class="portal-desc">Vault & AI Telemetry</span>
+            </a>
+            <a href="/pqc_mining" class="portal-link">
+                <span class="portal-icon">⛏️</span>
+                <span class="portal-name">PQC MINING</span>
+                <span class="portal-desc">Quantum Extraction Engine</span>
+            </a>
+            <a href="/pqc_wallet" class="portal-link">
+                <span class="portal-icon">💎</span>
+                <span class="portal-name">IMPERIAL WALLET</span>
+                <span class="portal-desc">Multi-Coin Vault</span>
+            </a>
+            <a href="/vault_analytics" class="portal-link">
+                <span class="portal-icon">📊</span>
+                <span class="portal-name">VAULT ANALYTICS</span>
+                <span class="portal-desc">Treasury Intelligence</span>
+            </a>
+            <a href="/market" class="portal-link">
+                <span class="portal-icon">🌐</span>
+                <span class="portal-name">NEXUS MARKET</span>
+                <span class="portal-desc">Imperial Armory</span>
+            </a>
+            <a href="/hub_center" class="portal-link">
+                <span class="portal-icon">🌍</span>
+                <span class="portal-name">GLOBAL HUB</span>
+                <span class="portal-desc">Exchange Terminal Grid</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Modal System -->
+    <div class="overlay" id="overlay" onclick="closeModal()"></div>
+    <div id="desc-modal">
+        <span class="close-btn" onclick="closeModal()">CLOSE</span>
+        <div class="modal-header" id="m-title">CASTLE NAME</div>
+        <div class="modal-body" id="m-body">Description text here...</div>
+    </div>
+
+    <script>
+        // Scroll Progress Bar
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const pct = (scrollTop / docHeight) * 100;
+            document.getElementById('progress-bar').style.width = pct + '%';
+        });
+
+        // Auto-scroll
+        let autoScrollPaused = false;
+        let autoScrollInterval;
+
+        function startAutoScroll() {
+            autoScrollInterval = setInterval(() => {
+                if (!autoScrollPaused) {
+                    const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+                    if (window.scrollY < maxScroll) {
+                        window.scrollBy({ top: 1.2, behavior: 'auto' });
+                    } else {
+                        // Loop back to top slowly
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }
+                }
+            }, 20);
+        }
+
+        // Pause on user interaction, resume after 4s
+        ['wheel', 'touchstart', 'keydown', 'mousedown'].forEach(evt => {
+            window.addEventListener(evt, () => {
+                autoScrollPaused = true;
+                clearTimeout(window._resumeTimer);
+                window._resumeTimer = setTimeout(() => { autoScrollPaused = false; }, 4000);
+            });
+        });
+
+        startAutoScroll();
+
+        // Castle data
+        const castles = {
+            north: { title: "PHOENIX TOWER", color: "#00f3ff", body: "<b>[The Sovereign Tower]</b><br>제국의 상징이자 모든 통신의 정점입니다. AI ASSISTANT가 상주하며 주군의 모든 기술적 명령을 실시간으로 번역하고 통제합니다." },
+            east: { title: "STRATEGIC HUB", color: "#bf00ff", body: "<b>[The Celestial Hub]</b><br>MAESTRO와 MAGICIAN이 연합하여 양자 연산 및 아비트라지 알고리즘을 조율하며, 황금의 성에서 부를 창출합니다." },
+            south: { title: "GRAND ATRIUM", color: "#0ecb81", body: "<b>[The Imperial Atrium]</b><br>THE COLLECTOR가 전 세계 고래들의 자금 흐름을 추적하여 이곳으로 집결시키는 영광의 홀입니다." },
+            west: { title: "CONTROL CORE", color: "#ff3b30", body: "<b>[The Neural Core]</b><br>RISK GUARDIAN이 상주하며 0.1%의 오차도 허용하지 않는 철저한 방어 프로토콜을 가동합니다." }
+        };
+
+        function showCastle(id) {
+            const data = castles[id];
+            document.getElementById('m-title').innerText = data.title;
+            document.getElementById('m-body').innerHTML = data.body;
+            document.getElementById('desc-modal').style.setProperty('--modal-color', data.color);
+            document.getElementById('desc-modal').style.display = 'block';
+            document.getElementById('overlay').style.display = 'block';
+            autoScrollPaused = true;
+        }
+
+        function accessCommander() {
+            document.getElementById('m-title').innerText = "RESTRICTED AREA";
+            document.getElementById('m-body').innerHTML = `
+                <div class="forbidden-msg">ACCESS DENIED</div>
+                <p style="text-align: center; margin-top: 15px;">
+                    이곳은 사령관(THE LORD)만의 성역입니다.<br>
+                    <span style="color: var(--gold);">[주군의 특명: 영속적 통치]</span> 프로토콜이 가동 중입니다.
+                </p>
+                <div style="font-size: 10px; color: #555; text-align: center; margin-top: 20px;">
+                    TRACE ID: ${Math.random().toString(36).substr(2, 9).toUpperCase()}<br>
+                    접근 기록이 주군께 보고되었습니다.
+                </div>
+            `;
+            document.getElementById('desc-modal').style.setProperty('--modal-color', '#ff3b30');
+            document.getElementById('desc-modal').style.display = 'block';
+            document.getElementById('overlay').style.display = 'block';
+            autoScrollPaused = true;
+        }
+
+        function closeModal() {
+            document.getElementById('desc-modal').style.display = 'none';
+            document.getElementById('overlay').style.display = 'none';
+            autoScrollPaused = false;
+        }
+
+        // Generate Octopus legs
+        const bridgeContainer = document.getElementById('bridges');
+        for (let i = 0; i < 360; i += 15) {
+            const leg = document.createElement('div');
+            leg.className = 'leg';
+            leg.style.transform = `rotate(${i}deg)`;
+            leg.style.animationDelay = `${(i / 360) * 2}s`;
+            bridgeContainer.appendChild(leg);
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <title>PQC IMPERIAL WHITEPAPER - 100 CHAPTERS EDITION</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: radial-gradient(circle at center, #1a2e1d 0%, #020604 100%);
+            color: #e2e8f0;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            perspective: 4000px;
+            overflow: hidden;
+            user-select: none;
+        }
+
+        /* Imperial Stand (The Pedestal) */
+        .stand {
+            position: absolute;
+            transform: translateY(300px) rotateX(75deg);
+            width: 1300px;
+            height: 900px;
+            background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+            border: 15px solid #c5a059;
+            box-shadow: 0 0 100px rgba(197, 160, 89, 0.4), inset 0 0 60px rgba(0, 0, 0, 0.82);
+            border-radius: 30px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .book-wrapper {
+            position: relative;
+            transform-style: preserve-3d;
+            transform: translateY(-40px) rotateX(10deg);
+            transition: transform 0.8s ease;
+        }
+
+        .book {
+            width: 1000px;
+            height: 720px;
+            position: relative;
+            transform-style: preserve-3d;
+        }
+
+        /* Page styling */
+        .page {
+            width: 500px;
+            height: 720px;
+            position: absolute;
+            top: 0;
+            right: 0;
+            transform-origin: left center;
+            transition: transform 1.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+            transform-style: preserve-3d;
+            cursor: pointer;
+            z-index: 1;
+        }
+
+        .page-front,
+        .page-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            padding: 50px 60px;
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            color: #1a202c;
+            background: #fdfbf7;
+            border: 1px solid #dcdad2;
+            box-shadow: inset 3px 0 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .page-back {
+            transform: rotateY(180deg);
+            background: #f4f1e9;
+            box-shadow: inset -3px 0 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .page.flipped {
+            transform: rotateY(-180deg);
+        }
+
+        /* Inner Content Padding & Overflow */
+        .content-area {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 15px;
+            margin-bottom: 20px;
+        }
+
+        /* Scrollbar visibility on hover */
+        .content-area::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .content-area::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .content-area::-webkit-scrollbar-thumb {
+            background: rgba(197, 160, 89, 0.2);
+            border-radius: 10px;
+        }
+
+        .page:hover .content-area::-webkit-scrollbar-thumb {
+            background: rgba(197, 160, 89, 0.5);
+        }
+
+        /* Markdown Styling */
+        .markdown-body {
+            font-size: 0.92rem;
+            line-height: 1.6;
+        }
+
+        .markdown-body h1,
+        .markdown-body h2 {
+            color: #064e3b;
+            font-weight: 900;
+            margin-top: 1.2rem;
+            margin-bottom: 0.8rem;
+            border-bottom: 2px solid #c5a059;
+            padding-bottom: 4px;
+            letter-spacing: -0.5px;
+        }
+
+        .markdown-body table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.2rem 0;
+            font-size: 0.8rem;
+        }
+
+        .markdown-body th,
+        .markdown-body td {
+            border: 1px solid #d1d5db;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .markdown-body th {
+            background: #f3f4f6;
+            font-weight: 800;
+        }
+
+        .page-number {
+            position: absolute;
+            bottom: 25px;
+            width: 100%;
+            left: 0;
+            text-align: center;
+            font-size: 0.7rem;
+            font-weight: 900;
+            color: #c5a059;
+            opacity: 0.6;
+            letter-spacing: 3px;
+        }
+
+        /* Cover & Static Left */
+        .cover {
+            background: linear-gradient(145deg, #064e3b 0%, #022c22 100%);
+            color: #ffd700 !important;
+            border-left: 8px solid #ffd700;
+            padding: 80px 40px !important;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .cover .subtitle {
+            color: #ffd700;
+            font-size: 0.8rem;
+            letter-spacing: 4px;
+            margin-bottom: 20px;
+            font-weight: 900;
+            text-align: center;
+        }
+
+        .static-left {
+            width: 500px;
+            height: 720px;
+            background: #f3f0e8;
+            position: absolute;
+            top: 0;
+            left: 0;
+            box-shadow: inset -10px 0 25px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 0;
+        }
+
+        /* Controls */
+        .controls {
+            position: fixed;
+            bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            z-index: 5000;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(20px);
+            padding: 10px 40px;
+            border-radius: 100px;
+            border: 2px solid rgba(197, 160, 89, 0.6);
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.9);
+        }
+
+        .btn {
+            background: transparent;
+            color: #c5a059;
+            padding: 8px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            border: none;
+        }
+
+        .btn:hover {
+            color: #fff;
+            text-shadow: 0 0 10px #c5a059;
+        }
+
+        .loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #020604;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 6000;
+        }
+
+        /* Flip Animation Helpers */
+        .page-back .markdown-body {
+            transform: scaleX(1);
+            /* Ensure text is not mirrored */
+        }
+    </style>
+</head>
+
+<body>
+    <div id="loading" class="loading">
+        <div class="animate-pulse mb-6">
+            <img src="/pqc_whitepaper_icon.png" class="w-24">
+        </div>
+        <p class="text-emerald-500 font-black tracking-widest uppercase animate-bounce">Accessing Imperial Archives...
+        </p>
+    </div>
+
+    <div class="stand"></div>
+
+    <div class="book-wrapper">
+        <div class="static-left">
+            <img src="/pqc_whitepaper_icon.png" class="w-20 opacity-10 grayscale mb-6">
+            <p class="text-[0.6rem] text-stone-500 tracking-[0.5em] font-black uppercase mb-2">Internal Clearance Only
+            </p>
+            <p class="text-xs italic text-stone-400 p-12 text-center opacity-40">"The Quantum Logic is the shield of the
+                Empire. All data transmitted through the Core remains absolute."</p>
+        </div>
+        <div class="book" id="book">
+            <!-- Dynamic Pages -->
+        </div>
+    </div>
+
+    <div class="controls">
+        <button class="btn" onclick="prevPage()">PREV</button>
+        <div class="h-4 w-[1px] bg-stone-700"></div>
+        <button class="btn" onclick="nextPage()">NEXT</button>
+        <div class="h-4 w-[1px] bg-stone-700"></div>
+        <button class="btn text-[10px] !text-stone-500" onclick="window.location.href='/pqc_mining'">EXIT</button>
+    </div>
+
+    <script>
+        let currentPageIndex = 0;
+        let totalPagesCount = 0;
+        const book = document.getElementById('book');
+
+        async function initBook() {
+            try {
+                const res = await fetch('/api/quantum/whitepaper');
+                if (!res.ok) throw new Error("Connection failed");
+
+                const data = await res.json();
+                const rawContent = data.content;
+                if (!rawContent) throw new Error("Archive is empty");
+
+                // Reliable Chapter Splitting
+                const chapters = rawContent.split(/[\r\n]+\s*---\s*[\r\n]+/g)
+                    .map(c => c.trim())
+                    .filter(c => c.length > 5);
+
+                book.innerHTML = '';
+                totalPagesCount = Math.ceil(chapters.length / 2);
+
+                for (let i = 0; i < chapters.length; i += 2) {
+                    const pageIndex = i / 2;
+                    const pageEl = document.createElement('div');
+                    pageEl.className = `page page-${pageIndex}`;
+                    pageEl.dataset.idx = pageIndex;
+
+                    // Initial z-index stacking (Reverse order so Page 0 is on top)
+                    pageEl.style.zIndex = totalPagesCount - pageIndex;
+
+                    const frontText = chapters[i] || "";
+                    const backText = chapters[i + 1] || "*(End of PHOENIX CORE Archive Edition)*";
+
+                    const frontHTML = marked.parse(frontText);
+                    const backHTML = marked.parse(backText);
+
+                    pageEl.innerHTML = `
+                        <div class="page-front ${i === 0 ? 'cover' : ''}">
+                            <div class="content-area">
+                                ${i === 0 ? '<div class="subtitle">IMPERIAL ARCHIVE v1.0</div>' : ''}
+                                <div class="markdown-body">${frontHTML}</div>
+                            </div>
+                            <div class="page-number">PAGE ${i + 1}</div>
+                        </div>
+                        <div class="page-back">
+                            <div class="content-area">
+                                <div class="markdown-body">${backHTML}</div>
+                            </div>
+                            <div class="page-number">PAGE ${i + 2}</div>
+                        </div>
+                    `;
+
+                    book.appendChild(pageEl);
+                }
+
+                document.getElementById('loading').classList.add('hidden');
+            } catch (err) {
+                console.error(err);
+                document.getElementById('loading').innerHTML = `<p class="text-red-500 font-bold">CRITICAL ERROR: ${err.message}</p>`;
+            }
+        }
+
+        function nextPage() {
+            if (currentPageIndex < totalPagesCount) {
+                const page = document.querySelector(`.page-${currentPageIndex}`);
+                if (page) {
+                    page.classList.add('flipped');
+                    // Bring flipped pages to the top of the left stack
+                    page.style.zIndex = 500 + currentPageIndex;
+                    currentPageIndex++;
+                }
+            }
+        }
+
+        function prevPage() {
+            if (currentPageIndex > 0) {
+                currentPageIndex--;
+                const page = document.querySelector(`.page-${currentPageIndex}`);
+                if (page) {
+                    page.classList.remove('flipped');
+                    // Restore original z-index stacking
+                    page.style.zIndex = totalPagesCount - currentPageIndex;
+                }
+            }
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') nextPage();
+            if (e.key === 'ArrowLeft') prevPage();
+        });
+
+        initBook();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GLOBAL QUANTUM HUB | PHOENIX EMPIRE</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100;400;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --quantum-cyan: #22d3ee;
+            --quantum-gold: #fbbf24;
+            --quantum-bg: #020617;
+            --glass: rgba(15, 23, 42, 0.8);
+        }
+
+        body {
+            background: var(--quantum-bg);
+            color: #f8fafc;
+            font-family: 'Outfit', sans-serif;
+            margin: 0;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        #quantum-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.4;
+        }
+
+        .glass-panel {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 24px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .glowing-border {
+            position: relative;
+        }
+
+        .glowing-border::after {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            background: linear-gradient(45deg, var(--quantum-cyan), transparent, var(--quantum-gold));
+            border-radius: 24px;
+            z-index: -1;
+            opacity: 0.3;
+        }
+
+        .hub-title {
+            background: linear-gradient(to right, #fff, var(--quantum-cyan), var(--quantum-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 900;
+        }
+
+        .input-quantum {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--quantum-cyan);
+            border-radius: 12px;
+            font-family: 'Courier New', monospace;
+            transition: all 0.3s;
+        }
+
+        .input-quantum:focus {
+            border-color: var(--quantum-cyan);
+            box-shadow: 0 0 15px rgba(34, 211, 238, 0.3);
+            outline: none;
+        }
+
+        .btn-quantum {
+            background: linear-gradient(45deg, #0ea5e9, #22d3ee);
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 900;
+        }
+
+        .btn-quantum:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(34, 211, 238, 0.5);
+        }
+
+        .transmission-line {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--quantum-cyan), var(--quantum-gold), transparent);
+            width: 0;
+            transition: width 2s cubic-bezier(0.4, 0, 0.2, 1);
+            filter: drop-shadow(0 0 10px var(--quantum-cyan));
+        }
+
+        .quantum-neural-link {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            background: radial-gradient(circle at center, transparent 0%, var(--quantum-bg) 100%);
+            z-index: 100;
+            opacity: 0;
+            transition: opacity 1s;
+        }
+
+        .imperial-override-active .quantum-neural-link {
+            opacity: 0.6;
+            animation: neural-pulse 4s infinite;
+        }
+
+        @keyframes neural-pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 0.4;
+            }
+
+            50% {
+                transform: scale(1.1);
+                opacity: 0.8;
+            }
+        }
+
+        .pqc-particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--quantum-cyan);
+            border-radius: 50%;
+            pointer-events: none;
+            filter: blur(1px);
+        }
+
+        @keyframes pulse-slow {
+
+            0%,
+            100% {
+                opacity: 0.5;
+            }
+
+            50% {
+                opacity: 1;
+            }
+        }
+
+        .scan-line {
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background: rgba(34, 211, 238, 0.2);
+            top: 0;
+            animation: scan 4s linear infinite;
+        }
+
+        @keyframes scan {
+            from {
+                top: 0;
+            }
+
+            to {
+                top: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body class="p-6 md:p-12 overflow-x-hidden">
+    <canvas id="quantum-canvas"></canvas>
+    <div class="quantum-neural-link" id="neural-link"></div>
+
+    {% include 'PHOENIX_MASTER/imperial_nav.html' %}
+
+    <div class="max-w-7xl mx-auto relative mt-8">
+        <header class="mb-12 flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
+            <div>
+                <div class="flex items-center gap-3 mb-2">
+                    <span
+                        class="px-3 py-1 bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 text-[10px] font-black tracking-widest uppercase rounded-full">Reality
+                        Sync Active</span>
+                    <span
+                        class="px-3 py-1 bg-amber-500/10 border border-amber-500/30 text-amber-400 text-[10px] font-black tracking-widest uppercase rounded-full">Quantum
+                        Auth Level 4</span>
+                </div>
+                <h1 class="text-5xl md:text-7xl hub-title tracking-tighter italic">GLOBAL HUB</h1>
+                <div class="flex items-center gap-4">
+                    <p class="text-slate-400 font-light tracking-[0.5em] uppercase text-xs mt-4">Imperial Cross-Chain
+                        Quantum Transmission Center</p>
+                    <button onclick="activateImperialOverride()"
+                        class="mt-4 px-4 py-1 border border-amber-500/50 text-amber-500 text-[9px] font-black uppercase tracking-widest hover:bg-amber-500 hover:text-black transition-all rounded">Imperial
+                        Override</button>
+                </div>
+            </div>
+            <div class="text-right font-mono">
+                <div id="sync-timer" class="text-cyan-500 text-xs mb-1">REAL-TIME DATA STREAMING</div>
+                <div id="last-updated" class="text-slate-500 text-[10px]">SYNC_ID: PQC-HUB-{{ range(1000, 9999) | random
+                    }}</div>
+            </div>
+        </header>
+
+        <div class="grid grid-cols-1 xl:grid-cols-2 gap-12">
+            <!-- DOMESTIC LATTICE -->
+            <section class="space-y-6">
+                <h2 class="text-sm font-black text-cyan-400 tracking-[0.4em] uppercase flex items-center gap-3">
+                    <span class="w-12 h-px bg-cyan-400/30"></span> DOMESTIC TERMINALS (국내)
+                </h2>
+                <div id="domestic-list" class="grid grid-cols-1 gap-6">
+                    <!-- Dynamic -->
+                </div>
+            </section>
+
+            <!-- OVERSEAS LATTICE -->
+            <section class="space-y-6">
+                <h2 class="text-sm font-black text-amber-400 tracking-[0.4em] uppercase flex items-center gap-3">
+                    <span class="w-12 h-px bg-amber-400/30"></span> OVERSEAS TERMINALS (해외)
+                </h2>
+                <div id="overseas-list" class="grid grid-cols-1 gap-6">
+                    <!-- Dynamic -->
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- UI TOAST -->
+    <div id="toast"
+        class="fixed bottom-12 right-12 glass-panel p-6 transform translate-y-32 opacity-0 transition-all duration-500 z-50 min-w-[300px]">
+        <div class="flex items-center gap-4">
+            <div id="toast-icon"
+                class="w-10 h-10 rounded-full bg-cyan-500/20 flex items-center justify-center text-cyan-400">⚡</div>
+            <div>
+                <p id="toast-title" class="text-xs font-black text-slate-500 uppercase tracking-widest">System Message
+                </p>
+                <p id="toast-msg" class="text-sm font-bold mt-1"></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 🌌 THREE.JS QUANTUM ENERGY MATRIX
+        let scene, camera, renderer, particles;
+        function initQuantumField() {
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('quantum-canvas'), alpha: true, antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+
+            const geometry = new THREE.BufferGeometry();
+            const count = 1500;
+            const positions = new Float32Array(count * 3);
+            const colors = new Float32Array(count * 3);
+
+            for (let i = 0; i < count * 3; i++) {
+                positions[i] = (Math.random() - 0.5) * 40;
+                colors[i] = Math.random();
+            }
+
+            geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+            const material = new THREE.PointsMaterial({
+                size: 0.05,
+                vertexColors: true,
+                transparent: true,
+                opacity: 0.8,
+                map: createCircleTexture(),
+                blending: THREE.AdditiveBlending
+            });
+
+            particles = new THREE.Points(geometry, material);
+            scene.add(particles);
+            camera.position.z = 20;
+
+            function animate() {
+                requestAnimationFrame(animate);
+                particles.rotation.y += 0.0005;
+                particles.rotation.x += 0.0002;
+                renderer.render(scene, camera);
+            }
+            animate();
+        }
+
+        function createCircleTexture() {
+            const canvas = document.createElement('canvas');
+            canvas.width = 64; canvas.height = 64;
+            const ctx = canvas.getContext('2d');
+            const gradient = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
+            gradient.addColorStop(0, 'rgba(255,255,255,1)');
+            gradient.addColorStop(1, 'rgba(34,211,238,0)');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, 64, 64);
+            const texture = new THREE.Texture(canvas);
+            texture.needsUpdate = true;
+            return texture;
+        }
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        // 🧬 REGISTRY SYSTEM
+        async function loadRegistry() {
+            const res = await fetch('/api/hub/registry');
+            const data = await res.json();
+
+            document.getElementById('domestic-list').innerHTML = '';
+            document.getElementById('overseas-list').innerHTML = '';
+
+            renderTerminals(data.Domestic, 'domestic-list', 'Domestic', 'cyan');
+            renderTerminals(data.Overseas, 'overseas-list', 'Overseas', 'amber');
+        }
+
+        function renderTerminals(exchanges, containerId, category, color) {
+            const container = document.getElementById(containerId);
+            for (const [name, coins] of Object.entries(exchanges)) {
+                const card = document.createElement('div');
+                card.className = `glass-panel p-8 glowing-border relative overflow-hidden group`;
+
+                let coinHtml = '';
+                for (const [coin, addr] of Object.entries(coins)) {
+                    coinHtml += `
+                        <div class="space-y-2">
+                            <div class="flex justify-between items-center px-1">
+                                <label class="text-[9px] font-black text-slate-500 tracking-[0.2em] uppercase">${coin} REAL ADDRESS</label>
+                                <span class="text-[8px] text-${color}-400 font-mono animate-pulse">VERIFIED_SECURE</span>
+                            </div>
+                            <div class="flex gap-2">
+                                <input type="text" class="input-quantum w-full p-4 text-xs font-mono" 
+                                       value="${addr}" readonly>
+                                <button onclick="startQuantumTransmission('${name}', '${coin}', '${addr}')" 
+                                        class="px-6 btn-quantum rounded-xl text-xs whitespace-nowrap">Send</button>
+                            </div>
+                            <div id="line-${name}-${coin}" class="transmission-line opacity-0"></div>
+                        </div>
+                    `;
+                }
+
+                card.innerHTML = `
+                    <div class="scan-line"></div>
+                    <div class="flex justify-between items-center mb-8">
+                        <div>
+                            <h3 class="text-2xl font-black italic tracking-tighter">${name}</h3>
+                            <p class="text-[10px] text-slate-500 font-mono uppercase tracking-widest mt-1">Terminal ID: ${Math.random().toString(36).substr(2, 9).toUpperCase()}</p>
+                        </div>
+                        <div class="w-12 h-12 rounded-2xl bg-${color}-500/10 border border-${color}-500/20 flex items-center justify-center text-xl">
+                            ${name === 'Upbit' ? '🇰🇷' : '🌐'}
+                        </div>
+                    </div>
+                    <div class="space-y-8">
+                        ${coinHtml}
+                    </div>
+                `;
+                container.appendChild(card);
+            }
+        }
+
+        async function startQuantumTransmission(exchange, coin, address) {
+            const line = document.getElementById(`line-${exchange}-${coin}`);
+            line.classList.remove('opacity-0');
+            line.style.width = '100%';
+
+            showToast(`QUANTUM TRANSMISSION INITIATED TO ${exchange}...`, 'CYAN');
+            createParticles(window.event.clientX, window.event.clientY);
+
+            setTimeout(() => {
+                showToast(`TRANSMISSION COMPLETE. VERIFYING ON BLOCKCHAIN...`, 'GOLD');
+                line.style.width = '0%';
+                setTimeout(() => line.classList.add('opacity-0'), 1000);
+            }, 2500);
+
+            // Real update call
+            try {
+                await fetch('/api/hub/update', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ category: '', exchange, coin, address })
+                });
+            } catch (e) { }
+        }
+
+        function createParticles(x, y) {
+            for (let i = 0; i < 20; i++) {
+                const p = document.createElement('div');
+                p.className = 'pqc-particle';
+                p.style.left = x + 'px';
+                p.style.top = y + 'px';
+                document.body.appendChild(p);
+
+                const angle = Math.random() * Math.PI * 2;
+                const dist = Math.random() * 200;
+                const tx = Math.cos(angle) * dist;
+                const ty = Math.sin(angle) * dist;
+
+                p.animate([
+                    { transform: 'translate(0, 0) scale(1)', opacity: 1 },
+                    { transform: `translate(${tx}px, ${ty}px) scale(0)`, opacity: 0 }
+                ], { duration: 1000, easing: 'ease-out' }).onfinish = () => p.remove();
+            }
+        }
+
+        function activateImperialOverride() {
+            document.body.classList.toggle('imperial-override-active');
+            showToast("IMPERIAL QUANTUM OVERRIDE ENGAGED.", "GOLD");
+
+            // Intensify Three.js
+            if (particles) {
+                particles.material.size = 0.15;
+                setTimeout(() => particles.material.size = 0.05, 5000);
+            }
+        }
+
+        function showToast(msg, theme) {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toast-msg');
+            const toastTitle = document.getElementById('toast-title');
+            const icon = document.getElementById('toast-icon');
+
+            toastMsg.innerText = msg;
+            if (theme === 'CYAN') {
+                toastTitle.innerText = "Quantum Send";
+                icon.className = "w-10 h-10 rounded-full bg-cyan-500/20 flex items-center justify-center text-cyan-400 font-black";
+                icon.innerText = "⚡";
+            } else {
+                toastTitle.innerText = "System Verify";
+                icon.className = "w-10 h-10 rounded-full bg-amber-500/20 flex items-center justify-center text-amber-400 font-black";
+                icon.innerText = "🛡️";
+            }
+
+            toast.classList.remove('translate-y-32', 'opacity-0');
+            setTimeout(() => toast.classList.add('translate-y-32', 'opacity-0'), 4000);
+        }
+
+        initQuantumField();
+        loadRegistry();
+    </script>
+</body>
+
+</html>

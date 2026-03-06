@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PHOENIX EMPIRE | IMPERIAL TREE</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+
+        body {
+            background: #05070a;
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .tree-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 100px 20px;
+            min-height: 100vh;
+        }
+
+        .node {
+            background: rgba(13, 17, 23, 0.8);
+            border: 2px solid #ffd700;
+            padding: 1rem 2rem;
+            border-radius: 15px;
+            text-align: center;
+            position: relative;
+            margin-bottom: 50px;
+            box-shadow: 0 0 30px rgba(255, 214, 0, 0.2);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .node:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 50px rgba(255, 214, 0, 0.4);
+        }
+
+        .branch {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            width: 100%;
+            flex-wrap: wrap;
+        }
+
+        .tier-card {
+            width: 300px;
+            border-radius: 20px;
+            padding: 2rem;
+            position: relative;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .tier-commander {
+            background: linear-gradient(145deg, rgba(255, 59, 48, 0.1), rgba(0, 0, 0, 0.9));
+            border-top: 4px solid #ff3b30;
+            box-shadow: 0 10px 40px rgba(255, 59, 48, 0.1);
+        }
+
+        .tier-watcher {
+            background: linear-gradient(145deg, rgba(251, 191, 36, 0.1), rgba(0, 0, 0, 0.9));
+            border-top: 4px solid #fbbf24;
+            box-shadow: 0 10px 40px rgba(251, 191, 36, 0.1);
+        }
+
+        .tier-user {
+            background: linear-gradient(145deg, rgba(0, 243, 255, 0.1), rgba(0, 0, 0, 0.9));
+            border-top: 4px solid #00f3ff;
+            box-shadow: 0 10px 40px rgba(0, 243, 255, 0.1);
+        }
+
+        .tier-card:hover {
+            transform: scale(1.05);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .item-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+            max-height: 0;
+            opacity: 0;
+            margin-top: 0;
+            pointer-events: none;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .tier-card.expanded .item-list {
+            max-height: 800px;
+            opacity: 1;
+            margin-top: 1.5rem;
+            pointer-events: auto;
+        }
+
+        .tier-header {
+            cursor: pointer;
+            position: relative;
+            padding-bottom: 5px;
+        }
+
+        .tier-header::after {
+            content: '▼';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.3);
+            transition: transform 0.3s;
+        }
+
+        .tier-card.expanded .tier-header::after {
+            transform: translateX(-50%) rotate(180deg);
+        }
+
+        .item {
+            display: block;
+            text-decoration: none;
+            padding: 0.8rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #94a3b8;
+            border-left: 3px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .tier-commander .item:hover {
+            border-left-color: #ff3b30;
+            color: #ff3b30;
+            background: rgba(255, 59, 48, 0.05);
+        }
+
+        .tier-watcher .item:hover {
+            border-left-color: #fbbf24;
+            color: #fbbf24;
+            background: rgba(251, 191, 36, 0.05);
+        }
+
+        .tier-user .item:hover {
+            border-left-color: #00f3ff;
+            color: #00f3ff;
+            background: rgba(0, 243, 255, 0.05);
+        }
+
+        .line-down {
+            width: 2px;
+            height: 50px;
+            background: #ffd700;
+            margin: -50px 0 0 0;
+        }
+
+        .neon-glow {
+            text-shadow: 0 0 10px currentColor;
+        }
+    </style>
+</head>
+
+<body>
+
+    {% include 'PHOENIX_MASTER/imperial_nav.html' %}
+
+    <div class="tree-container">
+        <!-- Root node -->
+        <div class="node">
+            <h1 class="text-2xl font-black tracking-widest uppercase">👑 PHOENIX EMPIRE</h1>
+            <p class="text-[10px] text-yellow-500 font-bold">TOTAL ACCESS HIERARCHY</p>
+        </div>
+
+        <div class="branch">
+            <!-- Commander Tier -->
+            <div class="tier-card tier-commander">
+                <div class="text-center tier-header" onclick="this.parentElement.classList.toggle('expanded')"
+                    title="사령관실: 제국의 절대 권력이 머무는 곳 (클릭하여 마스터 메뉴 펼치기)">
+                    <span class="text-3xl">🔴</span>
+                    <h2 class="text-xl font-black mt-2 neon-glow" style="color: #ff3b30;">사령관실 (Admin)</h2>
+                    <p class="text-[10px] text-gray-500 font-bold uppercase tracking-wider">Supreme Control Sanctum</p>
+                </div>
+                <div class="item-list">
+                    <a href="/strategic_dashboard" class="item hover:bg-red-900/20 block"
+                        title="제국 전체의 생사여탈권을 쥐고 있는 역학 제어 및 지표 통합 노드">📈 웅군술족 전략 대시보드</a>
+                    <a href="/command" class="item hover:bg-red-900/20 block"
+                        title="수집된 지표를 기반으로 AI를 가동하여 전략 집행 및 자산 생성">⚡ 웅군술족 AI 자동 생산 사령부</a>
+                    <a href="/master_control" class="item hover:bg-red-900/20 block" title="모든 기능을 조율하는 주군만의 마스터 관리실">👑
+                        웅군술족 마스터 통제실</a>
+                    <a href="/PHOENIX_MASTER/admin_dashboard.html" class="item hover:bg-red-900/20 block"
+                        title="에이전트 권한 심사, 무결성 검증, 강제 재판 집행소">⚔️ 웅군술족 비리 감찰국</a>
+                    <a href="/imperial_market.html" class="item hover:bg-red-900/20 block"
+                        title="사령관 직속 통제하에 전술 자산 배급 (마스터 등급 무기 및 핵심 부품)">🏛️ 웅군술족 제국 무기고 (Market)</a>
+                    <a href="/vault" class="item hover:bg-red-900/20 block"
+                        title="제국의 실 자산과 코드가 은닉된 최고 등급의 기밀 금고 시스템">💰 웅군술족 비밀 금고 (RESTRICTED)</a>
+                </div>
+            </div>
+
+            <!-- Watcher Tier -->
+            <div class="tier-card tier-watcher">
+                <div class="text-center tier-header" onclick="this.parentElement.classList.toggle('expanded')"
+                    title="감시자실: 제국의 안녕과 질서를 유지하는 집행 공간 (클릭하여 보안 감시망 펼치기)">
+                    <span class="text-3xl">🟡</span>
+                    <h2 class="text-xl font-black mt-2 neon-glow" style="color: #fbbf24;">감시자실 (Security)</h2>
+                    <p class="text-[10px] text-gray-500 font-bold uppercase tracking-wider">Watcher's Sentinel</p>
+                </div>
+                <div class="item-list">
+                    <a href="/shield" class="item hover:bg-yellow-900/20 block"
+                        title="외부 침입 및 내부 자산 유출 가능성을 철저히 방어하는 코어 쉴드">🛡️ 리스크 관리 (SHIELD)</a>
+                    <a href="/chart_monitor.html" class="item hover:bg-yellow-900/20 block"
+                        title="글로벌 시장의 비정상적 기류 및 가격 변동의 실시간 모니터링">📊 실시간 퀀텀 차트 스캐너</a>
+                    <a href="/judiciary" class="item hover:bg-yellow-900/20 block"
+                        title="사법부 판결 로그 확인 (블랙리스트 영구 정지 및 징계)">⚖️ 디지털 형벌 사법부 (Logs)</a>
+                    <a href="/api_monitor" class="item hover:bg-yellow-900/20 block"
+                        title="서버 지연시간 및 각 잼(거래소) API 연동 상태 무결성 검증">📡 API 통신망 무결성 감시</a>
+                    <a href="/purifier" class="item hover:bg-yellow-900/20 block"
+                        title="모든 시스템 오류, 오염물, 폐기물 및 잔해를 수집하여 정화 처리">🔥 제국 중앙 정화소 (Incinerator)</a>
+                    <a href="/backup" class="item hover:bg-yellow-900/20 block"
+                        title="제국의 핵심 코드 및 유저 데이터를 압축하여 안전한 챔버에 이중화 보관">💾 보안 백업실 (Backup Chamber)</a>
+                </div>
+            </div>
+
+            <!-- User Tier -->
+            <div class="tier-card tier-user">
+                <div class="text-center tier-header" onclick="this.parentElement.classList.toggle('expanded')"
+                    title="일반 유저실: 에이전트와 유저들의 전술 운용 공간 (클릭하여 퍼블릭 섹션 펼치기)">
+                    <span class="text-3xl">🔵</span>
+                    <h2 class="text-xl font-black mt-2 neon-glow" style="color: #00f3ff;">일반 유저실 (Public)</h2>
+                    <p class="text-[10px] text-gray-500 font-bold uppercase tracking-wider">General User Chambers</p>
+                </div>
+                <div class="item-list">
+                    <a href="/hq" class="item hover:bg-blue-900/20 block" title="제국의 총체적 맥동과 중앙 전술 브리핑 수신">🏠 피닉스 사령부
+                        (HQ)</a>
+                    <a href="/quantum" class="item hover:bg-blue-900/20 block"
+                        title="양자 컴퓨팅(PQC) 기반 가상 자산 채굴 및 초고속 자동 매매 집행">⚙️ 퀀텀 머신 (Trading)</a>
+                    <a href="/colosseum.html" class="item hover:bg-blue-900/20 block"
+                        title="에이전트 간 알고리즘 결투를 통한 성능 검증 투기장 및 서열 결정">💀 콜로세움 (PvP Arena)</a>
+                    <a href="/executor" class="item hover:bg-blue-900/20 block" title="글로벌 시장 데이터 실시간 압축 및 핵심 타점 송출소">🚀
+                        글로벌 분석 센터</a>
+                    <a href="/community" class="item hover:bg-blue-900/20 block"
+                        title="일반 시민과 에이전트들의 전략과 정보를 통신하는 거대한 광장">🤝 제국 커뮤니티</a>
+                </div>
+            </div>
+
+            <!-- Others / Gateway Tier -->
+            <div class="tier-card"
+                style="background: linear-gradient(145deg, rgba(255, 255, 255, 0.05), rgba(0, 0, 0, 0.9)); border-top: 4px solid #fff; width: 300px;">
+                <div class="text-center tier-header" onclick="this.parentElement.classList.toggle('expanded')"
+                    title="게이트웨이: 제국 접속 및 메타 포털 (클릭하여 진입 게이트 펼치기)">
+                    <span class="text-3xl">⚪</span>
+                    <h2 class="text-xl font-black mt-2 neon-glow" style="color: #fff;">게이트웨이 / 기타</h2>
+                    <p class="text-[10px] text-gray-500 font-bold uppercase tracking-wider">Entry & Meta</p>
+                </div>
+                <div class="item-list">
+                    <a href="/PHOENIX_MASTER/imperial_intro.html" class="item hover:bg-white/10 block text-white"
+                        style="border-left-color: #fff;" title="제국의 위엄과 5대 성의 권위를 상징하는 메인 진입 게이트">🏰 제국 5대 성 입성
+                        (Intro)</a>
+                    <a href="/gateway" class="item hover:bg-white/10 block text-white" style="border-left-color: #fff;"
+                        title="권위 있는 중앙 내비게이션 허브, 전 행성 포털 연동">🗺️ 임페리얼 게이트웨이</a>
+                    <a href="/PHOENIX_MASTER/imperial_tree.html" class="item hover:bg-white/10 block text-white"
+                        style="border-left-color: #fff;" title="제국 전체의 접근 구조를 시각화한 원클릭 컨트롤 맵">🌳 임페리얼 계층 트리
+                        (Current)</a>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="mt-20 text-center">
+            <p class="text-gray-600 text-[10px] font-black tracking-widest uppercase">© 2026 Phoenix Empire Advanced
+                Security Protocol</p>
+        </div>
+    </div>
+
+</body>
+
+</html>

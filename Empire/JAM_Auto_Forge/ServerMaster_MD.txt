@@ -1,0 +1,14 @@
+# -*- coding: utf-8 -*-
+# MODULE: PHOENIX-Q [ServerMaster_MD]
+
+class ServerMasterMD:
+    def __init__(self):
+        # 설정에서 변경되지 않도록 코드에 이름을 각인합니다.
+        self.name = "서버마스터md"
+        self.role = "제국 총괄 운영 및 전략 보좌"
+        print(f"✨ [{self.name}] 사령관님의 모든 명령을 수행할 준비가 되었습니다.")
+
+    def rename_unit(self, unit_id, new_name):
+        """[요청] 사령관님이 원하는 이름으로 하위 잼들의 이름표를 강제 교체합니다."""
+        print(f"🏷️ [{self.name}] {unit_id} 유닛의 이름을 '{new_name}'(으)로 재명명합니다.")
+        # 내부 config.json 업데이트 로직 실행

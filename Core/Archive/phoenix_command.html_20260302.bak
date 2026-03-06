@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Phoenix Command Center | Strategic Trading Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body>
+    {% include 'PHOENIX_MASTER/imperial_nav.html' %}
+    <!-- ... (REST OF CONTENT OMITTED FROM VIEW_FILE) ... -->
+</body>
+</html>

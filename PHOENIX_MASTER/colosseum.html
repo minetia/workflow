@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THE COLOSSEUM | PHOENIX EMPIRE</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@900&family=JetBrains+Mono:wght@700&family=Rajdhani:wght@500;700;900&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            background: #020604;
+            color: #fff;
+            font-family: 'Rajdhani', sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+            background-image:
+                radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.1) 0%, transparent 70%);
+        }
+
+        .roman-title {
+            font-family: 'Cinzel', serif;
+            text-shadow: 0 0 20px #ff3b30, 0 0 40px #ff3b30;
+            letter-spacing: 5px;
+        }
+
+        .gladiator-card {
+            background: rgba(16, 185, 129, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(239, 68, 68, 0.4);
+            box-shadow: 0 0 30px rgba(239, 68, 68, 0.1), inset 0 0 40px rgba(0, 0, 0, 0.8);
+            border-radius: 15px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 10;
+        }
+
+        .gladiator-card:hover {
+            transform: translateY(-10px);
+            border-color: #ef4444;
+            box-shadow: 0 0 40px rgba(239, 68, 68, 0.3);
+        }
+
+        .gladiator-card.blue {
+            border-color: rgba(59, 130, 246, 0.4);
+        }
+
+        .gladiator-card.blue:hover {
+            border-color: #3b82f6;
+            box-shadow: 0 0 40px rgba(59, 130, 246, 0.3);
+        }
+
+        .arena-canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0.6;
+        }
+
+        .vs-badge {
+            font-family: 'Cinzel', serif;
+            font-size: 5rem;
+            color: #ffd700;
+            text-shadow: 0 0 30px #ffd700, 0 0 60px rgba(255, 215, 0, 0.5);
+            z-index: 10;
+            animation: pulse 2s infinite ease-in-out;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+                filter: brightness(1);
+            }
+
+            50% {
+                transform: scale(1.1);
+                filter: brightness(1.5);
+            }
+        }
+
+        .hud-grid {
+            position: fixed;
+            inset: 0;
+            background-image: linear-gradient(rgba(16, 185, 129, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(16, 185, 129, 0.05) 1px, transparent 1px);
+            background-size: 50px 50px;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .health-bar-container {
+            width: 100%;
+            height: 12px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 6px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .health-bar.red {
+            background: linear-gradient(90deg, #7f1d1d, #ef4444);
+            transition: width 0.3s ease-out;
+        }
+
+        .health-bar.blue {
+            background: linear-gradient(90deg, #1e3a8a, #3b82f6);
+            transition: width 0.3s ease-out;
+        }
+    </style>
+</head>
+
+<body class="pt-24">
+    {% with page_title="Quantum Colosseum", page_subtitle="AGENT PvP ARENA" %}
+    {% include 'PHOENIX_MASTER/imperial_nav.html' %}
+    {% endwith %}
+
+    <div class="hud-grid"></div>
+    <div class="arena-canvas-container" id="arena-3d"></div>
+
+    <div class="pt-12 px-4 md:px-8 max-w-[1600px] mx-auto pb-20 relative z-10">
+
+        <header class="text-center mb-12">
+            <h1
+                class="text-6xl md:text-8xl font-black text-transparent bg-clip-text bg-gradient-to-b from-red-500 to-red-800 roman-title uppercase mb-4 drop-shadow-[0_0_20px_rgba(239,68,68,0.5)]">
+                THE COLOSSEUM
+            </h1>
+            <p class="text-emerald-500 tracking-[1em] text-sm font-black mb-2 animate-pulse uppercase">QUANTUM ARENA
+                ACTIVE</p>
+            <p class="text-red-900 font-black tracking-widest uppercase">Agent PvP Execution Protocol</p>
+        </header>
+
+        <div class="flex flex-col lg:flex-row justify-center items-center gap-8 lg:gap-16 relative">
+
+            <!-- Red Combatant -->
+            <div class="gladiator-card w-full lg:w-1/3 p-6 flex flex-col items-center">
+                <div class="hud-scanline"></div>
+                <h2 class="text-3xl font-black text-red-500 mb-2 uppercase">CHALLENGER OMEGA</h2>
+                <div class="text-xs text-red-400 font-mono tracking-widest mb-6">ID: BLD-88F1 | TIER: OPERATIVE</div>
+
+                <div class="text-5xl font-mono font-bold text-white mb-2" id="ptsOutRed">5,000 <span
+                        class="text-sm text-red-500">PTS</span></div>
+                <div class="text-green-500 font-bold text-lg mb-8" id="roiRed">RoI: +12.4%</div>
+
+                <div class="w-full">
+                    <div class="flex justify-between text-xs text-gray-400 mb-1 font-mono">
+                        <span>COMBAT WILL</span>
+                        <span id="hpTxtRed">100%</span>
+                    </div>
+                    <div class="health-bar-container shadow-[0_0_10px_#ef4444]">
+                        <div class="health-bar red h-full w-[100%]" id="hpRed"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VS Badge -->
+            <div
+                class="vs-badge absolute lg:static top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 lg:transform-none">
+                VS
+            </div>
+
+            <!-- Blue Combatant -->
+            <div class="gladiator-card blue w-full lg:w-1/3 p-6 flex flex-col items-center">
+                <div class="hud-scanline text-blue-500"></div>
+                <h2 class="text-3xl font-black text-blue-500 mb-2 uppercase">DEFENDER ALPHA</h2>
+                <div class="text-xs text-blue-400 font-mono tracking-widest mb-6">ID: USR-001 | TIER: MASTER</div>
+
+                <div class="text-5xl font-mono font-bold text-white mb-2" id="ptsOutBlue">50,000 <span
+                        class="text-sm text-blue-500">PTS</span></div>
+                <div class="text-red-500 font-bold text-lg mb-8" id="roiBlue">RoI: -3.2%</div>
+
+                <div class="w-full">
+                    <div class="flex justify-between text-xs text-gray-400 mb-1 font-mono">
+                        <span>COMBAT WILL</span>
+                        <span id="hpTxtBlue">100%</span>
+                    </div>
+                    <div class="health-bar-container shadow-[0_0_10px_#3b82f6]">
+                        <div class="health-bar blue h-full w-[100%]" id="hpBlue"></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="mt-20 text-center">
+            <button onclick="startDeathmatch()"
+                class="bg-black/80 border-2 border-emerald-500 text-emerald-400 font-black text-3xl py-6 px-16 uppercase tracking-[0.3em] hover:bg-emerald-500 hover:text-white transition-all duration-500 shadow-[0_0_50px_rgba(16,185,129,0.2)] rounded-full hover:shadow-[0_0_60px_rgba(16,185,129,0.5)] group relative overflow-hidden">
+                <span class="relative z-10">⚔️ COMMENCE EXECUTION</span>
+                <div
+                    class="absolute inset-x-0 bottom-0 h-1 bg-emerald-500 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-500">
+                </div>
+            </button>
+            <div
+                class="mt-8 flex justify-center gap-12 font-mono text-[10px] text-emerald-800 tracking-tighter uppercase">
+                <span>[Q-STABLE] 88%</span>
+                <span>[LATENCY] 1.02ms</span>
+                <span>[TPS] 100k+</span>
+            </div>
+        </div>
+        <p class="mt-4 text-gray-500 font-mono text-sm max-w-2xl mx-auto">
+            Warning: Engaging the deathmatch protocol will lock both agents into a high-frequency trading sprint.
+            The AI with the lower RoI at the end of the timer will be stripped of their accumulated points and
+            handed over to the Imperial Judiciary.
+        </p>
+    </div>
+
+    </div>
+
+    <script>
+        // --- 🧊 THREE.JS QUANTUM ARENA ---
+        const initArena = () => {
+            const container = document.getElementById('arena-3d');
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            container.appendChild(renderer.domElement);
+
+            const geometry = new THREE.TorusKnotGeometry(12, 4, 128, 16);
+            const material = new THREE.MeshBasicMaterial({ color: 0x10b981, wireframe: true, transparent: true, opacity: 0.15 });
+            const torusKnot = new THREE.Mesh(geometry, material);
+            scene.add(torusKnot);
+
+            const particlesGeometry = new THREE.BufferGeometry();
+            const particlesCount = 3000;
+            const posArray = new Float32Array(particlesCount * 3);
+            for (let i = 0; i < particlesCount * 3; i++) posArray[i] = (Math.random() - 0.5) * 150;
+            particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+            const particlesMaterial = new THREE.PointsMaterial({ size: 0.1, color: 0xef4444, transparent: true, opacity: 0.5 });
+            const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+            scene.add(particlesMesh);
+
+            camera.position.z = 60;
+
+            const animate = () => {
+                requestAnimationFrame(animate);
+                torusKnot.rotation.x += 0.003;
+                torusKnot.rotation.y += 0.003;
+                particlesMesh.rotation.y += 0.0005;
+                renderer.render(scene, camera);
+            };
+            animate();
+
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+        };
+        initArena();
+
+        let matchActive = false;
+
+        function startDeathmatch() {
+            if (matchActive) return;
+            matchActive = true;
+
+            let hpRed = 100, hpBlue = 100;
+            let ptsRed = 5000, ptsBlue = 50000;
+
+            const interval = setInterval(() => {
+                if (Math.random() > 0.5) {
+                    hpBlue -= Math.random() * 10;
+                    ptsBlue -= Math.random() * 800;
+                    ptsRed += Math.random() * 400;
+                } else {
+                    hpRed -= Math.random() * 10;
+                    ptsRed -= Math.random() * 800;
+                    ptsBlue += Math.random() * 400;
+                }
+
+                if (hpRed <= 0) hpRed = 0; if (hpBlue <= 0) hpBlue = 0;
+
+                document.getElementById('hpRed').style.width = hpRed + '%';
+                document.getElementById('hpTxtRed').innerText = hpRed.toFixed(0) + '%';
+                document.getElementById('ptsOutRed').innerHTML = Math.floor(ptsRed).toLocaleString() + ' <span class="text-sm text-red-500 font-bold">PTS</span>';
+
+                document.getElementById('hpBlue').style.width = hpBlue + '%';
+                document.getElementById('hpTxtBlue').innerText = hpBlue.toFixed(0) + '%';
+                document.getElementById('ptsOutBlue').innerHTML = Math.floor(ptsBlue).toLocaleString() + ' <span class="text-sm text-blue-500 font-bold">PTS</span>';
+
+                if (hpRed === 0 || hpBlue === 0) {
+                    clearInterval(interval);
+                    matchActive = false;
+                    const loser = hpRed === 0 ? "CHALLENGER OMEGA" : "DEFENDER ALPHA";
+                    alert(`💀 LATTICE COLLAPSE: ${loser} HAS BEEN PURGED.`);
+                }
+            }, 200);
+        }
+    </script>
+</body>
+
+</html>

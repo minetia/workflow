@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PHOENIX EMPIRE | NEXUS HUB</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700;900&family=Orbitron:wght@400;700;900&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --gold: #D4AF37;
+            --bg-dark: #020408;
+            --accent: #FF3B30;
+        }
+
+        body {
+            background: var(--bg-dark);
+            color: white;
+            font-family: 'Rajdhani', sans-serif;
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .bg-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+            opacity: 0.2;
+        }
+
+        .nexus-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            max-width: 1200px;
+            width: 100%;
+            padding: 2rem;
+        }
+
+        .menu-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            padding: 2.5rem;
+            border-radius: 20px;
+            text-align: center;
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .menu-card:hover {
+            background: rgba(212, 175, 55, 0.08);
+            border-color: var(--gold);
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 50px rgba(212, 175, 55, 0.15);
+        }
+
+        .menu-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .menu-card:hover::before {
+            left: 100%;
+        }
+
+        .menu-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            color: var(--gold);
+        }
+
+        .menu-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 900;
+            letter-spacing: 2px;
+            color: var(--gold);
+            margin-bottom: 0.5rem;
+            text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+        }
+
+        .menu-desc {
+            font-size: 0.85rem;
+            color: #888;
+            font-weight: 500;
+        }
+
+        .header {
+            position: absolute;
+            top: 10%;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 4rem;
+            font-weight: 900;
+            background: linear-gradient(to bottom, #fff, var(--gold));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 15px;
+            margin-bottom: 1rem;
+        }
+
+        .header p {
+            font-size: 1rem;
+            color: var(--gold);
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            opacity: 0.7;
+        }
+
+        @keyframes scanline {
+            0% {
+                transform: translateY(-100%);
+            }
+
+            100% {
+                transform: translateY(100%);
+            }
+        }
+
+        .scanline {
+            width: 100%;
+            height: 2px;
+            background: rgba(212, 175, 55, 0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 100;
+            pointer-events: none;
+            animation: scanline 8s linear infinite;
+        }
+    </style>
+</head>
+
+<body>
+    {% with page_title="Imperial Nexus", page_subtitle="MASTER CONTROL HUB" %}
+    {% include 'PHOENIX_MASTER/imperial_nav.html' %}
+    {% endwith %}
+
+    <div class="scanline"></div>
+    <div class="flex flex-col items-center justify-center min-h-screen pt-[80px]">
+        <div class="header relative">
+            <h1>IMPERIAL NEXUS</h1>
+            <p>PHOENIX EMPIRE MASTER CONTROL HUB UNIT-01</p>
+        </div>
+
+        <div class="nexus-grid">
+            <!-- 1. Commander Center -->
+            <div class="menu-card" onclick="location.href='/jam/commander_center'">
+                <div class="menu-icon">🔱</div>
+                <div class="menu-title">COMMANDER</div>
+                <div class="menu-desc">Sovereign Strategic Dashboard</div>
+            </div>
+
+            <!-- 2. Bybit Live -->
+            <div class="menu-card" onclick="location.href='/jam/bybit'">
+                <div class="menu-icon">📊</div>
+                <div class="menu-title">BYBIT LIVE</div>
+                <div class="menu-desc">Pro Trading View & Live Tapes</div>
+            </div>
+
+            <!-- 3. Quantum Grid -->
+            <div class="menu-card" onclick="location.href='/jam/grid'">
+                <div class="menu-icon">🕸️</div>
+                <div class="menu-title">QUANTUM GRID</div>
+                <div class="menu-desc">Automated Spider-Web Engines</div>
+            </div>
+
+            <!-- 4. Ranking / GP -->
+            <div class="menu-card" onclick="location.href='/jam/traders'">
+                <div class="menu-icon">👑</div>
+                <div class="menu-title">G-PRIX</div>
+                <div class="menu-desc">100 Wolves Competition Leaderboard</div>
+            </div>
+
+            <!-- 5. System Logs -->
+            <div class="menu-card" onclick="location.href='/master_console'">
+                <div class="menu-icon">💻</div>
+                <div class="menu-title">TERMINAL</div>
+                <div class="menu-desc">Deep System Command Control</div>
+            </div>
+
+            <!-- 6. AI Architect -->
+            <div class="menu-card" onclick="location.href='/jam/gemini2'">
+                <div class="menu-icon">🧠</div>
+                <div class="menu-title">ARCHITECT</div>
+                <div class="menu-desc">Gemini 2.0 Intelligence Core</div>
+            </div>
+        </div>
+
+        <script>
+            // Smooth hover sound or interaction visuals can be added here
+        </script>
+</body>
+
+</html>

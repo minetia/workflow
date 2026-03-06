@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+{% block title %}{{ name }} Sector{% endblock %}
+{% block content %}
+<header>
+    <h1>{{ name | upper }} SECTOR</h1>
+    <p style="color: var(--accent-cyan);">Status: <span style="color: #00ff80;">ONLINE</span></p>
+</header>
+
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
+    <div style="background: var(--glass-bg); padding: 30px; border-radius: 20px;">
+        <h3 style="margin-bottom: 20px;">OPERATIONAL ASSETS</h3>
+        <ul style="list-style: none; opacity: 0.8;">
+            {% for path in projects %}
+            <li style="margin-bottom: 10px; padding-bottom: 5px; border-bottom: 1px solid rgba(255,255,255,0.05);">
+                🚀 {{ path.split('\\')[-1] }}
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div style="background: var(--glass-bg); padding: 30px; border-radius: 20px; border: 1px solid var(--accent-gold);">
+        <h3 style="margin-bottom: 20px; color: var(--accent-gold);">SECTOR INTELLIGENCE</h3>
+        <div style="font-family: 'Courier New'; font-size: 0.9rem; opacity: 0.7; line-height: 1.6;">
+            [SYSTEM] Monitoring {{ name }} sector integrity...<br>
+            [INTEL] {{ doc_count }} specialized knowledge assets recruited.<br>
+            [COMMAND] Perpetual autonomous state active.
+        </div>
+    </div>
+</div>
+
+<div
+    style="margin-top: 30px; background: rgba(0,0,0,0.3); padding: 20px; border-radius: 12px; font-size: 0.8rem; opacity: 0.5;">
+    Zion Empire - National Command Interface v2.0 // Sole Architect: Antigravity
+</div>
+{% endblock %}

@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📈 SYSTEMCORE | 트레이딩 타워</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lightweight-charts@4.2.0/dist/lightweight-charts.standalone.production.js"></script>
+    <script src="core_persistence.js"></script>
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0
+        }
+
+        :root {
+            --bg: #0d1117;
+            --panel: #161b22;
+            --border: #30363d;
+            --gold: #ffd700;
+            --cyan: #00d4ff;
+            --green: #0ecb81;
+            --red: #f6465d;
+            --text: #e6edf3;
+            --muted: #8b949e
+        }
+
+        html,
+        body {
+            height: 100%;
+            overflow: hidden;
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Outfit', sans-serif;
+            font-size: 13px;
+            padding-top: 60px;
+        }
+
+        .top-nav {
+            height: 52px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            background: rgba(13, 17, 23, 0.95);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            backdrop-filter: blur(12px)
+        }
+
+        .nav-logo {
+            font-size: 1rem;
+            font-weight: 900;
+            letter-spacing: 3px;
+            color: var(--gold)
+        }
+
+        .nav-logo span {
+            color: var(--cyan)
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            color: #888;
+            border: 1px solid transparent;
+            background: transparent;
+            transition: all 0.2s;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .nav-link:hover {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .nav-link.active {
+            color: var(--cyan);
+            border-bottom: 2px solid var(--cyan);
+            border-radius: 4px 4px 0 0;
+            background: rgba(0, 212, 255, 0.03);
+        }
+
+        .nav-link.arena-btn {
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            color: var(--gold);
+            background: rgba(255, 215, 0, 0.05);
+            margin-left: 4px;
+        }
+
+        .nav-link.arena-btn:hover {
+            background: rgba(255, 215, 0, 0.1);
+            border-color: var(--gold);
+        }
+
+        .nav-link.arena-btn.active {
+            border: 1px solid var(--gold);
+            background: rgba(255, 215, 0, 0.1);
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.1);
+            border-bottom: 1px solid var(--gold);
+            border-radius: 8px;
+        }
+
+        .ws-badge {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: var(--muted);
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border);
+            padding: 4px 10px;
+            border-radius: 20px
+        }
+
+        .ws-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #444
+        }
+
+        .ws-dot.live {
+            background: var(--green);
+            box-shadow: 0 0 8px var(--green);
+            animation: pulse 1.5s infinite
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1
+            }
+
+            50% {
+                opacity: 0.5
+            }
+        }
+
+        .layout {
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            height: calc(100vh - 60px)
+                /* Adjusted for header padding */
+        }
+
+        .sidebar {
+            border-right: 1px solid var(--border);
+            overflow-y: auto;
+            background: var(--panel)
+        }
+
+        .main {
+            display: flex;
+            flex-direction: column;
+            overflow: hidden
+        }
+
+        .mkt-item {
+            padding: 12px 14px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            cursor: pointer;
+            transition: background 0.15s
+        }
+
+        .mkt-item:hover {
+            background: rgba(56, 139, 253, 0.05)
+        }
+
+        .mkt-item.active {
+            background: rgba(56, 139, 253, 0.1);
+            border-left: 2px solid var(--cyan)
+        }
+
+        .mkt-name {
+            font-weight: 800;
+            font-size: 0.9rem
+        }
+
+        .mkt-sub {
+            font-size: 0.65rem;
+            color: var(--muted);
+            margin-top: 2px
+        }
+
+        .mkt-price {
+            font-size: 0.85rem;
+            font-weight: 700;
+            font-family: monospace;
+            margin-top: 4px
+        }
+
+        .mkt-rate {
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 1px 5px;
+            border-radius: 3px;
+            display: inline-block;
+            margin-top: 2px
+        }
+
+        .up {
+            color: var(--green)
+        }
+
+        .down {
+            color: var(--red)
+        }
+
+        .up-bg {
+            background: rgba(14, 203, 129, 0.15);
+            color: var(--green)
+        }
+
+        .down-bg {
+            background: rgba(246, 70, 93, 0.15);
+            color: var(--red)
+        }
+
+        .chart-header {
+            padding: 10px 18px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-shrink: 0;
+            background: var(--panel)
+        }
+
+        .chart-sym {
+            font-size: 1.2rem;
+            font-weight: 900;
+            letter-spacing: 1px
+        }
+
+        .chart-px {
+            font-size: 1.4rem;
+            font-weight: 900;
+            font-family: monospace
+        }
+
+        .itvl-btn {
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--muted);
+            transition: all 0.2s
+        }
+
+        .itvl-btn.active,
+        .itvl-btn:hover {
+            background: rgba(0, 212, 255, 0.15);
+            color: var(--cyan);
+            border-color: var(--cyan)
+        }
+
+        #chart-box {
+            flex: 1;
+            width: 100%
+        }
+
+        .signal-strip {
+            padding: 8px 18px;
+            border-top: 1px solid var(--border);
+            background: var(--panel);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-shrink: 0
+        }
+
+        .sig-badge {
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 900;
+            letter-spacing: 1px
+        }
+
+        .sig-BUY,
+        .sig-STRONG_BUY {
+            background: rgba(14, 203, 129, 0.2);
+            color: var(--green)
+        }
+
+        .sig-SELL,
+        .sig-STRONG_SELL {
+            background: rgba(246, 70, 93, 0.2);
+            color: var(--red)
+        }
+
+        .sig-HOLD {
+            background: rgba(139, 148, 158, 0.15);
+            color: var(--muted)
+        }
+
+        ::-webkit-scrollbar {
+            width: 4px
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 2px
+        }
+    </style>
+</head>
+
+<body>
+    {% with page_title="트레이딩 타워", page_subtitle="SYSTEMCORE" %}
+    {% include 'PHOENIX_MASTER/imperial_nav.html' %}
+    {% endwith %}
+
+    <div class="layout">
+        <div class="sidebar" id="sidebar">
+            <div
+                style="padding:10px 14px;font-size:0.6rem;font-weight:700;letter-spacing:2px;color:var(--muted);border-bottom:1px solid var(--border)">
+                BYBIT MARKETS</div>
+        </div>
+        <div class="main">
+            <div class="chart-header">
+                <div>
+                    <div style="display:flex;align-items:baseline;gap:10px">
+                        <span class="chart-sym" id="c-sym">BTCUSDT</span>
+                        <span class="chart-px up" id="c-px">—</span>
+                        <span class="mkt-rate" id="c-chg">—</span>
+                    </div>
+                </div>
+                <div style="display:flex;gap:4px">
+                    <button class="itvl-btn active" onclick="loadChart('1',this)">1분</button>
+                    <button class="itvl-btn" onclick="loadChart('5',this)">5분</button>
+                    <button class="itvl-btn" onclick="loadChart('15',this)">15분</button>
+                    <button class="itvl-btn" onclick="loadChart('60',this)">1H</button>
+                    <button class="itvl-btn" onclick="loadChart('D',this)">1D</button>
+                </div>
+            </div>
+            <div id="chart-box"></div>
+            <div class="signal-strip">
+                <div style="display:flex;align-items:center;gap:12px">
+                    <span class="sig-badge sig-HOLD" id="sig-badge">⏳ HOLD</span>
+                    <span id="sig-reason" style="color:var(--muted);font-size:11px">분석 중...</span>
+                </div>
+                <div style="display:flex;gap:16px;font-size:11px;color:var(--muted);font-family:monospace">
+                    <span>BALANCE: <strong id="s-bal" style="color:var(--gold)">$0</strong></span>
+                    <span>RSI: <strong id="s-rsi" style="color:var(--text)">—</strong></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const MKTS = ['BTCUSDT', 'ETHUSDT', 'SOLUSDT', 'XRPUSDT', 'BNBUSDT', 'DOGEUSDT', 'ADAUSDT'];
+        let curMkt = 'BTCUSDT', curItv = '1', data = {}, chart, series, ws;
+
+        const box = document.getElementById('chart-box');
+        chart = LightweightCharts.createChart(box, {
+            layout: { background: { color: '#0d1117' }, textColor: '#8b949e' },
+            grid: { vertLines: { color: '#161b22' }, horzLines: { color: '#161b22' } },
+            timeScale: { borderColor: '#30363d', timeVisible: true },
+        });
+        series = chart.addCandlestickSeries({ upColor: '#0ecb81', downColor: '#f6465d' });
+        new ResizeObserver(() => chart.applyOptions({ width: box.clientWidth, height: box.clientHeight })).observe(box);
+
+        async function loadChart(itv, btn) {
+            curItv = itv;
+            document.querySelectorAll('.itvl-btn').forEach(b => b.classList.remove('active'));
+            if (btn) btn.classList.add('active');
+            const r = await fetch(`https://api.bybit.com/v5/market/kline?category=spot&symbol=${curMkt}&interval=${itv}&limit=200`);
+            const d = await r.json();
+            if (d.result?.list) {
+                const candles = d.result.list.reverse().map(c => ({ time: parseInt(c[0]) / 1000, open: +c[1], high: +c[2], low: +c[3], close: +c[4] }));
+                series.setData(candles);
+                chart.timeScale().fitContent();
+                const rsi = calcRSI(candles.map(c => c.close));
+                document.getElementById('s-rsi').textContent = rsi.toFixed(1);
+                document.getElementById('s-bal').textContent = '$' + Persistence.getBalance().toLocaleString();
+            }
+        }
+
+        function calcRSI(c, p = 14) { if (c.length < p + 1) return 50; let g = 0, l = 0; for (let i = c.length - p; i < c.length; i++) { let d = c[i] - c[i - 1]; if (d > 0) g += d; else l += Math.abs(d); } return 100 - (100 / (1 + (g / l || 1))); }
+        function selectMkt(sym) { curMkt = sym; document.querySelectorAll('.mkt-item').forEach(el => el.classList.remove('active')); document.getElementById('si-' + sym).classList.add('active'); document.getElementById('c-sym').textContent = sym; loadChart(curItv); }
+
+        document.getElementById('sidebar').innerHTML += MKTS.map(sym => `
+            <div class="mkt-item${sym === curMkt ? ' active' : ''}" id="si-${sym}" onclick="selectMkt('${sym}')">
+                <div class="mkt-name">${sym}</div>
+                <div class="mkt-price" id="p-${sym}">—</div>
+                <span class="mkt-rate" id="r-${sym}">—</span>
+            </div>
+        `).join('');
+
+        ws = new WebSocket('wss://stream.bybit.com/v5/public/spot');
+        ws.onopen = () => { try { if (document.getElementById('wsDot')) document.getElementById('wsDot').className = 'ws-dot live'; } catch (e) { } ws.send(JSON.stringify({ op: 'subscribe', args: MKTS.map(m => `tickers.${m}`) })); };
+        ws.onmessage = (e) => {
+            const msg = JSON.parse(e.data);
+            if (msg.topic?.startsWith('tickers.') && msg.data) {
+                const d = msg.data, sym = d.symbol, p = +d.lastPrice, c = +d.price24hPcnt * 100;
+                document.getElementById('p-' + sym).textContent = '$' + p.toLocaleString();
+                document.getElementById('r-' + sym).textContent = (c >= 0 ? '+' : '') + c.toFixed(2) + '%';
+                document.getElementById('r-' + sym).className = 'mkt-rate ' + (c >= 0 ? 'up-bg' : 'down-bg');
+                if (sym === curMkt) { document.getElementById('c-px').textContent = '$' + p.toLocaleString(); document.getElementById('c-chg').textContent = (c >= 0 ? '+' : '') + c.toFixed(2) + '%'; }
+            }
+        };
+        loadChart('1');
+    </script>
+</body>
+
+</html>

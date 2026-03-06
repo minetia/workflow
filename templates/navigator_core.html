@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>IMPERIAL NAVIGATOR (5001)</title>
+    <style>
+        body {
+            background: #0d1117;
+            color: #c9d1d9;
+            font-family: monospace;
+            margin: 0;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .sidebar {
+            width: 450px;
+            background: #0a0c10;
+            border-right: 1px solid #333;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: #0d1117;
+        }
+
+        #console {
+            background: #000;
+            color: #39ff14;
+            padding: 15px;
+            flex: 1;
+            overflow-y: auto;
+            font-size: 12px;
+            border: 1px solid #333;
+            white-space: pre-wrap;
+        }
+
+        .search-box {
+            background: #161b22;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #58a6ff;
+            margin-bottom: 15px;
+        }
+
+        input {
+            width: 90%;
+            padding: 10px;
+            background: #0d1117;
+            color: #fff;
+            border: 1px solid #333;
+        }
+
+        .btn {
+            background: #238636;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-weight: bold;
+            border-radius: 5px;
+        }
+
+        #viewer {
+            position: fixed;
+            right: 20px;
+            top: 80px;
+            width: 45%;
+            height: 80%;
+            background: #161b22;
+            border: 2px solid #58a6ff;
+            display: none;
+            flex-direction: column;
+            padding: 15px;
+            z-index: 1000;
+        }
+
+        textarea {
+            flex: 1;
+            background: #000;
+            color: #d1d5da;
+            border: none;
+            padding: 10px;
+            resize: none;
+            font-family: monospace;
+        }
+    </style>
+</head>
+
+<body class="pt-24">
+    {% with page_title="Imperial Navigator", page_subtitle="FILE SYSTEM RECONNAISSANCE" %}
+    {% include 'PHOENIX_MASTER/imperial_nav.html' %}
+    {% endwith %}
+
+    <div style="display: flex; width: 100%; height: calc(100vh - 64px);">
+        <div class="sidebar">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="파일명 입력 (ex: vault_encryption)">
+                <button class="btn" style="width:100%; margin-top:10px;" onclick="loadCode()">위치 추적 & 코드 로드</button>
+            </div>
+            <div id="tree">{{ tree_html | safe }}</div>
+        </div>
+        <div class="main">
+            <div style="padding:15px; border-bottom:1px solid #333; display:flex; justify-content:space-between;">
+                <h2 style="font-size: 18px;">🏰 제국 통합 네비게이터</h2>
+                <div>
+                    <button class="btn" style="background:#1f6feb;" onclick="copyCode()">📋 코드 복사</button>
+                    <button class="btn" onclick="runBackup()">📦 전체 압축 백업</button>
+                </div>
+            </div>
+            <div id="console">시스템 가동 중...</div>
+        </div>
+    </div>
+
+    <div id="viewer">
+        <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
+            <span id="filePath" style="font-size:10px; color:#58a6ff;"></span>
+            <button onclick="document.getElementById('viewer').style.display='none'">[닫기]</button>
+        </div>
+        <textarea id="codeArea" readonly></textarea>
+    </div>
+
+    <script>
+        async function loadCode(name) {
+            const key = name || document.getElementById('searchInput').value;
+            const res = await fetch('/navigator/api/search?key=' + key);
+            const data = await res.json();
+            if (data.status === 'success') {
+                document.getElementById('codeArea').value = data.content;
+                document.getElementById('filePath').innerText = "PATH: " + data.path;
+                document.getElementById('viewer').style.display = 'flex';
+                addLog("[FOUND] " + key + " 추적 성공: " + data.path);
+            } else { alert("영토 내 코드가 없습니다."); }
+        }
+        async function runBackup() {
+            const res = await fetch('/navigator/api/backup');
+            const data = await res.json();
+            addLog("[SYSTEM] " + data.msg);
+        }
+        function copyCode() {
+            const t = document.getElementById('codeArea');
+            t.select(); document.execCommand('copy'); alert("복사 완료!");
+        }
+        function addLog(msg) {
+            const c = document.getElementById('console');
+            c.innerHTML += "<div>" + msg + "</div>";
+            c.scrollTop = c.scrollHeight;
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,44 @@
+{
+    "BUG-8059": {
+        "incarceration_date": "2026-03-04 05:09:46",
+        "reason": "Castle Intrusion & Data Extraction Attempt",
+        "severity": "HIGH",
+        "status": "INCARCERATED",
+        "asset_status": "FROZEN"
+    },
+    "BUG-1626": {
+        "incarceration_date": "2026-03-04 05:15:21",
+        "reason": "Castle Intrusion & Data Extraction Attempt",
+        "severity": "HIGH",
+        "status": "INCARCERATED",
+        "asset_status": "FROZEN"
+    },
+    "BUG-3310": {
+        "incarceration_date": "2026-03-04 05:23:45",
+        "reason": "Castle Intrusion & Data Extraction Attempt",
+        "severity": "HIGH",
+        "status": "INCARCERATED",
+        "asset_status": "FROZEN"
+    },
+    "ALPHA-BUG-144": {
+        "incarceration_date": "2026-03-04 05:28:05",
+        "reason": "Unauthorized Scanning in Alpha Zone",
+        "severity": "HIGH",
+        "status": "INCARCERATED",
+        "asset_status": "FROZEN"
+    },
+    "Steward": {
+        "incarceration_date": "2026-03-04 11:27:08",
+        "reason": "Failure to prevent and repair critical JSON ledger corruption (double commas/extra braces).",
+        "severity": "SEVERE",
+        "status": "INCARCERATED",
+        "asset_status": "FROZEN"
+    },
+    "ServerMaster_MD": {
+        "incarceration_date": "2026-03-04 11:27:28",
+        "reason": "Infra-stability failure: Multiple fumbles during 5002 port migration and initial deployment.",
+        "severity": "HIGH",
+        "status": "INCARCERATED",
+        "asset_status": "FROZEN"
+    }
+}

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PHOENIX EMPIRE | G-PRIX TRADER RANKING</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700;900&family=Orbitron:wght@400;700;900&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --gold: #D4AF37;
+            --bg-dark: #05070a;
+            --entry-row: rgba(212, 175, 55, 0.03);
+            --entry-hover: rgba(212, 175, 55, 0.1);
+        }
+
+        body {
+            background: var(--bg-dark);
+            color: #ccc;
+            font-family: 'Rajdhani', sans-serif;
+            background-image: radial-gradient(circle at 50% 10%, #151a24 0%, #05070a 100%);
+        }
+
+        .luxury-glass {
+            background: rgba(10, 15, 25, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .tower-title {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--gold);
+            letter-spacing: 5px;
+            text-shadow: 0 0 20px var(--gold);
+        }
+
+        .rank-row {
+            background: var(--entry-row);
+            border: 1px solid rgba(212, 175, 55, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .rank-row:hover {
+            background: var(--entry-hover);
+            border-color: var(--gold);
+            transform: scale(1.005);
+        }
+
+        .rank-number {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900;
+            font-size: 1.5rem;
+        }
+
+        .rank-1 {
+            color: #FFD700;
+            text-shadow: 0 0 15px #FFD700;
+        }
+
+        .rank-2 {
+            color: #C0C0C0;
+            text-shadow: 0 0 15px #C0C0C0;
+        }
+
+        .rank-3 {
+            color: #CD7F32;
+            text-shadow: 0 0 15px #CD7F32;
+        }
+
+        .nexus-btn {
+            background: var(--gold);
+            color: black;
+            font-weight: 900;
+            padding: 10px 25px;
+            border-radius: 50px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: 0.3s;
+            box-shadow: 0 0 15px var(--gold);
+        }
+
+        .nexus-btn:hover {
+            transform: scale(1.1);
+            filter: brightness(1.2);
+        }
+    </style>
+</head>
+
+<body class="min-h-screen p-8 pt-24">
+    {% with page_title="Trader G-Prix", page_subtitle="ELITE WOLVES RANKING" %}
+    {% include 'PHOENIX_MASTER/imperial_nav.html' %}
+    {% endwith %}
+
+    <div class="max-w-6xl mx-auto flex justify-between items-center mb-12">
+        <div>
+            <h1 class="text-4xl font-black tower-title">TRADER G-PRIX</h1>
+            <p class="text-[10px] text-yellow-500 font-mono tracking-widest mt-1">100 WOLVES COMPETITION · LIVE
+                LEADERBOARD</p>
+        </div>
+    </div>
+
+    <div class="max-w-6xl mx-auto luxury-glass rounded-2xl overflow-hidden p-8">
+        <div
+            class="grid grid-cols-12 gap-4 text-[10px] text-gray-500 uppercase tracking-widest font-black border-b border-white/5 pb-4 mb-6 px-4">
+            <div class="col-span-1">RANK</div>
+            <div class="col-span-3">TRADER NAME</div>
+            <div class="col-span-2 text-center">STRATEGY</div>
+            <div class="col-span-2 text-center">BALANCE</div>
+            <div class="col-span-2 text-center">PNL %</div>
+            <div class="col-span-2 text-right">LAST SYMBOL</div>
+        </div>
+
+        <div id="leaderboard-body" class="space-y-4">
+            <!-- Injected Rows -->
+            <div class="text-center py-20 text-gray-500 animate-pulse uppercase tracking-[10px]">Synchronizing Matrix...
+            </div>
+        </div>
+
+        <div class="mt-8 border-t border-white/5 pt-6 text-[11px] text-gray-600 flex justify-between items-center">
+            <div id="total-count">TOTAL TRADERS: 100</div>
+            <div id="last-sync">LAST UPDATE: --:--:--</div>
+        </div>
+    </div>
+
+    <script>
+        async function fetchLeaderboard() {
+            try {
+                const res = await fetch('/api/traders/competition');
+                const data = await res.json();
+
+                const body = document.getElementById('leaderboard-body');
+                body.innerHTML = '';
+
+                data.leaderboard.forEach((t, index) => {
+                    const rank = index + 1;
+                    const rankClass = rank <= 3 ? `rank-${rank}` : 'text-white/40';
+                    const pnlClass = t.profit_all_time >= 0 ? 'text-emerald-400' : 'text-red-500';
+
+                    const row = document.createElement('div');
+                    row.className = 'rank-row grid grid-cols-12 gap-4 p-4 rounded-xl items-center';
+                    row.innerHTML = `
+                        <div class="col-span-1 rank-number ${rankClass}">${rank}</div>
+                        <div class="col-span-3 flex flex-col">
+                            <span class="text-white font-black text-lg">${t.name}</span>
+                            <span class="text-[9px] text-gray-600 font-mono tracking-tighter">${t.id}</span>
+                        </div>
+                        <div class="col-span-2 text-center">
+                            <span class="bg-white/5 px-2 py-1 rounded text-[10px] text-gold font-black">${t.role}</span>
+                        </div>
+                        <div class="col-span-2 text-center font-mono text-white">$${t.current_balance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
+                        <div class="col-span-2 text-center font-black ${pnlClass}">${t.profit_all_time >= 0 ? '+' : ''}${t.profit_all_time.toFixed(2)}%</div>
+                        <div class="col-span-2 text-right flex flex-col items-end">
+                            <span class="text-cyan-400 font-bold">${t.last_symbol}</span>
+                            <span class="text-[8px] text-gray-600">${t.last_action}</span>
+                        </div>
+                    `;
+                    body.appendChild(row);
+                });
+
+                document.getElementById('total-count').innerText = `TOTAL TRADERS: ${data.total_traders}`;
+                const syncDate = new Date(data.last_sync);
+                document.getElementById('last-sync').innerText = `LAST UPDATE: ${syncDate.toLocaleTimeString()}`;
+
+            } catch (e) { console.error("Leaderboard Magic Failed", e); }
+        }
+
+        setInterval(fetchLeaderboard, 10000);
+        fetchLeaderboard();
+    </script>
+</body>
+
+</html>

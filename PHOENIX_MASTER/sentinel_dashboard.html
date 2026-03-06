@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚔️ IMPERIAL SENTINEL · 파일 감시 시스템</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <style>
+        :root {
+            --bg: #030508;
+            --blue: #3b82f6;
+            --blue-glow: rgba(59, 130, 246, 0.25);
+            --red: #ef4444;
+            --red-glow: rgba(239, 68, 68, 0.25);
+            --white-dim: rgba(255, 255, 255, 0.12);
+            --gold: #ffd700;
+            --panel: rgba(255, 255, 255, 0.03);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'SF Mono', 'Consolas', monospace;
+            background: var(--bg);
+            color: #e2e8f0;
+            min-height: 100vh;
+        }
+
+        /* BG */
+        .sentinel-bg {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background:
+                radial-gradient(ellipse at 20% 0%, rgba(59, 130, 246, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 100%, rgba(239, 68, 68, 0.06) 0%, transparent 50%),
+                #030508;
+        }
+
+        /* Scanning line animation */
+        .scan-line {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.8), transparent);
+            animation: scanDown 4s linear infinite;
+            z-index: 100;
+            pointer-events: none;
+        }
+
+        @keyframes scanDown {
+            0% {
+                top: 0;
+                opacity: 1;
+            }
+
+            95% {
+                opacity: 1;
+            }
+
+            100% {
+                top: 100vh;
+                opacity: 0;
+            }
+        }
+
+        /* Header */
+        .sentinel-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 80px 24px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .sentinel-title {
+            font-size: 22px;
+            font-weight: 900;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--gold);
+        }
+
+        .sentinel-subtitle {
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.3);
+            letter-spacing: 2px;
+            margin-top: 4px;
+        }
+
+        .live-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 10px;
+            color: #ef4444;
+            letter-spacing: 2px;
+        }
+
+        .live-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #ef4444;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+
+            0%,
+            100% {
+                opacity: 1
+            }
+
+            50% {
+                opacity: 0.2
+            }
+        }
+
+        /* Summary Bar */
+        .summary-bar {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            padding: 16px 24px;
+            background: rgba(255, 255, 255, 0.02);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        .summary-chip {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .chip-blue {
+            background: var(--blue-glow);
+            border: 1px solid rgba(59, 130, 246, 0.4);
+            color: #93c5fd;
+        }
+
+        .chip-red {
+            background: var(--red-glow);
+            border: 1px solid rgba(239, 68, 68, 0.4);
+            color: #fca5a5;
+        }
+
+        .chip-white {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #94a3b8;
+        }
+
+        .chip-num {
+            font-size: 16px;
+            font-weight: 900;
+        }
+
+        /* Alert Bar */
+        .alert-bar {
+            margin: 12px 24px;
+            padding: 10px 16px;
+            background: rgba(239, 68, 68, 0.07);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            border-radius: 8px;
+            font-size: 11px;
+            color: #fca5a5;
+            display: none;
+        }
+
+        .alert-bar.visible {
+            display: block;
+        }
+
+        /* Timestamp */
+        .scan-info {
+            padding: 6px 24px;
+            font-size: 9px;
+            color: rgba(255, 255, 255, 0.2);
+            letter-spacing: 1px;
+        }
+
+        /* Category Sections */
+        .cat-section {
+            margin: 16px 24px;
+        }
+
+        .cat-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            font-size: 10px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.35);
+            padding-bottom: 6px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .cat-badge {
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 9px;
+            font-weight: 900;
+        }
+
+        /* File Table */
+        .file-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .file-table th {
+            text-align: left;
+            font-size: 8px;
+            letter-spacing: 2px;
+            color: rgba(255, 255, 255, 0.2);
+            padding: 6px 8px;
+            text-transform: uppercase;
+        }
+
+        .file-row {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            transition: background 0.2s;
+        }
+
+        .file-row:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .file-row td {
+            padding: 7px 8px;
+            font-size: 11px;
+        }
+
+        .status-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 6px;
+        }
+
+        .dot-blue {
+            background: var(--blue);
+            box-shadow: 0 0 6px var(--blue);
+            animation: pulse-blue 2s infinite;
+        }
+
+        .dot-red {
+            background: var(--red);
+            box-shadow: 0 0 6px var(--red);
+            animation: pulse-red 1s infinite;
+        }
+
+        .dot-white {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        @keyframes pulse-blue {
+
+            0%,
+            100% {
+                box-shadow: 0 0 4px var(--blue)
+            }
+
+            50% {
+                box-shadow: 0 0 10px var(--blue)
+            }
+        }
+
+        @keyframes pulse-red {
+
+            0%,
+            100% {
+                box-shadow: 0 0 4px var(--red)
+            }
+
+            50% {
+                box-shadow: 0 0 12px var(--red)
+            }
+        }
+
+        .fname {
+            color: #e2e8f0;
+            font-weight: 600;
+        }
+
+        .fpath {
+            color: rgba(255, 255, 255, 0.25);
+            font-size: 9px;
+        }
+
+        .fmod {
+            color: rgba(255, 255, 255, 0.35);
+            font-size: 10px;
+        }
+
+        .fdetail {
+            font-size: 10px;
+        }
+
+        .status-blue {
+            color: #93c5fd;
+        }
+
+        .status-red {
+            color: #fca5a5;
+        }
+
+        .status-white {
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Legend */
+        .legend {
+            display: flex;
+            gap: 20px;
+            padding: 12px 24px 24px;
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Refresh */
+        .refresh-bar {
+            position: fixed;
+            bottom: 16px;
+            right: 16px;
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            padding: 8px 14px;
+            font-size: 9px;
+            color: rgba(255, 255, 255, 0.3);
+            letter-spacing: 1px;
+        }
+
+        #countdown {
+            color: var(--gold);
+            font-weight: 900;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="sentinel-bg"></div>
+    <div class="scan-line"></div>
+
+    {% with page_title="Sentinel Monitor", page_subtitle="FILE SYSTEM INTEGRITY & SECURITY" %}
+    {% include 'PHOENIX_MASTER/imperial_nav.html' %}
+    {% endwith %}
+
+    <!-- Header -->
+    <div class="sentinel-header">
+        <div>
+            <div class="sentinel-title">⚔️ Imperial Sentinel</div>
+            <div class="sentinel-subtitle">PHOENIX EMPIRE · FILE STATUS MONITOR · 파일 상시 감시 시스템</div>
+        </div>
+        <div class="live-badge">
+            <div class="live-dot"></div> LIVE MONITORING
+        </div>
+    </div>
+
+    <!-- Summary -->
+    <div class="summary-bar" id="summary-bar">
+        <div class="summary-chip chip-blue"><span class="chip-num" id="total-blue">—</span> 파랑 (작업)</div>
+        <div class="summary-chip chip-red"><span class="chip-num" id="total-red">—</span> 빨강 (이상)</div>
+        <div class="summary-chip chip-white"><span class="chip-num" id="total-white">—</span> 흰색 (정지)</div>
+    </div>
+
+    <!-- Alert -->
+    <div class="alert-bar" id="alert-bar"></div>
+    <div class="scan-info" id="scan-info">스캔 중...</div>
+
+    <!-- Categories -->
+    <div id="file-sections"></div>
+
+    <!-- Legend -->
+    <div class="legend">
+        <div class="legend-item"><span class="status-dot dot-blue"></span> 파랑 = 최근 6시간 내 수정</div>
+        <div class="legend-item"><span class="status-dot dot-red"></span> 빨강 = 이상 탐지 (무단 생성·심야 수정)</div>
+        <div class="legend-item"><span class="status-dot dot-white"></span> 흰색 = 변화 없음</div>
+    </div>
+
+    <div class="refresh-bar">⟳ 자동 갱신: <span id="countdown">30</span>초</div>
+
+    <script>
+        const CAT_LABELS = {
+            MD: '📄 MD 문서 파일',
+            PY: '⚙️ PY 백엔드 파일',
+            JAM: '🤖 JAM 지능 파일'
+        };
+        const CAT_COLORS = {
+            MD: '#a78bfa',
+            PY: '#34d399',
+            JAM: '#fb923c'
+        };
+
+        async function fetchScan() {
+            try {
+                const res = await fetch('/api/sentinel/scan');
+                const data = await res.json();
+                renderDashboard(data);
+            } catch (e) {
+                document.getElementById('scan-info').textContent = '⚠️ API 연결 실패 — 재시도 중...';
+            }
+        }
+
+        function renderDashboard(data) {
+            // Scan info
+            document.getElementById('scan-info').textContent =
+                `🕐 마지막 스캔: ${data.timestamp} · 이상 감지 ${data.alert_count}건`;
+
+            // Alert bar
+            const alertBar = document.getElementById('alert-bar');
+            if (data.alert_count > 0) {
+                alertBar.classList.add('visible');
+                alertBar.innerHTML = `⚠️ 이상 탐지 ${data.alert_count}건 — ${data.alerts.join(' | ')}`;
+            } else {
+                alertBar.classList.remove('visible');
+            }
+
+            // Totals
+            let totalBlue = 0, totalRed = 0, totalWhite = 0;
+            for (const cat in data.categories) {
+                totalBlue += data.categories[cat].blue;
+                totalRed += data.categories[cat].red;
+                totalWhite += data.categories[cat].white;
+            }
+            document.getElementById('total-blue').textContent = totalBlue;
+            document.getElementById('total-red').textContent = totalRed;
+            document.getElementById('total-white').textContent = totalWhite;
+
+            // File sections
+            const container = document.getElementById('file-sections');
+            container.innerHTML = '';
+
+            for (const cat of ['MD', 'PY', 'JAM']) {
+                const catData = data.categories[cat];
+                if (!catData) continue;
+
+                const section = document.createElement('div');
+                section.className = 'cat-section';
+
+                const header = document.createElement('div');
+                header.className = 'cat-header';
+                header.innerHTML = `
+                    <span>${CAT_LABELS[cat]}</span>
+                    <span class="cat-badge" style="background:rgba(255,255,255,0.06); color:${CAT_COLORS[cat]}; border:1px solid ${CAT_COLORS[cat]}40;">${catData.total}개</span>
+                    <span style="color:#93c5fd">🔵 ${catData.blue}</span>
+                    <span style="color:#fca5a5">🔴 ${catData.red}</span>
+                    <span style="color:#475569">⚪ ${catData.white}</span>
+                `;
+
+                const table = document.createElement('table');
+                table.className = 'file-table';
+                table.innerHTML = `<tr>
+                    <th>상태</th>
+                    <th>파일명</th>
+                    <th>경로</th>
+                    <th>마지막 수정</th>
+                    <th>상세</th>
+                </tr>`;
+
+                for (const file of catData.files) {
+                    const dotClass = file.status === 'blue' ? 'dot-blue'
+                        : file.status === 'red' ? 'dot-red' : 'dot-white';
+                    const lblClass = 'status-' + file.status;
+
+                    const row = document.createElement('tr');
+                    row.className = 'file-row';
+                    row.innerHTML = `
+                        <td><span class="status-dot ${dotClass}"></span><span class="${lblClass}">${file.status_label}</span></td>
+                        <td><span class="fname">${file.name}</span></td>
+                        <td><span class="fpath">${file.path}</span></td>
+                        <td><span class="fmod">${file.modified}</span></td>
+                        <td><span class="fdetail ${lblClass}">${file.detail}</span></td>
+                    `;
+                    table.appendChild(row);
+                }
+
+                section.appendChild(header);
+                section.appendChild(table);
+                container.appendChild(section);
+            }
+        }
+
+        // Countdown & auto-refresh
+        let countdown = 30;
+        function tick() {
+            countdown--;
+            document.getElementById('countdown').textContent = countdown;
+            if (countdown <= 0) {
+                countdown = 30;
+                fetchScan();
+            }
+        }
+
+        // Initial load
+        fetchScan();
+        setInterval(tick, 1000);
+    </script>
+</body>
+
+</html>

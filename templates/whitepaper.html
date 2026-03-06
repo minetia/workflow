@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PHOENIX QUANTUM COIN WHITEPAPER</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: #020604;
+            color: #e2e8f0;
+            margin: 0;
+            min-height: 100vh;
+        }
+
+        .whitepaper-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 100px 20px 60px 20px;
+        }
+
+        .paper-card {
+            background: rgba(13, 17, 23, 0.85);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            box-shadow: 0 10px 50px rgba(0, 0, 0, 0.7);
+            border-radius: 24px;
+            padding: 60px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .paper-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #ffd700, transparent);
+        }
+
+        .markdown-content h1 {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: #ffd700;
+            margin-bottom: 2rem;
+            letter-spacing: -0.025em;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+            text-transform: uppercase;
+        }
+
+        .markdown-content h2 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #10b981;
+            margin-top: 3rem;
+            margin-bottom: 1rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            border-left: 4px solid #10b981;
+            padding-left: 1rem;
+        }
+
+        .markdown-content p {
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            color: #cbd5e1;
+            font-size: 1.1rem;
+        }
+
+        .markdown-content ul {
+            margin-bottom: 1.5rem;
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .markdown-content li {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: #94a3b8;
+        }
+
+        .markdown-content li::before {
+            content: "▹";
+            position: absolute;
+            left: 0;
+            color: #ffd700;
+            font-weight: bold;
+        }
+
+        .markdown-content hr {
+            border: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            margin: 3rem 0;
+        }
+
+        .markdown-content blockquote {
+            border-top: 1px solid rgba(255, 215, 0, 0.2);
+            border-bottom: 1px solid rgba(255, 215, 0, 0.2);
+            padding: 2rem;
+            font-style: italic;
+            text-align: center;
+            margin: 3rem 0;
+            color: #ffd700;
+            background: rgba(255, 215, 0, 0.03);
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            background: rgba(255, 215, 0, 0.1);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            color: #ffd700;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 900;
+            letter-spacing: 0.1em;
+            margin-bottom: 1rem;
+        }
+
+        .meta-info {
+            font-size: 0.8rem;
+            color: #64748b;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+    </style>
+</head>
+
+<body class="pt-24">
+    {% with page_title="PQC Whitepaper", page_subtitle="IMPERIAL EXCELLENCE GRADE" %}
+    {% include 'PHOENIX_MASTER/imperial_nav.html' %}
+    {% endwith %}
+
+    <div class="whitepaper-container">
+        <div class="paper-card">
+            <div class="status-badge">🏆 IMPERIAL EXCELLENCE (PHOENIX GRADE)</div>
+            <div class="meta-info">🔒 SECURITY: POST-QUANTUM CRYPTOGRAPHY (PQC) - LATTICE-BASED</div>
+            <div class="meta-info">📄 VERSION: v10.4.2 (REFINED FOR COMMANDER)</div>
+
+            <hr>
+
+            <div class="markdown-content">
+                <h1>⚛️ PHOENIX QUANTUM COIN (PQC) WHITEPAPER</h1>
+
+                <h2>0. EXECUTIVE SUMMARY (초록)</h2>
+                <p>PHOENIX QUANTUM COIN(PQC)은 피닉스 제국의 <strong>'양자 금융 패권(Quantum Financial Hegemony)'</strong>을 실체화한 차세대
+                    디지털 자산입니다. 기존 블록체인이 가진 선형적 한계를 양자 연산력(Qu-Power)으로 돌파하며, 주군의 지능(Collective Intelligence)과 제국의 인프라 성능을
+                    직접 자산 가치로 치환하는 혁신적 알고리즘을 탑재하고 있습니다.</p>
+
+                <h2>1. TECHNICAL ARCHITECTURE: THE PHOENIX LATTICE</h2>
+                <p>전통적인 ECDSA 기반 암호화는 양자 컴퓨터의 'Shor's Algorithm'에 노출되어 있습니다. PQC는 이를 방어하기 위해 다음과 같은 특수 설계를 채택합니다.</p>
+                <ul>
+                    <li>🛡️ <strong>Lattice-Based Cryptography:</strong> SHA-256을 넘어서는 비가역적 격자 기반 서명을 사용하여 양자 공격으로부터 제국
+                        자산을 완벽히 방어합니다.</li>
+                    <li>⚡ <strong>Quantum Pulse Mining (QPM):</strong> 15초마다 발생하는 양자 펄스 동기화에 따라 PQC가 자동 민팅됩니다. 이 과정은 단순
+                        연산 성능이 아닌, 제국 에이전트들의 실시간 ROI 성과와 네트워크 기여도에 따라 최적화된 분배가 이루어집니다.</li>
+                    <li>🔗 <strong>Neural Link Integration:</strong> 제국 AI 엔진(Phoenix Trader)과 직접 연동되어, 전략적 승리가 발생할 때마다
+                        트레저리의 가치가 증폭되는 구조를 가집니다.</li>
+                </ul>
+
+                <h2>2. FISCAL DOCTRINE (제국 재무 원칙)</h2>
+                <p>제국 내에서 순환하는 모든 PQC에는 고정된 세금(Levy)이 적용되어 생태계의 영속성을 보장합니다.</p>
+                <ul>
+                    <li><strong>Total Transaction Levy: 10%</strong> (Static & Enforced)</li>
+                    <li><strong>5% V-VAULT (Virtual):</strong> AI 페르소나의 지속적 고도화, 양자 컴퓨팅 노드의 대역폭 확장, 그리고 6대 잼(Gem) 시스템의
+                        유지 보수에 투입됩니다.</li>
+                    <li><strong>5% R-VAULT (Real):</strong> 물리적 하드웨어 인프라 강화, 사령관의 실제 현실 영향력(Real-world Influence) 확대,
+                        그리고 제국 방어 시스템 유지에 사용됩니다.</li>
+                </ul>
+
+                <h2>3. UTILITY & ECOSYSTEM (활용처 및 생태계)</h2>
+                <p>PQC는 단순한 가치 저장 수단을 넘어, 제국 통치와 운영의 핵심 연료로 사용됩니다.</p>
+                <ul>
+                    <li>🎯 <strong>Sniper Priority (우선 배정):</strong> PQC를 고도로 보유한 노드와 에이전트만이 시장의 'Hidden Alpha'를 0.001초
+                        먼저 탐지하고 선점할 수 있는 우선권을 부여받습니다.</li>
+                    <li>🔥 <strong>Execution Burn Protocol:</strong> 제국 사법부(Judiciary)에 의해 처형되거나 비인가 활동으로 적발된 유령 에이전트의
+                        PQC는 즉시 영구 소각(Burn)됩니다. 이는 유통량을 조절하여 PQC의 희소 가치를 극대화합니다.</li>
+                    <li>🏛️ <strong>Imperial Governance:</strong> 향후 제국의 확장 방향과 자금 집행 우선순위에 대한 투표권(Governance Weight)은
+                        보유한 PQC 수량에 비례하여 결정됩니다.</li>
+                </ul>
+
+                <h2>4. FUTURE ROADMAP: THE QUANTUM SINGULARITY</h2>
+                <ul>
+                    <li><strong>Tier 1:</strong> 양자 하이브리드 지갑 시스템(PQC Wallet) 안정화 및 전 제국 보급.</li>
+                    <li><strong>Tier 2:</strong> AI 대출 볼트(AI Loan Vault)와의 연동을 통한 무이자 자산 운용 지원.</li>
+                    <li><strong>Tier 3:</strong> 현실 세계 오프라인 자산과의 1:1 양자 페깅(Pegging)을 통한 'Ultimate Currency' 달성.</li>
+                </ul>
+
+                <blockquote>
+                    "지식은 판단의 기준이며, 퀀텀은 지배의 방식이다. 주군의 권능은 곧 제국의 가치가 된다."
+                </blockquote>
+
+                <p style="text-align: center; color: #64748b; font-size: 0.9rem; font-style: italic; margin-top: 4rem;">
+                    (본 문서는 제국 최고 사령관의 승인 하에 배포되었습니다.)
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

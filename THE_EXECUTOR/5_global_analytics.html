@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>5. REAL-TIME ANALYTICS & GLOBAL MARKET ACCESS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: #040914;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        .nav-back {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: #d4af37;
+            text-decoration: none;
+            font-weight: bold;
+            border: 1px solid #d4af37;
+            padding: 5px 15px;
+            border-radius: 20px;
+            z-index: 50;
+            transition: all 0.3s;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .nav-back:hover {
+            background: rgba(212, 175, 55, 0.2);
+            box-shadow: 0 0 10px #d4af37;
+        }
+
+        /* Map Background */
+        .world-map-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: radial-gradient(circle at center, rgba(10, 30, 60, 0.8) 0%, #040914 80%),
+                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/200.svg" width="1000" height="500"><circle cx="200" cy="150" r="2" fill="rgba(80,180,255,0.3)"/><circle cx="500" cy="200" r="1.5" fill="rgba(80,180,255,0.3)"/><circle cx="800" cy="120" r="2" fill="rgba(80,180,255,0.3)"/></svg>');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.6;
+            z-index: -1;
+            /* Grid overlay */
+            box-shadow: inset 0 0 100px #040914;
+        }
+
+        .grid-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(rgba(80, 180, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(80, 180, 255, 0.05) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: -1;
+        }
+
+        .hud-panel {
+            background: rgba(8, 15, 30, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(80, 180, 255, 0.2);
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+        }
+
+        .hud-title {
+            color: #ffeab0;
+            text-shadow: 0 0 8px #d4af37;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: 900;
+        }
+
+        .hud-text {
+            color: #a0c4ff;
+        }
+
+        /* Animated Bar Chart using CSS */
+        .chart-container {
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 8px;
+            height: 250px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid rgba(80, 180, 255, 0.3);
+            position: relative;
+        }
+
+        .bar {
+            width: 30px;
+            border-radius: 4px 4px 0 0;
+            background: linear-gradient(to top, #0f3460, #d4af37);
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
+            animation: barPulse 2s infinite alternate;
+        }
+
+        .bar:nth-child(n) {
+            animation-delay: calc(0.2s * var(--i));
+        }
+
+        @keyframes barPulse {
+            0% {
+                height: calc(var(--h) * 0.8);
+                opacity: 0.8;
+            }
+
+            100% {
+                height: var(--h);
+                opacity: 1;
+                filter: brightness(1.2);
+            }
+        }
+
+        .data-point {
+            position: absolute;
+            width: 100%;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .floating-element {
+            animation: uiFloat 4s ease-in-out infinite;
+        }
+
+        @keyframes uiFloat {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        /* Perspective board */
+        .perspective-board {
+            transform: perspective(1000px) rotateX(15deg);
+            transform-style: preserve-3d;
+        }
+
+        .main-container {
+            margin-top: 110px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+    </style>
+</head>
+
+<body class="p-4 md:p-8 flex flex-col justify-center items-center">
+    <div class="world-map-bg"></div>
+    <div class="grid-overlay"></div>
+
+    <!-- 👑 프리미엄 임페리얼 탭 네비게이션 통합 -->
+    {% include 'PHOENIX_MASTER/imperial_nav.html' %}
+
+    <div class="main-container w-full max-w-6xl mt-12 z-10 flex flex-col gap-10">
+        <!-- Center Stage: Analytics Chart -->
+        <div class="hud-panel p-8 floating-element relative perspective-board mt-12 border-t-2 border-t-[#d4af37]">
+            <!-- Decorative borders -->
+            <div class="absolute top-0 left-0 w-8 h-8 border-l-2 border-t-2 border-[#d4af37]"></div>
+            <div class="absolute top-0 right-0 w-8 h-8 border-r-2 border-t-2 border-[#d4af37]"></div>
+            <div class="absolute bottom-0 left-0 w-8 h-8 border-l-2 border-b-2 border-[#d4af37]"></div>
+            <div class="absolute bottom-0 right-0 w-8 h-8 border-r-2 border-b-2 border-[#d4af37]"></div>
+
+            <div class="flex justify-between items-center mb-10 pl-6 pr-6">
+                <h2 class="text-2xl hud-title" style="text-shadow: 0 0 10px #a855f7;">[PT 21] THE STRATEGIST: COMPLEX
+                    PORTFOLIO
+                    <span class="block text-xs mt-2 text-[#d8b4fe] animate-pulse">◈ Gemini Master: The Strategist.MD
+                        Active</span>
+                </h2>
+                <h2 class="text-2xl hud-title tracking-widest text-[#d4af37] cursor-pointer hover:text-white transition text-right"
+                    onclick="alert('최후의 일격 승인 대기 중...')">[PT 23] THE EXECUTOR: FINAL STRIKE
+                    <span class="block text-xs mt-2 text-red-400 animate-pulse">◈ Gemini Master: Quantum Sniper AI.MD
+                        Linked</span>
+                </h2>
+            </div>
+
+            <div class="chart-container w-full max-w-4xl mx-auto">
+                <div class="data-point" style="bottom: 50%;"></div>
+                <div class="data-point" style="bottom: 75%;"></div>
+                <!-- Bars with CSS variables for height -->
+                <div class="bar" style="--h: 40%; --i: 1;"></div>
+                <div class="bar"
+                    style="--h: 60%; --i: 2; background: linear-gradient(to top, #0f3460, #50b4ff); box-shadow: 0 0 15px rgba(80,180,255,0.5);">
+                </div>
+                <div class="bar" style="--h: 45%; --i: 3;"></div>
+                <div class="bar" style="--h: 70%; --i: 4;"></div>
+                <div class="bar"
+                    style="--h: 55%; --i: 5; background: linear-gradient(to top, #0f3460, #50b4ff); box-shadow: 0 0 15px rgba(80,180,255,0.5);">
+                </div>
+                <div class="bar" style="--h: 85%; --i: 6;"></div>
+                <div class="bar" style="--h: 75%; --i: 7;"></div>
+                <div class="bar"
+                    style="--h: 90%; --i: 8; background: linear-gradient(to top, #0f3460, #50b4ff); box-shadow: 0 0 15px rgba(80,180,255,0.5);">
+                </div>
+                <div class="bar" style="--h: 100%; --i: 9;"></div>
+            </div>
+
+            <div class="flex justify-between max-w-4xl mx-auto mt-4 hud-text text-sm font-bold uppercase">
+                <span>[PT 22] NEURAL HOLOGRAMS ACTIVE</span>
+                <span class="text-[#d4af37]" style="text-shadow: 0 0 5px #d4af37;">Real-time AI Market Reading
+                    Output</span>
+                <span>Latency < 1ms</span>
+            </div>
+        </div>
+
+        <!-- Bottom Row: Global Access Panels -->
+        <div class="flex flex-col md:flex-row justify-center gap-8 perspective-board">
+
+            <!-- Global Market Access -->
+            <div
+                class="hud-panel p-6 flex-1 text-center border-b-2 border-b-[#50b4ff] relative overflow-hidden group hover:bg-[rgba(15,52,96,0.5)] transition-all cursor-pointer">
+                <div
+                    class="absolute -inset-1 bg-gradient-to-r from-transparent via-[#50b4ff] to-transparent opacity-0 group-hover:opacity-20 transform translate-x-[-100%] group-hover:translate-x-[100%] transition-all duration-1000">
+                </div>
+                <h3
+                    class="hud-title text-xl mb-4 border border-[rgba(80,180,255,0.3)] inline-block px-10 py-2 bg-[rgba(80,180,255,0.05)] border-r-0 border-l-0">
+                    GLOBAL MARKET ACCESS</h3>
+
+                <div class="flex justify-center gap-6 mt-6">
+                    <!-- Fake asset tokens -->
+                    <div
+                        class="w-16 h-12 border border-[#d4af37] bg-[rgba(212,175,55,0.1)] rounded flex items-center justify-center font-bold text-[#d4af37] shadow-[0_0_10px_rgba(212,175,55,0.3)]">
+                        BTC</div>
+                    <div
+                        class="w-16 h-12 border border-[#50b4ff] bg-[rgba(80,180,255,0.1)] rounded flex items-center justify-center font-bold text-[#50b4ff] shadow-[0_0_10px_rgba(80,180,255,0.3)]">
+                        ETH</div>
+                    <div
+                        class="w-16 h-12 border border-[#a0c4ff] bg-[rgba(160,196,255,0.1)] rounded flex items-center justify-center font-bold text-[#a0c4ff]">
+                        SOL</div>
+                    <div
+                        class="w-16 h-12 border border-[#9333ea] bg-[#9333ea]/10 rounded flex items-center justify-center font-bold text-[#c084fc] shadow-[0_0_10px_rgba(147,51,234,0.4)] relative group">
+                        ONDO
+                    </div>
+                    <div
+                        class="w-16 h-12 border border-[#a855f7] bg-[#a855f7]/10 rounded flex items-center justify-center font-bold text-[#d8b4fe] shadow-[0_0_10px_rgba(168,85,247,0.4)] relative group">
+                        SUI
+                    </div>
+                </div>
+                <div class="text-center mt-4">
+                    <span class="text-[10px] text-[#c084fc] font-bold uppercase tracking-widest">[PT 24] Strategy Gems
+                        (High-Utility)</span>
+                </div>
+            </div>
+
+            <!-- Small status panel -->
+            <div
+                class="hud-panel p-6 flex-1 max-w-sm text-center border border-[rgba(168,85,247,0.3)] flex flex-col justify-center">
+                <div class="text-xs text-[#d8b4fe] mb-1 font-bold tracking-widest">NETWORK STATUS</div>
+                <div class="text-xl font-black text-[#c084fc] drop-shadow-[0_0_8px_#c084fc]">[PT 25] QUANTUM TELEPORT
+                </div>
+                <div class="text-[10px] text-gray-400 mt-1 uppercase">Instant Transition Architecture Ready</div>
+                <div class="w-full h-1 bg-gray-800 mt-4 overflow-hidden rounded">
+                    <div class="h-full bg-gradient-to-r from-[#9333ea] to-[#d8b4fe] w-full animate-pulse"></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    </div>
+
+</body>
+
+</html>

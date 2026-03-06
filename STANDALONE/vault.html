@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏦 SYSTEMCORE | 금고</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <script src="core_persistence.js"></script>
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0
+        }
+
+        :root {
+            --bg: #0d1117;
+            --panel: #161b22;
+            --border: #30363d;
+            --gold: #ffd700;
+            --cyan: #00d4ff;
+            --green: #0ecb81;
+            --red: #f6465d;
+            --text: #e6edf3;
+            --muted: #8b949e
+        }
+
+        html,
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Outfit', sans-serif;
+            font-size: 13px;
+            min-height: 100vh;
+            overflow-x: hidden;
+            overflow-y: auto;
+            padding-top: 60px;
+        }
+
+        .top-nav {
+            height: 52px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            background: rgba(13, 17, 23, .95);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            backdrop-filter: blur(12px)
+        }
+
+        .nav-logo {
+            font-size: 1rem;
+            font-weight: 900;
+            letter-spacing: 3px;
+            color: var(--gold)
+        }
+
+        .nav-logo span {
+            color: var(--cyan)
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            color: #888;
+            border: 1px solid transparent;
+            background: transparent;
+            transition: all 0.2s;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .nav-link:hover {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .nav-link.active {
+            color: var(--cyan);
+            border-bottom: 2px solid var(--cyan);
+            border-radius: 4px 4px 0 0;
+            background: rgba(0, 212, 255, 0.03);
+        }
+
+        .nav-link.arena-btn {
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            color: var(--gold);
+            background: rgba(255, 215, 0, 0.05);
+            margin-left: 4px;
+        }
+
+        .nav-link.arena-btn:hover {
+            background: rgba(255, 215, 0, 0.1);
+            border-color: var(--gold);
+        }
+
+        .nav-link.arena-btn.active {
+            border: 1px solid var(--gold);
+            background: rgba(255, 215, 0, 0.1);
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.1);
+            border-bottom: 1px solid var(--gold);
+            border-radius: 8px;
+        }
+
+        .ws-badge {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: .65rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: var(--muted);
+            background: rgba(255, 255, 255, .04);
+            border: 1px solid var(--border);
+            padding: 4px 10px;
+            border-radius: 20px
+        }
+
+        .ws-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #444
+        }
+
+        .ws-dot.live {
+            background: var(--green);
+            box-shadow: 0 0 8px var(--green);
+            animation: pulse 1.5s infinite
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1
+            }
+
+            50% {
+                opacity: .5
+            }
+        }
+
+        .page {
+            padding: 24px;
+            max-width: 1200px;
+            margin: 0 auto
+        }
+
+        .page-title {
+            font-size: 1.6rem;
+            font-weight: 900;
+            letter-spacing: 3px;
+            color: var(--gold);
+            margin-bottom: 4px
+        }
+
+        .page-sub {
+            font-size: .72rem;
+            color: var(--muted);
+            letter-spacing: 2px;
+            margin-bottom: 24px
+        }
+
+        .grid-4 {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 14px;
+            margin-bottom: 20px
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 20px
+        }
+
+        .stat-card {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center
+        }
+
+        .stat-val {
+            font-size: 1.8rem;
+            font-weight: 900;
+            margin: 8px 0
+        }
+
+        .stat-label {
+            font-size: .6rem;
+            letter-spacing: 2px;
+            color: var(--muted);
+            text-transform: uppercase
+        }
+
+        .stat-change {
+            font-size: .75rem;
+            font-weight: 700;
+            margin-top: 4px
+        }
+
+        .panel {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px
+        }
+
+        .panel-title {
+            font-size: .65rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+            color: var(--muted);
+            text-transform: uppercase;
+            margin-bottom: 16px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border)
+        }
+
+        .asset-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, .04)
+        }
+
+        .asset-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: .9rem;
+            font-weight: 900;
+            background: rgba(255, 215, 0, .1);
+            color: var(--gold)
+        }
+
+        .asset-info {
+            flex: 1
+        }
+
+        .asset-name {
+            font-weight: 800
+        }
+
+        .asset-qty {
+            font-size: .7rem;
+            color: var(--muted);
+            margin-top: 2px
+        }
+
+        .asset-val {
+            text-align: right
+        }
+
+        .asset-usd {
+            font-weight: 700;
+            font-family: monospace
+        }
+
+        .asset-pnl {
+            font-size: .7rem;
+            font-weight: 700;
+            margin-top: 2px
+        }
+
+        .up {
+            color: var(--green)
+        }
+
+        .down {
+            color: var(--red)
+        }
+
+        .add-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr auto;
+            gap: 8px;
+            align-items: end;
+            margin-bottom: 16px
+        }
+
+        .f-input {
+            width: 100%;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 8px 10px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-family: inherit
+        }
+
+        .f-btn {
+            padding: 8px 16px;
+            border-radius: 8px;
+            border: none;
+            background: var(--cyan);
+            color: #000;
+            font-weight: 900;
+            font-size: 12px;
+            cursor: pointer;
+            white-space: nowrap
+        }
+
+        ::-webkit-scrollbar {
+            width: 4px
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 2px
+        }
+    </style>
+</head>
+
+<body>
+    {% with page_title="금고 IMPERIAL VAULT", page_subtitle="SYSTEMCORE" %}
+    {% include 'PHOENIX_MASTER/imperial_nav.html' %}
+    {% endwith %}
+
+    <div class="page">
+        <div class="page-title">🏦 금고 IMPERIAL VAULT</div>
+        <div class="page-sub">SYSTEMCORE · 가상 포트폴리오 관리 · PERSISTENT DATA</div>
+        <div class="grid-4">
+            <div class="stat-card">
+                <div class="stat-label">총 자산 (USDT)</div>
+                <div class="stat-val" id="total-val" style="color:var(--gold)">$0</div>
+                <div class="stat-change" id="total-pnl">—</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">USDT 잔고</div>
+                <div class="stat-val" id="usdt-bal" style="color:var(--cyan)">$0</div>
+                <div class="stat-change" style="color:var(--muted)">현금 보유</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">코인 자산</div>
+                <div class="stat-val" id="coin-val" style="color:var(--green)">$0</div>
+                <div class="stat-change" id="coin-cnt" style="color:var(--muted)">0 종목</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">수익률</div>
+                <div class="stat-val" id="pnl-pct">+0.00%</div>
+                <div class="stat-change" style="color:var(--muted)">초기 대비</div>
+            </div>
+        </div>
+        <div class="grid-2">
+            <div class="panel">
+                <div class="panel-title">💼 보유 자산</div>
+                <div class="add-form">
+                    <div>
+                        <div style="font-size:10px;color:var(--muted);margin-bottom:4px">코인</div>
+                        <select class="f-input" id="add-sym">
+                            <option>BTCUSDT</option>
+                            <option>ETHUSDT</option>
+                            <option>SOLUSDT</option>
+                            <option>XRPUSDT</option>
+                            <option>BNBUSDT</option>
+                            <option>DOGEUSDT</option>
+                        </select>
+                    </div>
+                    <div>
+                        <div style="font-size:10px;color:var(--muted);margin-bottom:4px">수량</div><input class="f-input"
+                            id="add-qty" type="number" placeholder="0.001" step="0.0001">
+                    </div>
+                    <div>
+                        <div style="font-size:10px;color:var(--muted);margin-bottom:4px">매수 평균가 (옵션)</div><input
+                            class="f-input" id="add-avgpx" type="number" placeholder="현재가">
+                    </div>
+                    <button class="f-btn" onclick="addAsset()">+ 추가</button>
+                </div>
+                <div id="asset-list"></div>
+            </div>
+            <div class="panel">
+                <div class="panel-title">📊 포트폴리오 비중</div>
+                <canvas id="pie-canvas" width="260" height="260" style="display:block;margin:0 auto"></canvas>
+                <div id="pie-legend" style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:12px">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const COLORS = ['#ffd700', '#00d4ff', '#0ecb81', '#f6465d', '#a78bfa', '#fb923c'];
+        let prices = {};
+
+        function addAsset() {
+            const sym = document.getElementById('add-sym').value, qty = +document.getElementById('add-qty').value, avgPx = +document.getElementById('add-avgpx').value || prices[sym] || 0;
+            if (!qty) return;
+            let portfolio = Persistence.getPortfolio();
+            portfolio[sym] = (portfolio[sym] || 0) + qty;
+            Persistence.savePortfolio(portfolio);
+            Persistence.log('VAULT', `Manual addition: ${qty} ${sym}`);
+            renderAssets();
+        }
+
+        function removeAsset(sym) {
+            let portfolio = Persistence.getPortfolio();
+            delete portfolio[sym];
+            Persistence.savePortfolio(portfolio);
+            Persistence.log('VAULT', `Removed asset: ${sym}`);
+            renderAssets();
+        }
+
+        function renderAssets() {
+            const list = document.getElementById('asset-list');
+            const portfolio = Persistence.getPortfolio();
+            const entries = Object.entries(portfolio);
+            if (!entries.length) { list.innerHTML = '<div style="text-align:center;padding:20px;color:var(--muted)">보유 자산이 없습니다.</div>'; updateStats([], 0); drawPie([], 0); return; }
+
+            const items = entries.map(([sym, qty]) => {
+                const cur = prices[sym] || 0;
+                const val = qty * cur;
+                return { sym, qty, cur, val };
+            });
+
+            list.innerHTML = items.map(it => `<div class="asset-row" id="asset-${it.sym}">
+                <div class="asset-icon">${it.sym.slice(0, 2)}</div>
+                <div class="asset-info"><div class="asset-name">${it.sym}</div><div class="asset-qty">${it.qty.toFixed(6)}</div></div>
+                <div class="asset-val"><div class="asset-usd">$${it.val.toLocaleString(undefined, { maximumFractionDigits: 2 })}</div></div>
+                <button onclick="removeAsset('${it.sym}')" style="background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:6px;padding:4px 8px;cursor:pointer;font-size:10px;margin-left:8px">삭제</button>
+            </div>`).join('');
+
+            const coinVal = items.reduce((s, i) => s + i.val, 0);
+            updateStats(items, coinVal);
+            drawPie(items, coinVal);
+        }
+
+        function updateStats(items, coinVal) {
+            const bal = Persistence.getBalance();
+            const total = coinVal + bal;
+            const init = Persistence.getInitialCapital();
+            const pnl = total - init, pct = (pnl / init) * 100;
+
+            document.getElementById('total-val').textContent = '$' + total.toLocaleString();
+            document.getElementById('usdt-bal').textContent = '$' + bal.toLocaleString();
+            document.getElementById('coin-val').textContent = '$' + coinVal.toLocaleString();
+            document.getElementById('coin-cnt').textContent = items.length + ' 종목';
+            document.getElementById('pnl-pct').textContent = (pct >= 0 ? '+' : '') + pct.toFixed(2) + '%';
+            document.getElementById('pnl-pct').className = 'stat-val ' + (pct >= 0 ? 'up' : 'down');
+            document.getElementById('total-pnl').textContent = (pnl >= 0 ? '+$' : '-$') + Math.abs(pnl).toLocaleString();
+            document.getElementById('total-pnl').className = 'stat-change ' + (pnl >= 0 ? 'up' : 'down');
+        }
+
+        function drawPie(items, coinVal) {
+            const canvas = document.getElementById('pie-canvas'), ctx = canvas.getContext('2d');
+            const slices = [...items.map((it, i) => ({ label: it.sym, val: it.val, color: COLORS[i % COLORS.length] })), { label: 'USDT', val: Persistence.getBalance(), color: '#333' }].filter(s => s.val > 0);
+            const total = slices.reduce((s, sl) => s + sl.val, 0);
+            ctx.clearRect(0, 0, 260, 260);
+            if (!total) return;
+            let angle = -Math.PI / 2;
+            slices.forEach(sl => {
+                const sweep = (sl.val / total) * Math.PI * 2;
+                ctx.beginPath(); ctx.moveTo(130, 130); ctx.arc(130, 130, 110, angle, angle + sweep); ctx.fillStyle = sl.color; ctx.fill(); angle += sweep;
+            });
+            ctx.beginPath(); ctx.arc(130, 130, 60, 0, Math.PI * 2); ctx.fillStyle = '#161b22'; ctx.fill();
+            document.getElementById('pie-legend').innerHTML = slices.map(sl => `<div style="font-size:10px;display:flex;align-items:center;gap:4px"><div style="width:8px;height:8px;background:${sl.color}"></div>${sl.label}</div>`).join('');
+        }
+
+        const ws = new WebSocket('wss://stream.bybit.com/v5/public/spot');
+        ws.onopen = () => { try { if (document.getElementById('wsDot')) document.getElementById('wsDot').className = 'ws-dot live'; } catch (e) { } ws.send(JSON.stringify({ op: 'subscribe', args: ['BTCUSDT', 'ETHUSDT', 'SOLUSDT', 'XRPUSDT', 'BNBUSDT', 'DOGEUSDT'].map(m => `tickers.${m}`) })) };
+        ws.onmessage = (e) => {
+            const msg = JSON.parse(e.data);
+            if (msg.topic?.startsWith('tickers.') && msg.data) {
+                prices[msg.data.symbol] = +msg.data.lastPrice;
+                renderAssets();
+            }
+        };
+        renderAssets();
+    </script>
+</body>
+
+</html>

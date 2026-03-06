@@ -1,0 +1,190 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700;900&family=Rajdhani:wght@500;700&family=JetBrains+Mono:wght@700&display=swap');
+
+:root {
+    --quantum-cyan: #22d3ee;
+    --quantum-gold: #fbbf24;
+    --quantum-bg: #020617;
+    --glass-bg: rgba(15, 23, 42, 0.7);
+    --border: rgba(255, 255, 255, 0.05);
+    --up: #f43f5e;
+    --down: #3b82f6;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body { 
+    background: var(--quantum-bg); 
+    color: #f8fafc; 
+    font-family: 'Outfit', sans-serif; 
+    height: 100vh; 
+    overflow: hidden; 
+}
+
+/* 4D Neural Link Overlay */
+.neural-overlay {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(circle at center, transparent 0%, rgba(2, 6, 23, 0.8) 100%);
+    z-index: 1000;
+    opacity: 0.4;
+}
+
+/* 🚫 HIDE SCROLLBARS */
+::-webkit-scrollbar { display: none; }
+* { -ms-overflow-style: none; scrollbar-width: none; }
+
+.hyper-container { 
+    max-width: 1600px; 
+    margin: 80px auto 0; 
+    height: calc(100% - 100px); 
+    display: flex; 
+    flex-direction: column; 
+    gap: 20px; 
+    padding: 0 20px 20px;
+    position: relative;
+    z-index: 10;
+}
+
+/* Imperial Glass Panels */
+.imperial-glass {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(30px);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    overflow: hidden;
+}
+
+/* 헤더 - 4D 스타일에 맞춰 투명화 및 강화 */
+.q-header { 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    padding: 0 25px; 
+    height: 70px; 
+}
+
+.brand-mod h1 { 
+    font-family: 'Outfit'; 
+    font-weight: 900;
+    font-size: 24px; 
+    letter-spacing: -0.5px; 
+    background: linear-gradient(to right, #fff, var(--quantum-cyan));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.sys-info { font-size: 10px; color: #64748b; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+.blink { color: var(--quantum-cyan); animation: blink 1.5s infinite; }
+
+/* 심리 게이지 */
+.sentiment-box { width: 220px; }
+.sent-bar-bg { width: 100%; height: 6px; background: rgba(0,0,0,0.3); border-radius: 3px; margin-bottom: 8px; overflow: hidden; }
+.sent-bar-fill { height: 100%; background: linear-gradient(90deg, var(--down), var(--quantum-cyan), var(--up)); transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
+.sent-val { font-size: 10px; font-weight: 900; color: #64748b; text-transform: uppercase; letter-spacing: 1px; }
+
+/* 그리드 */
+.core-grid { display: grid; grid-template-columns: 1fr 380px; gap: 20px; flex: 1; min-height: 0; }
+
+.main-sector { display: flex; flex-direction: column; }
+.sector-head { 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: flex-end; 
+    padding: 24px 30px; 
+    border-bottom: 1px solid var(--border);
+}
+
+select { 
+    background: rgba(0,0,0,0.4); 
+    color: #fff; 
+    border: 1px solid var(--border); 
+    padding: 8px 15px; 
+    border-radius: 12px;
+    font-weight: 700; 
+    font-family: 'Outfit';
+    outline: none;
+    cursor: pointer;
+}
+
+.live-ticker { font-family: 'JetBrains Mono'; }
+#ticker-price { font-size: 32px; font-weight: 900; display: block; line-height: 1; }
+#ticker-change { font-size: 14px; font-weight: 700; }
+
+.chart-view { flex: 1; width: 100%; background: rgba(0,0,0,0.2); position: relative; }
+
+.control-deck { 
+    height: 90px; 
+    border-top: 1px solid var(--border); 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    padding: 0 30px; 
+}
+
+.wallet-stat .lbl { font-size: 10px; font-weight: 900; color: #64748b; text-transform: uppercase; letter-spacing: 1px; }
+.wallet-stat .val { font-size: 32px; font-weight: 900; font-family: 'JetBrains Mono'; letter-spacing: -1px; }
+
+.btn-hyper { 
+    background: var(--quantum-cyan); 
+    color: #000; 
+    padding: 14px 40px; 
+    border-radius: 16px; 
+    font-family: 'Outfit';
+    font-weight: 900; 
+    border: none;
+    cursor: pointer; 
+    transition: all 0.3s;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.btn-hyper:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(34, 211, 238, 0.3); }
+.btn-hyper.active { background: #f43f5e; box-shadow: 0 10px 20px rgba(244, 63, 94, 0.3); }
+
+/* 데이터 섹터 패널 */
+.sub-panel { margin-bottom: 0; height: 100%; }
+.sub-head { 
+    padding: 15px 20px; 
+    font-size: 11px; 
+    font-weight: 900; 
+    color: #64748b; 
+    text-transform: uppercase; 
+    letter-spacing: 2px;
+    border-bottom: 1px solid var(--border);
+}
+
+.depth-panel { height: 200px; }
+.whale-panel { flex: 1; min-height: 0; }
+.feed-box { flex: 1; overflow-y: auto; padding: 10px 0; }
+.feed-row { 
+    display: flex; 
+    justify-content: space-between; 
+    padding: 8px 20px; 
+    font-family: 'JetBrains Mono';
+    font-size: 11px;
+    border-bottom: 1px solid rgba(255,255,255,0.02);
+}
+.feed-row.buy { color: var(--up); }
+.feed-row.sell { color: var(--down); }
+
+.log-panel { height: 220px; }
+.log-box { flex: 1; padding: 15px 20px; overflow-y: auto; font-family: 'JetBrains Mono'; font-size: 11px; color: #94a3b8; line-height: 1.6; }
+.log-sys { color: var(--quantum-cyan); font-weight: 900; }
+
+/* 로딩 애니메이션 */
+.overlay { position: fixed; inset: 0; background: var(--quantum-bg); z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: opacity 0.8s; }
+.loader-4d {
+    width: 60px;
+    height: 60px;
+    border: 4px solid rgba(34, 211, 238, 0.1);
+    border-top: 4px solid var(--quantum-cyan);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+@media (max-width: 1024px) {
+    .hyper-container { margin-top: 70px; height: auto; padding: 10px; }
+    .core-grid { grid-template-columns: 1fr; display: flex; flex-direction: column; }
+    .main-sector { height: 600px; }
+}

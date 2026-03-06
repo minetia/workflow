@@ -1,0 +1,5 @@
+{
+    "name": "MarketAnalyst",
+    "description": "Analyze BTC/SUI/ONDO market sentiment using Gemini 3.1",
+    "instructions": "Browse CoinMarketCap and provide a summary report."
+}

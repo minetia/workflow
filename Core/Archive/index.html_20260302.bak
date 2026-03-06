@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KOREA AI Trading | 실시간 AI 자동매매</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <!-- TradingView Lightweight Charts -->
+    <script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
+</head>
+
+<body>
+    <div class="app-layout">
+
+        <!-- ═══ 헤더 ═══ -->
+        <header class="app-header">
+            <div style="display:flex; align-items:center;">
+                <button class="hamburger-btn" onclick="toggleSidebar()">☰</button>
+                <div class="logo">
+                    <div class="logo-icon">🔥</div>
+                    <div>
+                        <span class="logo-text">PHOENIX</span>
+                        <span class="logo-sub">VIRTUAL EXCHANGE</span>
+                    </div>
+                </div>
+
+                <div class="header-tabs">
+                    <button class="header-tab active" onclick="switchExchange('upbit', this)">🇰🇷 업비트(V)</button>
+                    <button class="header-tab" onclick="switchExchange('binance', this)">🌐 바이낸스(V)</button>
+                    <button class="header-tab" onclick="location.href='/global'"
+                        style="background:rgba(56,139,253,0.1); color:#388bfd; border:1px solid #388bfd; margin-right:8px;">📊
+                        글로벌 인사이트</button>
+                    <button class="header-tab" onclick="location.href='/phoenix'"
+                        style="background:rgba(255,165,0,0.1); color:orange; border:1px solid orange; margin-right:8px;">🏆
+                        피닉스 랭킹</button>
+                    <button class="header-tab" onclick="location.href='/command'"
+                        style="background:rgba(255,0,85,0.1); color:#ff0055; border:1px solid #ff0055; font-weight:900;">⚡
+                        중앙 사령부</button>
+                </div>
+
+                <div class="header-right">
+                    <div class="ws-badge">
+                        <div class="ws-dot" id="ws-dot"></div>
+                        <span class="ws-status-text">CONNECTING...</span>
+                    </div>
+                    <button class="ai-toggle" id="ai-toggle-btn" onclick="toggleAI()">
+                        🤖 AI 자동매매: <span id="ai-status-text">OFF</span>
+                    </button>
+                    <select id="ai-mode-select" onchange="changeAIMode(this.value)"
+                        style="background:#21262d;border:1px solid #30363d;color:#e6edf3;padding:4px 8px;border-radius:6px;font-size:11px;cursor:pointer;">
+                        <option value="SIMULATION">SIMULATION</option>
+                        <option value="LIVE">LIVE</option>
+                    </select>
+                </div>
+        </header>
+
+        <!-- ═══ 좌측: 코인 목록 ═══ -->
+        <aside class="coin-panel">
+            <div class="panel-tabs">
+                <div class="panel-tab active" onclick="filterCoins('all', this)">전체</div>
+                <div class="panel-tab" onclick="filterCoins('fav', this)">즐겨찾기</div>
+                <div class="panel-tab" onclick="filterCoins('ai', this)">AI 신호</div>
+            </div>
+            <div class="coin-search">
+                <input type="text" id="coin-search-input" placeholder="코인 검색..." oninput="filterSearch(this.value)">
+            </div>
+            <div class="coin-list-header">
+                <span>코인명</span>
+                <span style="text-align:right">현재가</span>
+                <span style="text-align:right">등락률</span>
+            </div>
+            <div class="coin-list" id="coin-list">
+                <div style="padding:30px;text-align:center;color:#484f58;font-weight:700;">
+                    ⏳ 시세 로딩 중...
+                </div>
+            </div>
+        </aside>
+
+        <!-- ═══ 중앙: 차트 ═══ -->
+        <main class="chart-area">
+            <div class="chart-header">
+                <div>
+                    <div style="display:flex;align-items:baseline;gap:12px;margin-bottom:6px;">
+                        <span class="chart-coin-name" id="chart-coin-name">BTC/KRW</span>
+                        <span class="chart-price up" id="chart-price">—</span>
+                        <span class="coin-rate" id="chart-change-rate">—</span>
+                    </div>
+                    <div class="chart-meta">
+                        <div class="chart-meta-item">
+                            <span class="meta-label">고가</span>
+                            <span class="meta-value up" id="meta-high">—</span>
+                        </div>
+                        <div class="chart-meta-item">
+                            <span class="meta-label">저가</span>
+                            <span class="meta-value down" id="meta-low">—</span>
+                        </div>
+                        <div class="chart-meta-item">
+                            <span class="meta-label">거래량(24H)</span>
+                            <span class="meta-value" id="meta-vol">—</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="chart-controls">
+                    <button class="interval-btn active" onclick="changeInterval('1', this)">1분</button>
+                    <button class="interval-btn" onclick="changeInterval('3', this)">3분</button>
+                    <button class="interval-btn" onclick="changeInterval('5', this)">5분</button>
+                    <button class="interval-btn" onclick="changeInterval('15', this)">15분</button>
+                    <button class="interval-btn" onclick="changeInterval('60', this)">1시간</button>
+                    <button class="interval-btn" onclick="changeInterval('240', this)">4시간</button>
+                </div>
+            </div>
+
+            <div id="chart-container"></div>
+
+            <!-- AI 신호 배너 -->
+            <div class="signal-banner">
+                <div>
+                    <span class="signal-badge signal-HOLD" id="signal-badge">⏳ HOLD</span>
+                    <span class="signal-detail" id="signal-reason" style="margin-left:12px;">데이터 수집 중...</span>
+                </div>
+                <div style="display:flex;gap:16px;font-size:11px;color:#8b949e;font-family:monospace;">
+                    <span>RSI: <strong id="si-rsi" style="color:#e6edf3;">—</strong></span>
+                    <span>MA5: <strong id="si-ma5" style="color:#e6edf3;">—</strong></span>
+                    <span>MA20: <strong id="si-ma20" style="color:#e6edf3;">—</strong></span>
+                    <span>점수: <strong id="si-score" style="color:#388bfd;">—</strong></span>
+                </div>
+            </div>
+
+            <!-- 기술 지표 스택 (실시간) -->
+            <div id="tech-indicator-stack"
+                style="display:flex; flex-wrap:wrap; gap:8px; padding:12px; background:#0d1117; border-top:1px solid #30363d;">
+                <!-- 동적 지표 배지 로드 -->
+            </div>
+        </main>
+
+        <!-- ═══ 우측: 주문 패널 + 호가창 + 체결 ═══ -->
+        <aside class="right-panel">
+
+            <!-- 주문 패널 -->
+            <div class="r-section" style="flex-shrink:0">
+                <div class="r-title" style="display:flex;justify-content:space-between;align-items:center;">
+                    <span>💰 주문 패널</span>
+                    <button onclick="showKeyModal()" id="key-btn"
+                        style="font-size:10px;padding:2px 8px;border-radius:4px;border:1px solid #30363d;background:transparent;color:#8b949e;cursor:pointer;">
+                        🔑 API 키
+                    </button>
+                </div>
+                <!-- 매수/매도 탭 -->
+                <div style="display:flex;margin:0 14px 10px;gap:4px;">
+                    <button id="tab-bid" onclick="switchOrderTab('bid')"
+                        style="flex:1;padding:8px;border-radius:6px;font-weight:900;font-size:12px;cursor:pointer;border:none;background:#0ecb81;color:#000;transition:0.2s;">
+                        매수
+                    </button>
+                    <button id="tab-ask" onclick="switchOrderTab('ask')"
+                        style="flex:1;padding:8px;border-radius:6px;font-weight:900;font-size:12px;cursor:pointer;border:1px solid #f6465d;background:transparent;color:#f6465d;transition:0.2s;">
+                        매도
+                    </button>
+                </div>
+                <div style="padding:0 14px 12px;display:flex;flex-direction:column;gap:8px;">
+                    <!-- 주문 유형 -->
+                    <select id="ord-type"
+                        style="background:#161b22;border:1px solid #30363d;color:#e6edf3;padding:7px;border-radius:6px;font-size:12px;width:100%;">
+                        <option value="price">시장가 매수 (KRW 입력)</option>
+                        <option value="market">시장가 매도 (수량 입력)</option>
+                        <option value="limit">지정가</option>
+                    </select>
+                    <!-- 가격 입력 (지정가시) -->
+                    <div id="price-field">
+                        <label style="font-size:10px;color:#8b949e;font-weight:700;">주문 가격 (KRW)</label>
+                        <input id="ord-price" type="number" placeholder="0"
+                            style="width:100%;margin-top:4px;background:#0d1117;border:1px solid #30363d;color:#e6edf3;padding:7px 10px;border-radius:6px;font-size:12px;font-family:monospace;">
+                    </div>
+                    <!-- 금액/수량 입력 -->
+                    <div>
+                        <label id="amount-label" style="font-size:10px;color:#8b949e;font-weight:700;">주문 금액
+                            (KRW)</label>
+                        <input id="ord-amount" type="number" placeholder="5000 이상"
+                            style="width:100%;margin-top:4px;background:#0d1117;border:1px solid #30363d;color:#e6edf3;padding:7px 10px;border-radius:6px;font-size:12px;font-family:monospace;">
+                    </div>
+                    <!-- 퀵 비율 버튼 -->
+                    <div style="display:flex;gap:4px;">
+                        <button onclick="setRatio(0.25)"
+                            style="flex:1;padding:4px;border-radius:4px;font-size:10px;font-weight:700;background:#21262d;border:1px solid #30363d;color:#8b949e;cursor:pointer;">25%</button>
+                        <button onclick="setRatio(0.5)"
+                            style="flex:1;padding:4px;border-radius:4px;font-size:10px;font-weight:700;background:#21262d;border:1px solid #30363d;color:#8b949e;cursor:pointer;">50%</button>
+                        <button onclick="setRatio(0.75)"
+                            style="flex:1;padding:4px;border-radius:4px;font-size:10px;font-weight:700;background:#21262d;border:1px solid #30363d;color:#8b949e;cursor:pointer;">75%</button>
+                        <button onclick="setRatio(1.0)"
+                            style="flex:1;padding:4px;border-radius:4px;font-size:10px;font-weight:700;background:#21262d;border:1px solid #30363d;color:#8b949e;cursor:pointer;">MAX</button>
+                    </div>
+                    <!-- 주문 실행 버튼 -->
+                    <button id="order-btn" onclick="executeOrder()"
+                        style="width:100%;padding:10px;border-radius:8px;font-weight:900;font-size:14px;cursor:pointer;border:none;background:#0ecb81;color:#000;transition:0.2s;letter-spacing:0.5px;">
+                        매수 주문
+                    </button>
+                    <!-- 잔고 미니 -->
+                    <div style="background:#0d1117;border-radius:6px;padding:8px 10px;font-size:11px;color:#8b949e;">
+                        <div style="display:flex;justify-content:space-between;">
+                            <span>가상 KRW 잔고</span>
+                            <span id="bal-krw" style="color:#e6edf3;font-family:monospace;font-weight:700;">—</span>
+                        </div>
+                        <div style="display:flex;justify-content:space-between;margin-top:4px;">
+                            <span>코인 보유</span>
+                            <span id="bal-coin" style="color:#e6edf3;font-family:monospace;font-weight:700;">—</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 호가창 -->
+            <div class="r-section" style="flex-shrink:0">
+                <div class="r-title">📋 호가창</div>
+                <div class="orderbook" id="orderbook">
+                    <div class="ob-header">
+                        <span style="text-align:left">잔량</span>
+                        <span style="text-align:center">가격</span>
+                        <span style="text-align:right">잔량</span>
+                    </div>
+                    <div style="text-align:center;padding:20px;color:#484f58;">로딩 중...</div>
+                </div>
+            </div>
+
+            <!-- 체결내역 -->
+            <div class="r-section" style="flex:1;display:flex;flex-direction:column;min-height:0;">
+                <div class="r-title">⚡ 최근 체결</div>
+                <div class="trade-list" id="trade-list">
+                    <div style="text-align:center;padding:20px;color:#484f58;">로딩 중...</div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- API 키 모달 -->
+        <div id="key-modal"
+            style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:9999;display:none;align-items:center;justify-content:center;">
+            <div
+                style="background:#161b22;border:1px solid #30363d;border-radius:16px;padding:32px;width:420px;max-width:90vw;">
+                <h2 style="color:#e6edf3;font-size:18px;font-weight:900;margin-bottom:8px;">업비트 API 키 설정</h2>
+                <p style="color:#8b949e;font-size:12px;margin-bottom:20px;">업비트 개인정보 → Open API 관리에서 키를 발급받으세요.<br>키는
+                    서버에 안전하게 저장됩니다.</p>
+                <div style="margin-bottom:12px;">
+                    <label style="font-size:11px;color:#8b949e;font-weight:700;display:block;margin-bottom:4px;">ACCESS
+                        KEY</label>
+                    <input id="input-access-key" type="password" placeholder="Access Key 입력"
+                        style="width:100%;background:#0d1117;border:1px solid #30363d;color:#e6edf3;padding:10px;border-radius:8px;font-size:13px;">
+                </div>
+                <div style="margin-bottom:20px;">
+                    <label style="font-size:11px;color:#8b949e;font-weight:700;display:block;margin-bottom:4px;">SECRET
+                        KEY</label>
+                    <input id="input-secret-key" type="password" placeholder="Secret Key 입력"
+                        style="width:100%;background:#0d1117;border:1px solid #30363d;color:#e6edf3;padding:10px;border-radius:8px;font-size:13px;">
+                </div>
+                <div style="display:flex;gap:8px;">
+                    <button onclick="saveApiKeys()"
+                        style="flex:1;padding:12px;border-radius:8px;font-weight:900;font-size:13px;cursor:pointer;border:none;background:#388bfd;color:#fff;">
+                        저장 및 연결
+                    </button>
+                    <button onclick="closeKeyModal()"
+                        style="flex:1;padding:12px;border-radius:8px;font-weight:900;font-size:13px;cursor:pointer;border:1px solid #30363d;background:transparent;color:#8b949e;">
+                        취소
+                    </button>
+                </div>
+                <div id="key-msg" style="margin-top:12px;font-size:12px;text-align:center;color:#8b949e;"></div>
+            </div>
+        </div>
+
+        <!-- ═══ 사이드바 네비게이션 ═══ -->
+        <div class="nav-overlay" id="nav-overlay" onclick="toggleSidebar()"></div>
+        <nav class="sidebar-nav" id="sidebar-nav">
+            <div class="nav-groups">
+                <!-- AI Command Group -->
+                <div class="nav-group">
+                    <div class="nav-group-title">AI COMMAND</div>
+                    <a href="#" class="nav-item"><i>🤖</i> Gemini 1 (The Architect)</a>
+                    <a href="#" class="nav-item"><i>⚡</i> Gemini 2 (The Executor)</a>
+                    <a href="#" class="nav-item active"><i>🔮</i> Gemini 3 (The Magician)</a>
+                    <a href="#" class="nav-item"><i>🎓</i> Specialist Units</a>
+                </div>
+
+                <!-- Tactical Units Group -->
+                <div class="nav-group">
+                    <div class="nav-group-title">TACTICAL UNITS</div>
+                    <a href="#" class="nav-item"><i>🎯</i> Sniper (Precision Hit)</a>
+                    <a href="#" class="nav-item"><i>📦</i> Sorter (Logic Flow)</a>
+                    <a href="#" class="nav-item"><i>✋</i> Stop Loss Guardian</a>
+                    <a href="/hub" class="nav-item"><i>🛰️</i> Intelligence Swarm</a>
+                </div>
+
+                <!-- Imperial Resources Group -->
+                <div class="nav-group">
+                    <div class="nav-group-title">IMPERIAL RESOURCES</div>
+                    <a href="/pqc_mining" class="nav-item"><i>💎</i> Mining Interface</a>
+                    <a href="/pqc_wallet" class="nav-item"><i>💳</i> Quantum Wallet 4D</a>
+                    <a href="/market" class="nav-item"><i>🏛️</i> 제국 무기고 (Armory)</a>
+                </div>
+
+                <!-- Intelligence Hub Group -->
+                <div class="nav-group">
+                    <div class="nav-group-title">INTELLIGENCE HUB</div>
+                    <a href="/global" class="nav-item"><i>📊</i> Global Insights</a>
+                    <a href="/intel" class="nav-item"><i>🔎</i> Market Intel</a>
+                    <a href="/phoenix" class="nav-item"><i>🏆</i> Phoenix Ranking</a>
+                </div>
+
+                <!-- Imperial Security Group -->
+                <div class="nav-group">
+                    <div class="nav-group-title">IMPERIAL SECURITY</div>
+                    <a href="/security" class="nav-item"><i>🛡️</i> Security Complex</a>
+                    <a href="/vault" class="nav-item"><i>🏦</i> Vault System</a>
+                    <a href="/command" class="nav-item"><i>⚡</i> Central Command</a>
+                </div>
+            </div>
+
+            <!-- Citizen Service Section (BOTTOM) -->
+            <div class="citizen-nav-section">
+                <button class="citizen-nav-btn" onclick="location.href='/citizen'">
+                    👨‍👩‍👧‍👦 시민 서비스 센터 (Citizen)
+                </button>
+            </div>
+        </nav>
+
+    </div>
+</body>
+</html>

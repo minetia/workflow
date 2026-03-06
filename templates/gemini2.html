@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PHOENIX EMPIRE - Gemini 2.0 Intelligence Hub</title>
+    <style>
+        :root {
+            --bg-color: #050505;
+            --accent-color: #0088ff;
+            --text-color: #e0e0e0;
+            --panel-bg: rgba(20, 20, 30, 0.8);
+            --border-glow: 0 0 15px rgba(0, 136, 255, 0.3);
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Inter', 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--accent-color);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            box-shadow: var(--border-glow);
+        }
+
+        .title {
+            font-size: 24px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--accent-color);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+        }
+
+        .panel {
+            background: var(--panel-bg);
+            border: 1px solid rgba(0, 136, 255, 0.2);
+            border-radius: 8px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: var(--border-glow);
+        }
+
+        .terminal {
+            background: #000;
+            color: #00ff00;
+            font-family: 'Consolas', monospace;
+            padding: 15px;
+            height: 400px;
+            overflow-y: auto;
+            border-radius: 4px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .gemini-eye {
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, #0088ff 0%, #000 70%);
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            box-shadow: 0 0 30px #0088ff;
+            animation: pulse 2s infinite ease-in-out;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 0.8;
+            }
+
+            50% {
+                transform: scale(1.1);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 0.8;
+            }
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            background: rgba(0, 255, 0, 0.1);
+            color: #00ff00;
+            font-size: 12px;
+            border: 1px solid #00ff00;
+        }
+    </style>
+</head>
+
+<body class="pt-24">
+    {% with page_title="Gemini Architect", page_subtitle="INTELLIGENCE HUB v2.0" %}
+    {% include 'PHOENIX_MASTER/imperial_nav.html' %}
+    {% endwith %}
+
+    <div class="header" style="margin: 0 20px 20px 20px;">
+        <div class="title">🔱 Gemini 2.0 Intelligence Core</div>
+        <div class="status-badge">ACTIVE: Sovereign Grade (v50+)</div>
+    </div>
+
+    <div class="grid">
+        <div class="panel">
+            <h3>Real-time Intelligence Stream</h3>
+            <div class="terminal" id="intel-stream">
+                [SYSTEM] Gemini 2.0 Intelligence Hub Online...<br>
+                [CORE] Syncing with Google DeepMind Advanced Agentic Coding...<br>
+                [NET] Imperial Neural Link established.<br>
+                [SCAN] Scanning Alpha, Core, and Zion Dept_Trading layers...<br>
+                [AUTH] Commander 최송학 (Master) authenticated.<br>
+                [EXEC] Antigravity Engine recovery protocol engaged.<br>
+                ------------------------------------------------------------<br>
+                > Market Status: STABLE<br>
+                > Risk Level: 0.01%<br>
+                > Current Phase: Architectural Restoration<br>
+            </div>
+        </div>
+        <div class="panel" style="text-align: center;">
+            <div class="gemini-eye"></div>
+            <h3>Intelligence Node</h3>
+            <p>Gemini 2.0 is monitoring the Empire's infrastructure. Every signal from the 21 elite agents is being
+                filtered through this core.</p>
+            <button onclick="location.href='/jam/commander_center'"
+                style="padding: 10px 20px; background: var(--accent-color); color: white; border: none; border-radius: 4px; cursor: pointer;">RETURN
+                TO COMMAND CENTER</button>
+        </div>
+    </div>
+
+    <script>
+        const stream = document.getElementById('intel-stream');
+        const messages = [
+            "[INTEL] Pattern recognized in Alpha_Exchange.py",
+            "[ALERT] High frequency trading signal detected from 'The 6 Jams'",
+            "[SYSTEM] Memory optimization complete in Zion layer",
+            "[MASTER] Will-Replication v10,000 active via Avatar",
+            "[SEC] 500 Error resolved. Security Enforcer recalibrated.",
+            "[INTEL] Market sentiment: BULLISH (Confidence 82%)"
+        ];
+
+        setInterval(() => {
+            const msg = messages[Math.floor(Math.random() * messages.length)];
+            const time = new Date().toLocaleTimeString();
+            stream.innerHTML += `<span>[${time}] ${msg}</span><br>`;
+            stream.scrollTop = stream.scrollHeight;
+        }, 3000);
+    </script>
+</body>
+
+</html>
