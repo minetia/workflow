@@ -11,18 +11,18 @@
     "total_asset_sync": 10000000,
     "total_tax_collected": 0,
     "pqc_assets": {
-        "balance": 544.5306167402829,
-        "virtual_5pct": 8.011825861624692,
-        "real_5pct": 8.011825861624692
+        "balance": 528.8561205465609,
+        "virtual_5pct": 0.0,
+        "real_5pct": 0.0
     },
     "commander_wallets": {
         "PQC": {
             "VIRTUAL": {
-                "balance": 536.5187908786585,
+                "balance": 528.8561205465609,
                 "address": "PX-V777-BADC-0DE1-F00D"
             },
             "REAL": {
-                "balance": 8.011825861624692,
+                "balance": 0.0,
                 "address": "PX-R777-BADC-0DE1-F00D"
             }
         },
@@ -124,4 +124,5 @@
         "PX-VA64-AD26-770C-F66D",
         "PX-V92F-625F-F607-A3FE"
     ],
-    "last_update": "2026-03-06 09:39:00"
+    "last_update": "2026-03-06 09:54:04"
+}
